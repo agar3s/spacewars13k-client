@@ -27,6 +27,20 @@ const updatetime = () => {
   divGameState.innerHTML = `NEXT WAR IN ${mins}:${secs}`;
 }
 
+const divShip = document.getElementById('ship');
+divShip.onclick = (e) => {
+  e.stopPropagation();
+  if(divShip.classList.contains('card--flipped')) {
+    divShip.classList.add('card--unflip');
+    setTimeout(() => {
+      divShip.classList.remove('card--flipped', 'card--unflip');
+    }, 500);
+  }
+  else { 
+    divShip.classList.add("card--flipped");
+  }
+};
+
 if (DEBUG) {
   changePage('game');
 }

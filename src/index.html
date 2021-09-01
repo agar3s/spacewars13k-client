@@ -135,16 +135,64 @@
         }
         .card {
             float: left;
-            overflow: hidden;
+            /* overflow: hidden; */
             width: 35%;
             height: 35%;
             border: 0.8vh solid #fff3ff;
             border-radius: 2%;
             background: #111;
             transition: 0.3s;
+            transform-style: preserve-3d;
+            transform: rotateY(180deg);
+        }
+        .card-face {
+
+        }
+        .card.card--flipped {
+            animation: cardFlip .275s forwards linear;
+        }
+        .card.card--unflip {
+            animation: cardUnFlip .275s forwards linear;
         }
         .card:hover {
+            cursor: pointer;
             box-shadow: 0px 0px 20px gray;
+        }
+
+        .card-backing {
+            position: absolute;
+            z-index: 4;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            transform: rotateY(180deg);
+        }
+        
+        @keyframes cardFlip {
+            0% {
+                transform: rotateZ(0deg) rotateY(180deg);
+            } 
+            50% {
+                transform: rotateZ(-10deg) rotateY(90deg);
+            }
+            100% {
+                transform: rotateZ(0deg) rotateY(0deg);
+            }
+        }
+
+        @keyframes cardUnFlip {
+            0% {
+                transform: rotateZ(0deg) rotateY(0deg);
+            } 
+            50% {
+                transform: rotateZ(-10deg) rotateY(90deg);
+            }
+            100% {
+                transform: rotateZ(0deg) rotateY(180deg);
+            }
         }
 
         .cls-0 {
@@ -158,7 +206,7 @@
             stroke-linejoin:round;
             stroke-linecap:round;
         }
-        .cls-2{
+        .cls-2 {
             stroke-linejoin:round;
             stroke:#fff3ff;
         }
@@ -166,16 +214,16 @@
             width: 100%;
             display: block;
             height: 40%;
-            border: 0.6vh solid white;
+            border: 0.6vh solid #fff3ff;
             float: left;
             margin: 3vh 0;
         }
         #hand h3 {
             position: relative;
-            top: -7%;
+            top: -8%;
             font-size: 120%;
             background: #111;
-            width: 40%;
+            width: 30%;
             margin: auto;
         }
         #hand a.button {
@@ -190,7 +238,26 @@
             margin: 0 auto;
         }
         #hand a.button:hover {
-            background-color: #fff;
+            background-color: #fff3ff;
+        }
+        #group {
+            width: 100%;
+            height: 88%;
+            margin-top: -3%;
+            padding: 0% 2%;
+        }
+        .arsenal {
+            width: 16%;
+            height: 37%;
+            border: 0.4vh solid #fff3ff;
+            margin: 2% 1.55%;
+            display: inline-flex;
+            transition: 0.3s;
+        }
+        .arsenal:hover {
+            cursor: pointer;
+            border: 0.6vh solid #fff3ff;
+            box-shadow: 0px 0px 20px gray;
         }
 
         canvas {
@@ -201,7 +268,83 @@
             image-rendering: pixelated
         }
 
-        
+        .discount {
+            background-color: #aaa; 
+            background-image:
+                repeating-radial-gradient(
+                    circle at 0 0.95vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1vh -0.05vh,
+                    #111,
+                    #111,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0 -0.05vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1vh 0.95vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0 0.3vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0 0.7vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1vh 0.3vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1vh 0.7vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0.3vh 0vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0.7vh 0vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0.3vh 1vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0.7vh 1vh,
+                    #111,
+                    #111 0.22vh,
+                    transparent 0.23vh,
+                    transparent 2vh);
+            background-size: 1vh 1vh;
+        }
     </style>
 </head>
 <body class='spectrum-background'>
@@ -228,29 +371,33 @@
                 <span>REMAINING SHIPS: 8</span>
             </div>
             <div id='ship' class='card'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200">
-                    <defs>
-                        <pattern id="pattern1"
-                                 width="4" height="4"
-                                 patternUnits="userSpaceOnUse" >
-                      
-                            <circle cx="1" cy="1" r="1" style="stroke: none; fill: #fff3ff" />
-                        </pattern>
-                        <pattern id="pattern2"
-                                 x="1.5" y="1.5" width="1.5" height="1.5"
-                                 patternUnits="userSpaceOnUse"
-                                 patternTransform="rotate(35)"
-                                 >
-                            <rect width="3" height="3" style="fill:#000" />
-                            <circle cx="0.5" cy="0.5" r="0.5" style="stroke: none; fill: #fff3ff" />
-                        </pattern>
-                      </defs>
-                    <g id="Capa_7" data-name="Capa 7">
-                        <path class="cls-0" style="fill: url(#pattern1);" d="M 16 1 C 9 8 -11 34 9 93 v 5 h 17 v -5 c 20 -59 0 -85 -7 -92 a 3 z"/>
-                        <path class="cls-1"  style="fill: url(#pattern2);"d="M 18 22 V 99 M 10 21 v 8 m 15 0 v -8 M 10 31 v 4 m 15 0 v -4"/>
-                        <path class="cls-2"  style="fill: url(#pattern2);" d="M 18 22 a 44 45 1 0 0 13 -2 c -4 -10 -8 -16 -11 -19 a 3 3 0 0 0 -4 0 C 13 4 8 10 5 20 a 45 45 0 0 0 13 2 z M 18 59 a 3 3 0 0 0 -3 3 V 95 h 6 V 61 a 3 3 0 0 0 -3 -2 z"/>
-                    </g>
-                </svg>
+                <div class="card-face discount card-backing">
+                </div>
+                <div class="card-face card-front">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200">
+                        <defs>
+                            <pattern id="pattern1"
+                                     width="4" height="4"
+                                     patternUnits="userSpaceOnUse" >
+                          
+                                <circle cx="1" cy="1" r="1" style="stroke: none; fill: #fff3ff" />
+                            </pattern>
+                            <pattern id="pattern2"
+                                     x="1.5" y="1.5" width="1.5" height="1.5"
+                                     patternUnits="userSpaceOnUse"
+                                     patternTransform="rotate(35)"
+                                     >
+                                <rect width="3" height="3" style="fill:#000" />
+                                <circle cx="0.5" cy="0.5" r="0.5" style="stroke: none; fill: #fff3ff" />
+                            </pattern>
+                          </defs>
+                        <g id="Capa_7" data-name="Capa 7">
+                            <path class="cls-0" style="fill: url(#pattern1);" d="M 16 1 C 9 8 -11 34 9 93 v 5 h 17 v -5 c 20 -59 0 -85 -7 -92 a 3 z"/>
+                            <path class="cls-1"  style="fill: url(#pattern2);"d="M 18 22 V 99 M 10 21 v 8 m 15 0 v -8 M 10 31 v 4 m 15 0 v -4"/>
+                            <path class="cls-2"  style="fill: url(#pattern2);" d="M 18 22 a 44 45 1 0 0 13 -2 c -4 -10 -8 -16 -11 -19 a 3 3 0 0 0 -4 0 C 13 4 8 10 5 20 a 45 45 0 0 0 13 2 z M 18 59 a 3 3 0 0 0 -3 3 V 95 h 6 V 61 a 3 3 0 0 0 -3 -2 z"/>
+                        </g>
+                    </svg>
+                </div>
             </div>
             <div id='ship-stats'>
                 <span>SPACESHIP: #1369</span>
@@ -262,7 +409,18 @@
             </div>
             <div id='hand'>
                 <h3>ARSENAL</h3>
-                <ul></ul>
+                <div id='group'>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                    <div class='arsenal'></div>
+                </div>
                 <a class='button' href='#'>SET</a>
             </div>
             <a class='' href='#' onclick='back()'>back</a>
