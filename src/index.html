@@ -145,9 +145,6 @@
             transform-style: preserve-3d;
             transform: rotateY(180deg);
         }
-        .card-face {
-
-        }
         .card.card--flipped {
             animation: cardFlip .275s forwards linear;
         }
@@ -251,13 +248,45 @@
             height: 37%;
             border: 0.4vh solid #fff3ff;
             margin: 2% 1.55%;
-            display: inline-flex;
             transition: 0.3s;
+            display: block;
+            float: left;
+            overflow: hidden;
+            font-size: 50%;
+            text-align: center;
+            position: relative;
+        }
+        .arsenal.selected {
+            border-style: double;
+            color: #111;
+            background: #ffffff;
+            text-shadow: 0 0 0.1vh #fff, 0 0 0.2vh #fff, 0 0 0.3vh #fff3ff, 0 0 0.4vh #fff3ff, 0 0 0.5vh #fff3ff;
         }
         .arsenal:hover {
             cursor: pointer;
             border: 0.6vh solid #fff3ff;
             box-shadow: 0px 0px 20px gray;
+        }
+        .arsenal .order {
+            display: none;
+        }
+        .arsenal.selected .order {
+            position: absolute;
+            left: -2px;
+            background: white;
+            width: 19%;
+            display: block;
+            margin: 0 auto;
+        }
+        code {
+            position: absolute;
+            top: 23%;
+            left: 0;
+            right: 0;
+        }
+        code.sub {
+            top: auto;
+            bottom: 23%;
         }
 
         canvas {
@@ -410,10 +439,22 @@
             <div id='hand'>
                 <h3>ARSENAL</h3>
                 <div id='group'>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
+                    <div class='arsenal'>
+                        <div class='order'>3</div>
+                        <code>SCISSORS</code>
+                    </div>
+                    <div class='arsenal selected'>
+                        <div class='order'>2</div>
+                        <code>PAPER</code>
+                    </div>
+                    <div class='arsenal'>
+                        <code>ROCK</code>
+                    </div>
+                    <div class='arsenal selected'>
+                        <div class='order'>1</div>
+                        <code>SCISSORS</code>
+                        <code class='sub'>PAPER</code>
+                    </div>
                     <div class='arsenal'></div>
                     <div class='arsenal'></div>
                     <div class='arsenal'></div>
