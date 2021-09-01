@@ -14,6 +14,29 @@
             margin: 0;
             padding: 0;
             text-shadow: 2px 0 0 #ff21bd85, -2px 0 0 #5cf14e9f;
+            /**colors
+                goood trick found in: https://css-tricks.com/solved-with-css-colorizing-svg-backgrounds/
+                1.0 0   0 0 0 brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0)
+                1.0 0   0 0 1 brightness(0.95) sepia(0.5) hue-rotate(108deg) saturate(0.5) brightness(0.9) invert(1)
+                0.6 1   0 2 0 brightness(0.7) sepia(1) hue-rotate(0deg) saturate(5) brightness(1.1) invert(0)
+                0.6 1  45 2 0 brightness(0.7) sepia(1) hue-rotate(45deg) saturate(1) brightness(1.3) invert(0)
+                0.6 1  90 2 0 brightness(0.6) sepia(1) hue-rotate(90deg) saturate(3) brightness(1.1) invert(0)
+                0.6 1 135 2 0 brightness(0.4) sepia(1) hue-rotate(135deg) saturate(11) brightness(1.1) invert(0)
+                0.6 1 180 2 0 brightness(0.6) sepia(1) hue-rotate(180deg) saturate(6) brightness(1.3) invert(0)
+                0.6 1 225 2 0 brightness(0.12) sepia(1) hue-rotate(225deg) saturate(3) brightness(3.9) invert(0)
+                0.6 1 270 2 0 brightness(0.4) sepia(1) hue-rotate(270deg) saturate(3) brightness(1.2) invert(0)
+                0.6 1 315 2 0 brightness(0.4) sepia(1) hue-rotate(320deg) saturate(4) brightness(1.3) invert(0)
+                0.6 1   0 2 1 brightness(0.4) sepia(1) hue-rotate(0deg) saturate(3) invert(1)
+                0.6 1  45 2 1 brightness(0.5) sepia(1) hue-rotate(45deg) saturate(2) invert(1)
+                0.6 1  90 2 1 brightness(0.6) sepia(1) hue-rotate(90deg) saturate(3) invert(1)
+                0.6 1 135 2 1 brightness(0.5) sepia(1) hue-rotate(135deg) saturate(5) invert(1)
+                0.6 1 180 2 1 brightness(0.83) sepia(1) hue-rotate(180deg) saturate(18) invert(1)
+                0.6 1 225 2 1 brightness(0.65) sepia(1) hue-rotate(225deg) saturate(6) invert(1)
+                0.6 1 270 2 1 brightness(0.4) sepia(1) hue-rotate(270deg) saturate(5) invert(1)
+                0.6 1 315 2 1 brightness(0.75) sepia(1) hue-rotate(315deg) saturate(8) invert(1)
+            */
+            filter: brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0);
+
         }
         h1, h2, h3 {
             margin: 0;
@@ -134,6 +157,7 @@
             margin-left: 5%;
         }
         .card {
+            
             float: left;
             /* overflow: hidden; */
             width: 35%;
@@ -144,6 +168,7 @@
             transition: 0.3s;
             transform-style: preserve-3d;
             transform: rotateY(180deg);
+
         }
         .card.card--flipped {
             animation: cardFlip .275s forwards linear;
@@ -296,9 +321,17 @@
             display: block;
             image-rendering: pixelated
         }
-
+        #d {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: auto;
+            z-index: -5;
+        }
+/** patterns modified from https://codepen.io/lunamatic/pen/MBaXwB*/
         .discount {
-            background-color: #aaa; 
+            background-color: #e3e3e3; 
             background-image:
                 repeating-radial-gradient(
                     circle at 0 0.95vh,
@@ -307,7 +340,7 @@
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 1vh -0.05vh,
+                    circle at 5vh -10.05vh,
                     #111,
                     #111,
                     transparent 0.23vh,
@@ -319,7 +352,7 @@
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 1vh 0.95vh,
+                    circle at 5vh 10.95vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
@@ -337,43 +370,222 @@
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 1vh 0.3vh,
+                    circle at 5vh 10.3vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 1vh 0.7vh,
+                    circle at 5vh 10.7vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 0.3vh 0vh,
+                    circle at 10.3vh 5vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 0.7vh 0vh,
+                    circle at 10.7vh 5vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 0.3vh 1vh,
+                    circle at 10.3vh 5vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
                     transparent 2vh),
                 repeating-radial-gradient(
-                    circle at 0.7vh 1vh,
+                    circle at 10.7vh 5vh,
                     #111,
                     #111 0.22vh,
                     transparent 0.23vh,
                     transparent 2vh);
-            background-size: 1vh 1vh;
+            background-size: 100% 100%;
+            background-position: 100% 100%;
         }
+        .skulls {
+	background-color: #111;
+	background-image:
+		
+		repeating-radial-gradient(
+			circle at 0.5vh 0.48vh,
+			#e3e3e3,
+			#e3e3e3 0.1vh,
+			transparent 0.11vh,
+			transparent 1vh),
+		repeating-radial-gradient(
+			circle at 0.4vh 0.46vh,
+			#e3e3e3,
+			#e3e3e3 0.1vh,
+			transparent 0.11vh,
+			transparent 1vh),
+		repeating-radial-gradient(
+			circle at 0.6vh 0.46vh,
+			#e3e3e3,
+			#e3e3e3 0.1vh,
+			transparent 0.11vh,
+			transparent 1vh),
+		
+		repeating-radial-gradient(
+			circle at 0.5vh 0.68vh,
+			transparent,
+			transparent 0.24vh,
+			#e3e3e3 0.25vh,
+			#e3e3e3 0.37vh,
+			transparent 0.38vh,
+			transparent 1vh),
+		
+		repeating-radial-gradient(
+			circle at 0.35vh 0.7vh,
+			transparent,
+			transparent 0.1vh,
+			#e3e3e3 0.11vh,
+			#e3e3e3 0.18vh,
+			transparent 0.19vh,
+			transparent 1vh),
+		repeating-radial-gradient(
+			circle at 0.65vh 0.7vh,
+			transparent,
+			transparent 0.1vh,
+			#e3e3e3 0.11vh,
+			#e3e3e3 0.18vh,
+			transparent 0.19vh,
+			transparent 1vh),
+		
+		repeating-radial-gradient(
+			circle at 0.42vh 0.87vh,
+			transparent,
+			transparent 0.05vh,
+			#e3e3e3 0.06vh,
+			#e3e3e3 0.1vh,
+			transparent 0.11vh,
+			transparent 1vh),
+		
+		repeating-radial-gradient(
+			circle at 0.5vh 1vh,
+			transparent,
+			transparent 0.14vh,
+			#e3e3e3 0.15vh,
+			#e3e3e3 0.23vh,
+			transparent 0.24vh,
+			transparent 1vh),
+		repeating-radial-gradient(
+			circle at 0.32vh 0.01vh,
+			#e3e3e3,
+			#e3e3e3 0.04vh,
+			transparent 0.05vh,
+			transparent 2vh);
+	background-size: 6% 100%;
+	background-position: 0 0;
+}
+
+.biohazard {
+	background-color: #333;
+	background-image:
+		repeating-radial-gradient(
+			circle at 1.01vh 1.07vh,
+			#333,
+			#333 0.07vh,
+			transparent 0.085vh,
+			transparent 2vh),
+		repeating-radial-gradient(
+			circle at 0.57vh 1.3vh,
+			transparent,
+			transparent 0.3vh,
+			#333 0.315vh,
+			#333 0.34vh,
+			transparent 0.355vh,
+			transparent 2vh),
+		repeating-radial-gradient(
+			circle at 1vh 0.58vh,
+			transparent,
+			transparent 0.3vh,
+			#333 0.315vh,
+			#333 0.34vh,
+			transparent 0.355vh,
+			transparent 2vh),
+		repeating-radial-gradient(
+			circle at 1.01vh 1.06vh,
+			transparent,
+			transparent 0.3vh,
+			#e3e3e3 0.315vh,
+			#e3e3e3 0.4vh,
+			transparent 0.415vh,
+			transparent 2vh),
+		repeating-radial-gradient(
+			circle at 1vh 0.58vh,
+			#333,
+			#333 0.34vh,
+			transparent 0.355vh,
+			transparent 2vh),
+		repeating-radial-gradient(
+			circle at -1vh -1.65vh,
+			#e3e3e3,
+			#e3e3e3 3.4vh,
+			transparent 0.415vh,
+			transparent 10vh);
+	background-size: 32vh 32vh;
+}
+
+.lobby {
+	background-color: #e3e3e3;
+	background-image:
+		repeating-linear-gradient(
+			-90deg,
+			#333,
+			#333 -0.6vh,
+			transparent -0.6vh,
+			transparent 1.98vh,
+			#333 0.98vh,
+			#333 1vh),
+		repeating-linear-gradient(
+			45deg,
+			#333,
+			#333 0.9vh,
+			transparent 0.9vh, 
+			transparent 0.98vh,
+			#333 0.98vh,
+			#333 0.6vh);
+	background-size: 60vh 60vh;
+}
+
+.target {
+	background-color: #e3e3e3;
+	background-image:
+		repeating-radial-gradient(
+			circle at 0.5vh 0.5vh,
+			transparent,
+			transparent 0.14vh,
+			#333 0.15vh,
+			#333 0.28vh,
+			transparent 0.29vh);
+	background-size: 3vh 3vh;
+}
+
+.trellis {
+	background: #333;
+	background-image:
+		repeating-linear-gradient(
+			-60deg,
+			#e3e3e3, 
+			#e3e3e3 0.1em, 
+			transparent 0.11em, 
+			transparent 0.4em, 
+			#e3e3e3 0.41em),
+		repeating-linear-gradient(
+			60deg,
+			#e3a3a3, 
+			#e3a3a3 0.1em, 
+			transparent 0.11em, 
+			transparent 0.4em, 
+			#e3a3a3 0.41em);
+	background-size: 10em;
+}
     </style>
 </head>
 <body class='spectrum-background'>
@@ -400,15 +612,16 @@
                 <span>REMAINING SHIPS: 8</span>
             </div>
             <div id='ship' class='card'>
-                <div class="card-face discount card-backing">
+                <div class="card-face trellis card-backing">
                 </div>
                 <div class="card-face card-front">
+                    <canvas id='d' height="300" width="200"></canvas>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200">
                         <defs>
                             <pattern id="pattern1"
                                      width="4" height="4"
                                      patternUnits="userSpaceOnUse" >
-                          
+                                <rect width="4" height="4" style="fill:#111111"/>
                                 <circle cx="1" cy="1" r="1" style="stroke: none; fill: #fff3ff" />
                             </pattern>
                             <pattern id="pattern2"
@@ -467,5 +680,6 @@
             <a class='' href='#' onclick='back()'>back</a>
         </div>
     </div>
+    <div id='overlay'></div>
     <script src="b.js"></script>
 </body>

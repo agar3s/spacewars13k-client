@@ -1,6 +1,35 @@
 
-- generate spaceships using svg encoded data
-- wrap this spaceships in cards
+- 8 ship
+- 8 wings
+- 4 back
+- 4 foreground
+- 4 cover
+- 4 background
+- 4 pallete
 
-- el color que vaya en otro numero separado
-- hacer que el encoding use 2 caracteres normales // revisar si la compresion mejora de esta forma
+- draw a spaceship
+- add coin
+- show coins
+- join game
+- display hand
+- set hand
+- use a pseudorandom number that allows me to generate the properties for each ship without bringing that data from the blockchain
+
+- define patterns for back
+- define patters for second
+- define patterns for back
+
++- define a size for the game: 960 X 640
+window/size/width=576
+window/size/height=1024
+window/size/test_width=288
+window/size/test_height=512
+
++- generate spaceships using svg encoded data - ships 
++- hacer que el encoding use 2 caracteres normales // revisar si la compresion mejora de esta forma
+
++- wrap this spaceships in cards
++- el color que vaya en otro numero separado
+
+<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs>
+</defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>

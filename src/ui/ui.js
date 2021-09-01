@@ -41,6 +41,33 @@ divShip.onclick = (e) => {
   }
 };
 
+const backCardContext = d.getContext('2d');
+const stars = [];
+const addStar = () => {
+  let x=~~(Math.random()*300), y=-50, vy=Math.random()*5+5;
+  stars.push({
+    x, y, vy, move: _=> y = y+vy>300?((vy=Math.random()*5 + 5)||-50):y+vy, draw:(ctx)=>ctx.fillRect(x, y, 2, 4)
+  })
+}
+for (let i=0;i<100; i++){ addStar();}
+
+var playing = true;
+// const loopStars = () => {
+//   console.log(stars.length)
+//   backCardContext.fillStyle = 'rgba(0,0,0, 0.1)';
+//   backCardContext.fillRect(0, 0, 400, 300);
+//   backCardContext.fillStyle = '#aaa';
+//   stars.forEach(star=>star.move() && star.draw(backCardContext))
+// };
+var playing = true;
+const loopStars = () => {
+  console.log(stars.length)
+  backCardContext.fillStyle = 'rgba(0,0,0, 0.1)';
+  backCardContext.fillRect(0, 0, 400, 300);
+  backCardContext.fillStyle = '#aaa';
+  stars.forEach(star=>star.move() && star.draw(backCardContext))
+};
+
 if (DEBUG) {
   changePage('game');
 }

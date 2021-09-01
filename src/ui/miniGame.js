@@ -19,6 +19,7 @@ const addSpaceShip = () => {
   }
   spaceShipsCanvas.push(spaceShipCanvas);
 }
+
 for(let i=0;i<50;i++) {
   addSpaceShip();
 }
@@ -29,6 +30,7 @@ const loop = () => {
   spaceShipsCanvas.forEach(ship=>ship.move()&&ship.draw(ctx));
   
   updatetime();
+  loopStars();
   requestAnimationFrame(loop);
 };
 
