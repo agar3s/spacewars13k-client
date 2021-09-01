@@ -1,0 +1,6 @@
+
+- generate spaceships using svg encoded data
+- wrap this spaceships in cards
+
+- el color que vaya en otro numero separado
+- hacer que el encoding use 2 caracteres normales // revisar si la compresion mejora de esta forma

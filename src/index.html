@@ -1,13 +1,272 @@
 <head>
-    <title>JS13K 2021</title>
+    <title>Space Wars</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            background:#333;
-            margin:0;
-            padding:0;
+        * {
+            box-sizing: border-box;
         }
+        body {
+            font-family: fantasy;
+            color: #fff;
+            font-size: min(3vh, 4.5vw);
+            overflow: hidden;
+            background: #000;
+            margin: 0;
+            padding: 0;
+            text-shadow: 2px 0 0 #ff21bd85, -2px 0 0 #5cf14e9f;
+        }
+        h1, h2, h3 {
+            margin: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 22%;
+            font-size: 240%;
+        }
+        .c {
+            width: 60px;
+            height: 120px;
+        }
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+        #main {
+            height: 90vh;
+            width: calc(90vh*0.66);
+            max-width: 98%;
+            max-height: calc(100vw*1.5);
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            image-rendering: pixelated;
+            transform-origin: center center;
+            border: 1vh solid #fff3ff;
+        }
+        .page {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background-color: #111;
+            padding: 3%;
+        }
+        a {
+            text-decoration: none;
+            padding: 0 2%;
+        }
+        a.button {
+            display: inline-block;
+            border: 0.6vh solid #fff3ff;
+            padding: 1% 3%;
+            font-weight: 500;
+            animation: none;
+            color: #fff;
+            font-size: 140%;
+        }
+        a:visited {
+            color: #fff;
+        }
+        a:hover {
+            color: #000;
+            background-color: #fff;
+            text-shadow: 0 0 0.1vh #fff, 0 0 0.2vh #fff, 0 0 0.3vh #fff3ff, 0 0 0.4vh #fff3ff, 0 0 0.5vh #fff3ff;
+        }
+        a.button:hover {
+            animation-duration: 0.5s;
+            border: 0.6vh double #111;
+            background-color: #fff;
+            color: #111;
+        }
+        .blc {
+            position: sticky;
+            background: #233;
+            width: 100%;
+            left: 0;
+            padding: 0 20px;
+            max-height: 100px;
+        }
+        header {
+            top: 0;
+        }
+        footer {
+            position: absolute;
+            bottom: 5;
+            left: 0;
+            right: 0;
+            font-size: 70%;
+        }
+        .hide {
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+
+        .center {
+            text-align: center;
+        }
+        .space {
+            margin: 3%;
+        }
+        .space a {
+            margin: 2%;
+        }
+        .right {
+            float: right;
+        }
+
+        /**GAME PAGE STYLES*/
+        #game span {
+            display: block;
+        }
+        #game-stats {
+            border: 0.6vh solid white;
+            margin: -0.5vh;
+            padding: 1vh;
+            margin-bottom: 3%;
+        }
+
+        #ship-stats {
+            display: block;
+            float: left;
+            width: 50%;
+            margin-left: 5%;
+        }
+        .card {
+            float: left;
+            overflow: hidden;
+            width: 35%;
+            height: 35%;
+            border: 0.8vh solid #fff3ff;
+            border-radius: 2%;
+            background: #111;
+            transition: 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0px 0px 20px gray;
+        }
+
+        .cls-0 {
+            stroke-linejoin:round;
+            stroke-linecap:round;
+            stroke:#fff3ff;
+        }
+        .cls-1 {
+            fill:none;
+            stroke:#fff3ff;
+            stroke-linejoin:round;
+            stroke-linecap:round;
+        }
+        .cls-2{
+            stroke-linejoin:round;
+            stroke:#fff3ff;
+        }
+        #hand {
+            width: 100%;
+            display: block;
+            height: 40%;
+            border: 0.6vh solid white;
+            float: left;
+            margin: 3vh 0;
+        }
+        #hand h3 {
+            position: relative;
+            top: -7%;
+            font-size: 120%;
+            background: #111;
+            width: 40%;
+            margin: auto;
+        }
+        #hand a.button {
+            position: absolute;
+            bottom: 1%;
+            display: block;
+            width: 36%;
+            text-align: center;
+            background-color: #111;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        #hand a.button:hover {
+            background-color: #fff;
+        }
+
+        canvas {
+            width: 60%;
+            height: 20%;
+            margin: 0 auto;
+            display: block;
+            image-rendering: pixelated
+        }
+
+        
     </style>
 </head>
-<body>
+<body class='spectrum-background'>
+    <div id='main' >
+        <div id='index' class='page'>
+            <div id='credits'>
+                <span>CREDITS 01</span>
+                <a class='right' href='#'>RULES</a>
+            </div>
+            <h1>SPACE SHIP WARS<br>NFT 13K</h1>
+            <canvas id='c'></canvas>
+            <div id='game-state' class='center'>NEXT GAME IN 00:00:11</div>
+            <div class='center space'>
+                <a class='button' id='join-game' onclick='joinGame()' href='#'>JOIN GAME</a>
+                <br>
+                <a class='button' href='#' onclick='addCredits()'>ADD CREDITS</a>
+            </div>
+            <footer class='center'>MADE WITH &lt;3 BY <a href='https://twitter.com/agar3s'>@AGAR3S</a></footer>
+        </div>
+        <div id='game' class='page hide'>
+            <div id='game-stats'> 
+                <span>ROUND: #1</span>
+                <span>NEXT BATTLE: 00:00:11</span>
+                <span>REMAINING SHIPS: 8</span>
+            </div>
+            <div id='ship' class='card'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200">
+                    <defs>
+                        <pattern id="pattern1"
+                                 width="4" height="4"
+                                 patternUnits="userSpaceOnUse" >
+                      
+                            <circle cx="1" cy="1" r="1" style="stroke: none; fill: #fff3ff" />
+                        </pattern>
+                        <pattern id="pattern2"
+                                 x="1.5" y="1.5" width="1.5" height="1.5"
+                                 patternUnits="userSpaceOnUse"
+                                 patternTransform="rotate(35)"
+                                 >
+                            <rect width="3" height="3" style="fill:#000" />
+                            <circle cx="0.5" cy="0.5" r="0.5" style="stroke: none; fill: #fff3ff" />
+                        </pattern>
+                      </defs>
+                    <g id="Capa_7" data-name="Capa 7">
+                        <path class="cls-0" style="fill: url(#pattern1);" d="M 16 1 C 9 8 -11 34 9 93 v 5 h 17 v -5 c 20 -59 0 -85 -7 -92 a 3 z"/>
+                        <path class="cls-1"  style="fill: url(#pattern2);"d="M 18 22 V 99 M 10 21 v 8 m 15 0 v -8 M 10 31 v 4 m 15 0 v -4"/>
+                        <path class="cls-2"  style="fill: url(#pattern2);" d="M 18 22 a 44 45 1 0 0 13 -2 c -4 -10 -8 -16 -11 -19 a 3 3 0 0 0 -4 0 C 13 4 8 10 5 20 a 45 45 0 0 0 13 2 z M 18 59 a 3 3 0 0 0 -3 3 V 95 h 6 V 61 a 3 3 0 0 0 -3 -2 z"/>
+                    </g>
+                </svg>
+            </div>
+            <div id='ship-stats'>
+                <span>SPACESHIP: #1369</span>
+                <span>FACTION: VULTK</span>
+                <span>BASE: ZEPPEL</span>
+                <span>WINGS: NONE</span>
+                <hr>
+                <span>VICTORIES: 1</span>
+            </div>
+            <div id='hand'>
+                <h3>ARSENAL</h3>
+                <ul></ul>
+                <a class='button' href='#'>SET</a>
+            </div>
+            <a class='' href='#' onclick='back()'>back</a>
+        </div>
+    </div>
     <script src="b.js"></script>
 </body>

@@ -22,16 +22,10 @@ fi;
 #cat lib/webgl.js
 #cat lib/keyboardController.js
 
-# shaders
-#cd dist;
-#for glsl in *.frag *.vert; do
-#  name=`echo $glsl | tr '.' '_' | tr '[:lower:]' '[:upper:]'`
-#  cat $glsl | ../scripts/wrapjs.sh $name
-#  echo
-#done
-#cd ..;
-
 # game engine declaration
+cat src/ships/descriptors.js
+cat src/ui/ui.js
+cat src/ui/miniGame.js
 #cat src/setup/generatedSprites.js
 #cat src/setup/spriteLoader.js
 #cat src/engine/gameObject.js
