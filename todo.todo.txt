@@ -1,11 +1,23 @@
 
-- 8 ship
-- 8 wings
-- 4 back
-- 4 foreground
-- 4 cover
-- 4 background
-- 4 pallete
++- 8 ship
++- 18 colors
++- 6 covers
++- 10 foreground
++- 10 background
++- 6 back
+
+
+- 9 wings
+
+- es posible que las naves requieran una posicion para el viewport  
+- load the svg ship from code
+- load the svg wings from code
+- import svg wings
+- click on arsenal set the hand
+- extract card component
+
+- battle scene
+- maybe a transition scene
 
 - draw a spaceship
 - add coin

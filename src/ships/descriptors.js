@@ -51,7 +51,55 @@ const ship8 = [
   "0 M 16 1 C 9 8 -11 34 9 93 v 5 h 17 v -5 c 20 -59 0 -85 -7 -92 a 3 3 0 0 0 -4 0 z",
   "2 M 18 22 V 99 M 10 21 v 8 m 15 0 v -8 M 10 31 v 4 m 15 0 v -4",
   "1 M 18 22 a 44 45 1 0 0 13 -2 c -4 -10 -8 -16 -11 -19 a 3 3 0 0 0 -4 0 C 13 4 8 10 5 20 a 45 45 0 0 0 13 2 z M 18 59 a 3 3 0 0 0 -3 3 V 95 h 6 V 61 a 3 3 0 0 0 -3 -2 z"
-]
+];
+
+const wings1 = [
+  "M 8 37 4 40 1 37 V 11 L 4 1 l 4 11 v 25 z",
+  "M 21 33 h 16 V 13 H 21 L 8 18 v 12 l 13 3 z M 1 15 l 4 3 V 28 L 1 33 V 15 z",
+  "M 13 16 v 7 m 4 -8 v 6"
+];
+
+const wings2 = [
+  "M 23 1 8 23 v 16 l 15 -16 14 0 V 1 H 23 z",
+  "M 8 8 v 42 L 1 43 V 30 l 7 -22 z",
+  "M 1 30 h 7 v 9 H 1 z",
+  "M 18 8 v 6 l -3 5 -4 1 L 18 8 z"
+];
+
+const wings3 = [
+  "M 33 24 S 27 41 14 50 1 71 1 71 h 42 V 1 z",
+  "M 24 71 v -15 m -6 15 V 59"
+];
+
+const wings4 = [
+  "M 6 1 c -5 5 -5 17 -5 17 v 50 h 10 V 17 S 12 5 6 1 z",
+  "M 12 70 H 0 l 1 -7 h 10 l 1 7 z m -1 -28 h 14 v 7 H 11 z",
+  "M 7 18 H 1 M 7 24 H 1"
+];
+
+const wings5 = [
+  "M 8 26 h 4 v 15 H 8 z m 11 -7 h 4 V 47 H 19 z m 36 16 V 10 l -21 5 v 18 z",
+  "M 34 33 H 15 V 20 l 19 -8 v 21 z",
+  "M 15 33 H 1 v -6 l 14 -5 v 11 z m 3 -14 2 3 8 -3 2 -5 -12 5 z M 55 1 38 9 v 5 l 17 -4 z"
+];
+
+const wings6 = [
+  "M 22 6 7 15 v 15 l 15 -3 14 0 V 6 H 22 z",
+  "M 7 1 v 40 L 1 34 V 22 L 7 1 z m 4 12 c 0 0 0 8 0 8 L 16 26 V 10"
+];
+
+const wings7 = [
+  "M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z",
+  "M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z",
+  "M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z",
+  "M 19 30 l 2 -4 8 3 2 6 z"
+];
+
+const wings8 = [
+  "m 41 1 -37 27 A 8 8 0 0 0 1 34 v 6 l 40 -9 z",
+  "m 20 16 2 7 m -9 -2 1 5",
+  "m 1 36 40 -13"
+];
 
 const shipEncoded = [
   "_,}¸L[*e)rgrW*Y)Lc&,l1$~)bZ*V)\\\\$d0d)kr*j)X|UJ&.}*y(g³$)v]&.p$~)\\Z*V)b\\$d0Z(`w*j)f|iJ&,lr*y)vZ$)H]&",
@@ -80,7 +128,7 @@ const shipEncoded4 = [
 ];
 
 const keys = {'c': '#', 'V':'$', 'h': '%', 'z': '&', 'S': "'", 'L':'(', 'l':')', 'v':'*', 'H':'+', 'm':',', 's': '-', 'M': '.', 'a': '/', 'C':'0'};
-const keyString = "cVhzSLlvHmsMaC";
+const keyString = "cVhzSLlvHmsMaCA";
 const initialKeyCode = 35;
 const safeCodes = initialKeyCode + keyString.length;
 const minNumberCode = -92;
