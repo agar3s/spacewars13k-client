@@ -186,10 +186,10 @@ const ENCODED_SHAPES = {
     [STYLES_KEY]: [0, 0, 1, 0]
   },
   8: {
-    [PIECE_KEY]: [],
-    [TRANSLATE_KEY]: [0, 0],
-    [SCALE_KEY]: [1, 1],
-    [STYLES_KEY]: []
+    [PIECE_KEY]: ship7,
+    [TRANSLATE_KEY]: [-18, -90],
+    [SCALE_KEY]: [0.7, -1.4],
+    [STYLES_KEY]: [0, 1, 0, 0]
   }
 };
 
@@ -259,6 +259,38 @@ const ENCODED_WINGS = {
     [STYLES_KEY]: [1, 1]
   },
   8: {
+    [PIECE_KEY]: wings1,
+    [TRANSLATE_KEY]: [-1, -95],
+    [SCALE_KEY]: [1.5, -1],
+    [LEFT_WING_TRANSLATE_KEY]: [-20, 0],
+    [RIGHT_WING_TRANSLATE_KEY]: [-47, 0],
+    [STYLES_KEY]: [1,0, 0]
+  },
+  9: {
+    [PIECE_KEY]: wings7,
+    [TRANSLATE_KEY]: [-1.5, -98],
+    [SCALE_KEY]: [0.85, -0.85],
+    [LEFT_WING_TRANSLATE_KEY]: [-45, 0],
+    [RIGHT_WING_TRANSLATE_KEY]: [-90, 0],
+    [STYLES_KEY]: [1, 0, 1, 0]
+  },
+  10: {
+    [PIECE_KEY]: wings3,
+    [TRANSLATE_KEY]: [1.5, 170],
+    [SCALE_KEY]: [1.10, 0.30],
+    [LEFT_WING_TRANSLATE_KEY]: [-38, 0],
+    [RIGHT_WING_TRANSLATE_KEY]: [-68, 0],
+    [STYLES_KEY]: [0, 1]
+  },
+  11: {
+    [PIECE_KEY]: wings7,
+    [TRANSLATE_KEY]: [-1.5, 28],
+    [SCALE_KEY]: [0.85, 0.85],
+    [LEFT_WING_TRANSLATE_KEY]: [-45, 0],
+    [RIGHT_WING_TRANSLATE_KEY]: [-90, 0],
+    [STYLES_KEY]: [1, 1, 0, 1]
+  },
+  12: {
     [PIECE_KEY]: [],
     [TRANSLATE_KEY]: [0, 0],
     [SCALE_KEY]: [1, 1],
@@ -267,6 +299,27 @@ const ENCODED_WINGS = {
     [STYLES_KEY]: []
   }
 };
+
+const palletes = [
+  [],                             // 0
+  [0.95, 0.5, 108, 0.5, 0.9, 1],  // 1
+  [0.7, 1, 0, 5, 1.1, 0],         // 2
+  [0.7, 1, 45, 1, 1.3, 0],        // 3
+  [0.6, 1, 90, 3, 1.1, 0],        // 4
+  [0.4, 1, 135, 12, 1.1, 0],      // 5
+  [0.6, 1, 180, 6, 1.3, 0],       // 6
+  [0.12, 1, 225, 3, 3.9, 0],      // 7
+  [0.4, 1, 270, 3, 1.2, 0],       // 8
+  [0.4, 1, 320, 4, 1.3, 0],       // 9
+  [0.9, 1, 0, 2, 0.8, 1],           //10
+  [1.6, 1, 38, 13, 2, 1],          // 11
+  [1.01, 1, 90, 4, 1.0, 1],          // 12
+  [1.4, 1, 135, 13, 1.5, 1],       // 13
+  [0.83, 1, 180, 18, 1, 1],       // 14
+  [0.65, 1, 225, 6, 1, 1],        // 15
+  [1.1, 1, 270, 18, 0.9, 1],         // 16
+  [0.75, 1, 315, 8, 1, 1]         // 17
+]
 
 const keys = {'c': '#', 'V':'$', 'h': '%', 'z': '&', 'S': "'", 'L':'(', 'l':')', 'v':'*', 'H':'+', 'm':',', 's': '-', 'M': '.', 'a': '/', 'C':'0'};
 const keyString = "cVhzSLlvHmsMaCA";
@@ -298,15 +351,8 @@ const translateShip = (ship) => {
 
 
 
-const fills = [
-  '#f26527',
-  '#0781a2',
-  'none',
-  '#f26527'
-];
-
 const createSVGelement = (elementType) => document.createElementNS('http://www.w3.org/2000/svg', elementType);
-const setAtribute = (element, attribute, value) => element.setAttribute(attribute, value);
+const setAttribute = (element, attribute, value) => element.setAttribute(attribute, value);
 const appendChild = (element, child) => element.appendChild(child);
 
 const SVG_ATTRIBUTES = {
@@ -320,25 +366,23 @@ const injectPieces = (element, config, patterns) => {
     const d = encoded;
     const piece = createSVGelement('path');
     const pattern = patterns[styles[index]];
-    setAtribute(piece, 'fill', `url(#pattern${ pattern })`);
-    setAtribute(piece, 'd', d);
+    setAttribute(piece, 'fill', `url(#pattern${ pattern })`);
+    setAttribute(piece, 'd', d);
     appendChild(element, piece);
   });
 };
 
 const setTransform = (element, translate, scale=[1, 1]) => {
-  setAtribute(element, SVG_ATTRIBUTES.TRANSFORM, `scale(${scale[0]}, ${scale[1]}) translate(${ translate[0] }, ${translate[1]})`);
+  setAttribute(element, SVG_ATTRIBUTES.TRANSFORM, `scale(${scale[0]}, ${scale[1]}) translate(${ translate[0] }, ${translate[1]})`);
 }
 
-const renderShip = (shapeId, wingsId) => {
+const renderShip = (shapeId, wingsId, bgColor, fgColor) => {
   const mainSVG = createSVGelement('svg');
-  const patterns = [10,10];
-  patterns.push(Math.ceil(Math.random()*10));
-  patterns.push(Math.ceil(Math.random()*10));
-  setAtribute(mainSVG, 'viewBox', '0 -50 35 200');
+  const patterns = [bgColor, fgColor];
+  setAttribute(mainSVG, 'viewBox', '0 -50 35 200');
     const ship = createSVGelement('g');
     setTransform(ship, [0, 0]);
-    setAtribute(ship, 'class', 'cls-1');
+    setAttribute(ship, 'class', 'cls-1');
     
       // wings body
       const wingsData = ENCODED_WINGS[wingsId];
@@ -375,30 +419,294 @@ const wrapInCard = (node) => {
   document.body.appendChild(card);
 };
 
-const wrapInCard2 = () => {
-
+const changePallete = (index) => {
+  const [b=1, sep=0, hue=0, sat=0, b2=1, inv=0] = palletes[index];
+  document.body.style.filter = `brightness(${b}) sepia(${sep}) hue-rotate(${hue}deg) saturate(${sat}) brightness(${b2}) invert(${inv})`;
 };
 
-console.log(decode(encode(ship8[0])));
-ship8.forEach((svgLine)=>console.log(encode(svgLine)));
-let shapeId = ~~(Math.random()*8);
-let wingsId = ~~(Math.random()*8);
-let svgGenerated = renderShip( shapeId, wingsId);
-console.log(svgGenerated);
-previewDebug.appendChild(svgGenerated);
-
-window.setShapeDebug = (_shapeId) => {
-  previewDebug.removeChild(svgGenerated);
-  shapeId = _shapeId;
-  svgGenerated = renderShip( shapeId, wingsId);
-  previewDebug.appendChild(svgGenerated);
+const backgroundConfig = [
+  [-1, 0], [0, 0], [1, 0], [2, 0], [3, 0], [4, 0],
+  [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [4, 1]
+];
+const createCanvasElement = (cIndex) => {
+  const canvas = document.createElement('canvas');
+  setAttribute(canvas, 'width', 200);
+  setAttribute(canvas, 'height', 300);
+  const ctx = canvas.getContext('2d');
+  let index = 0;
+  let palleteIndex = 0;
+  let colorBack = 0;
+  const draw = (stars) => {
+    ctx.save();
+    ctx.fillStyle = `rgba(${colorBack},${colorBack},${colorBack}, 0.1)`;
+    //ctx.fillStyle = 'rgba(255,255,255, 0.2)';
+    //ctx.clearRect(0,0,400,400);
+    ctx.fillRect(0, 0, 200, 300);
+    ctx.fillStyle = '#888';
+    ctx.strokeStyle = '#888';
+    palleteIndex>=0 && stars[palleteIndex].forEach(star => star.draw(ctx));
+    ctx.restore();
+  };
+  const setIndex = (_index) => {
+    index = _index;
+    palleteIndex = backgroundConfig[index][0];
+    colorBack = backgroundConfig[index][1]*255;
+  };
+  setIndex(cIndex);
+  return {
+    canvas,
+    setIndex,
+    draw
+  }
 }
 
-window.setWingsDebug = (_wingsId) => {
-  previewDebug.removeChild(svgGenerated);
-  wingsId = _wingsId;
-  svgGenerated = renderShip( shapeId, wingsId);
-  previewDebug.appendChild(svgGenerated);
+const contexts = [];
+
+const backCovers = [
+  'discount',
+  'skulls',
+  'biohazard',
+  'lobby',
+  'target',
+  'trellis'
+];
+
+const getRandomshipConfig = () => { 
+  return {
+    shapeId: ~~(Math.random()*Object.keys(ENCODED_SHAPES).length),
+    wingsId: ~~(Math.random()*Object.keys(ENCODED_WINGS).length),
+    bgColor: ~~(Math.random()*10),
+    fgColor: ~~(Math.random()*10),
+    bgEffect: ~~(Math.random()*backgroundConfig.length),
+    pallete: ~~(Math.random()*palletes.length),
+    backCover: ~~(Math.random()*backCovers.length)
+  }
+};
+
+const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pallete=0, backCover=0 }) => {
+  let shipConfig = {
+    shapeId,
+    wingsId,
+    bgColor,
+    fgColor,
+    bgEffect,
+    pallete,
+    backCover
+  };
+  const cover = 'discount';
+  const cardElement = document.createElement('div');
+  cardElement.className = 'card';
+    const cardBackElement = document.createElement('div');
+      cardBackElement.className = `card-face ${ backCovers[backCover] } card-backing`;
+    cardElement.appendChild(cardBackElement);
+    
+    const cardFrontElement = document.createElement('div');
+      cardFrontElement.className = 'card-face card-front';
+      const canvasTest = createCanvasElement(bgEffect);
+        contexts.push(canvasTest.draw);
+      cardFrontElement.appendChild(canvasTest.canvas);
+      let svgGenerated = renderShip(shapeId, wingsId, bgColor, fgColor);
+      cardFrontElement.appendChild(svgGenerated);
+    cardElement.appendChild(cardFrontElement);
+    cardElement.onclick = e => {
+      const el = e.target;
+      e.stopPropagation();
+      if (cardElement.classList.contains('card--flipped')) {
+        cardElement.classList.add('card--unflip');
+        setTimeout(() => {
+          cardElement.classList.remove('card--flipped', 'card--unflip');
+        }, 500);
+      }
+      else { 
+        cardElement.classList.add("card--flipped");
+      }
+    }
+
+  return {
+    cardElement,
+    setShipConfiguration: (config) => {
+      shipConfig = {...shipConfig, ...config};
+      cardFrontElement.removeChild(svgGenerated);
+      svgGenerated = renderShip(shipConfig.shapeId, shipConfig.wingsId, shipConfig.bgColor, shipConfig.fgColor);
+      canvasTest.setIndex(shipConfig.bgEffect)
+      cardFrontElement.appendChild(svgGenerated);
+      
+      cardBackElement.className = `card-face ${ backCovers[shipConfig.backCover] } card-backing`;
+      // be careful to apply this only with the main card
+      changePallete(shipConfig.pallete);
+    }
+  };
+};
+
+if (DEBUG) {
+  console.log(decode(encode(ship8[0])));
+  ship8.forEach((svgLine)=>console.log(encode(svgLine)));
+  
+  fullcard.innerHTML = `
+    <span>Shape</span>
+    <a onclick='setShapeDebug(0)'>0</a>
+    <a onclick='setShapeDebug(1)'>1</a>
+    <a onclick='setShapeDebug(2)'>2</a>
+    <a onclick='setShapeDebug(3)'>3</a>
+    <a onclick='setShapeDebug(4)'>4</a>
+    <a onclick='setShapeDebug(5)'>5</a>
+    <a onclick='setShapeDebug(6)'>6</a>
+    <a onclick='setShapeDebug(7)'>7</a>
+    <a onclick='setShapeDebug(8)'>8</a>
+    <br>
+    <span>Wings</span>
+    <a onclick='setWingsDebug(0)'>0</a>
+    <a onclick='setWingsDebug(1)'>1</a>
+    <a onclick='setWingsDebug(2)'>2</a>
+    <a onclick='setWingsDebug(3)'>3</a>
+    <a onclick='setWingsDebug(4)'>4</a>
+    <a onclick='setWingsDebug(5)'>5</a>
+    <a onclick='setWingsDebug(6)'>6</a>
+    <a onclick='setWingsDebug(7)'>7</a>
+    <a onclick='setWingsDebug(8)'>8</a>
+    <a onclick='setWingsDebug(9)'>9</a>
+    <a onclick='setWingsDebug(10)'>10</a>
+    <a onclick='setWingsDebug(11)'>11</a>
+    <a onclick='setWingsDebug(12)'>12</a>
+    <br>
+    <div id='previewDebug' style='width=100%;display=block;height=40vh'></div>
+    <br>
+    <span>Color1</span>
+    <a onclick='setColorBgDebug(0)'>0</a>
+    <a onclick='setColorBgDebug(1)'>1</a>
+    <a onclick='setColorBgDebug(2)'>2</a>
+    <a onclick='setColorBgDebug(3)'>3</a>
+    <a onclick='setColorBgDebug(4)'>4</a>
+    <a onclick='setColorBgDebug(5)'>5</a>
+    <a onclick='setColorBgDebug(6)'>6</a>
+    <a onclick='setColorBgDebug(7)'>7</a>
+    <a onclick='setColorBgDebug(8)'>8</a>
+    <a onclick='setColorBgDebug(9)'>9</a>
+    <br>
+    <span>Color2</span>
+    <a onclick='setColorFgDebug(0)'>0</a>
+    <a onclick='setColorFgDebug(1)'>1</a>
+    <a onclick='setColorFgDebug(2)'>2</a>
+    <a onclick='setColorFgDebug(3)'>3</a>
+    <a onclick='setColorFgDebug(4)'>4</a>
+    <a onclick='setColorFgDebug(5)'>5</a>
+    <a onclick='setColorFgDebug(6)'>6</a>
+    <a onclick='setColorFgDebug(7)'>7</a>
+    <a onclick='setColorFgDebug(8)'>8</a>
+    <a onclick='setColorFgDebug(9)'>9</a>
+    <br>
+    <span>Pallete</span>
+    <br>
+    <a onclick='changePallete(0)'>0</a>
+    <a onclick='changePallete(1)'>1</a>
+    <a onclick='changePallete(2)'>2</a>
+    <a onclick='changePallete(3)'>3</a>
+    <a onclick='changePallete(4)'>4</a>
+    <a onclick='changePallete(5)'>5</a>
+    <a onclick='changePallete(6)'>6</a>
+    <a onclick='changePallete(7)'>7</a>
+    <a onclick='changePallete(8)'>8</a>
+    <a onclick='changePallete(9)'>9</a>
+    <a onclick='changePallete(10)'>10</a>
+    <a onclick='changePallete(11)'>11</a>
+    <a onclick='changePallete(12)'>12</a>
+    <a onclick='changePallete(13)'>13</a>
+    <a onclick='changePallete(14)'>14</a>
+    <a onclick='changePallete(15)'>15</a>
+    <a onclick='changePallete(16)'>16</a>
+    <a onclick='changePallete(17)'>17</a>
+    <br>
+    <span>Background</span>
+    <a onclick='setBackground(0)'>0</a>
+    <a onclick='setBackground(1)'>1</a>
+    <a onclick='setBackground(2)'>2</a>
+    <a onclick='setBackground(3)'>3</a>
+    <a onclick='setBackground(4)'>4</a>
+    <a onclick='setBackground(5)'>5</a>
+    <a onclick='setBackground(6)'>6</a>
+    <a onclick='setBackground(7)'>7</a>
+    <a onclick='setBackground(8)'>8</a>
+    <a onclick='setBackground(9)'>9</a>
+    <a onclick='setBackground(10)'>10</a>
+    <a onclick='setBackground(11)'>11</a>
+    <br>
+    <br>
+    <span>Back cover: </span>
+    <br>
+    <a onclick='setBackCover(0)'>${backCovers[0]}</a>
+    <a onclick='setBackCover(1)'>${backCovers[1]}<b/a>
+    <a onclick='setBackCover(2)'>${backCovers[2]}</a>
+    <a onclick='setBackCover(3)'>${backCovers[3]}</a>
+    <a onclick='setBackCover(4)'>${backCovers[4]}</a>
+    <a onclick='setBackCover(5)'>${backCovers[5]}</a>
+    <br>
+    <br>
+    <span>Select Card</span>
+    <br>
+    <div id='cardsSelector'></div>
+    <br>
+    <a class='button' onclick='randomConfig()'>randomProps<b/a>
+    <a class='button' onclick='randomConfig(true)'>all random<b/a>
+`;
+ 
+  let cards = [];
+  let selectedCard = 0;
+  window.setShapeDebug = (shapeId) => {
+    cards[selectedCard].setShipConfiguration({ shapeId });
+  }
+  window.setWingsDebug = (wingsId) => {
+    cards[selectedCard].setShipConfiguration({ wingsId });
+  }
+  window.setColorBgDebug = (bgColor) => {
+    cards[selectedCard].setShipConfiguration({ bgColor });
+  }
+  window.setColorFgDebug = (fgColor) => {
+    cards[selectedCard].setShipConfiguration({ fgColor });
+  }
+  window.changePallete = (pallete) => {
+    cards[selectedCard].setShipConfiguration({ pallete });
+  };
+  window.setBackground = (bgEffect) => {
+    cards[selectedCard].setShipConfiguration({ bgEffect });
+  };
+  window.setBackCover = (backCover) => {
+    cards[selectedCard].setShipConfiguration({ backCover });
+  };
+  window.chooseCard = (index) => {
+    selectedCard = index;
+    cards[selectedCard].setShipConfiguration({});
+  };
+
+  window.randomConfig = (all=false) => {
+    if (all) {
+      cards.forEach(card => card.setShipConfiguration(getRandomshipConfig()));
+    } else {
+      cards[selectedCard].setShipConfiguration(getRandomshipConfig());
+    }
+  };
+
+  
+  let shapeId = ~~(Math.random()*9);
+  let wingsId = ~~(Math.random()*13);
+  let bgColor = Math.ceil(Math.random()*10);
+  let fgColor = Math.ceil(Math.random()*10);
+  
+  const addCard = () => {
+    const card = createCard(getRandomshipConfig());
+    previewDebug.appendChild(card.cardElement);
+    cards.push(card);
+
+    const chooseCardLink = document.createElement('a');
+    chooseCardLink.setAttribute('onclick', `chooseCard(${cards.length - 1})`);
+    chooseCardLink.innerHTML = cards.length - 1;
+    cardsSelector.appendChild(chooseCardLink);
+  }
+  addCard();
+  addCard();
+  addCard();
+  addCard();
+  addCard();
+  addCard();
 }
 //wrapInCard(renderSVG(translateShip(ship7)));
 // renderSVG(document.body, translateShip(ship7));

@@ -29,6 +29,7 @@ const updatetime = () => {
 
 const divShip = document.getElementById('ship');
 divShip.onclick = (e) => {
+  const el = e.target;
   e.stopPropagation();
   if(divShip.classList.contains('card--flipped')) {
     divShip.classList.add('card--unflip');
@@ -41,11 +42,12 @@ divShip.onclick = (e) => {
   }
 };
 
+
 const backCardContext = d.getContext('2d');
-const stars = [];
+const starGroups = [[],[],[],[],[]];
 const addStar = () => {
   let x=~~(Math.random()*300), y=-50, vy=Math.random()*5+5;
-  stars.push({
+  starGroups[0].push({
     move: _=> y = y+vy>300?((vy=Math.random()*5 + 5)||-50):y+vy, draw:(ctx)=>ctx.fillRect(x, y, 2, 4)
   })
 }
@@ -62,7 +64,7 @@ const addExplodingStar = () => {
     vx=Math.cos(r)*speed; vy=Math.sin(r)*speed;
   };
   console.log(vx, vy);
-  stars.push({
+  starGroups[1].push({
     move: _=> {
       y += vy; x+= vx;
       if (y<0||y>300||x<0||x>200) {
@@ -89,7 +91,7 @@ const addRandomDimension = () => {
     x = 100;
     vx=speed;
   };
-  stars.push({
+  starGroups[2].push({
     move: _=> {
       x+= vx;
       if (x<0||x>200) {
@@ -98,8 +100,8 @@ const addRandomDimension = () => {
       return 1;
     }, draw:(ctx)=>{
       ctx.save();
-      backCardContext.fillStyle = '#999';
-      backCardContext.globalAlpha = 1- (200-x)/100;
+      //ctx.fillStyle = '#999';
+      ctx.globalAlpha = 1- (200-x)/100;
       ctx.fillRect(x, 0, 2, 300)
       ctx.fillRect(200-x, 0, 2, 300)
       ctx.restore();
@@ -110,7 +112,7 @@ const addRandomDimension = () => {
 const enterTheVoid = () => {
   let speed = Math.random()+1;
   let r = Math.random()*50;
-  stars.push({
+  starGroups[3].push({
     move: _=> {
       r += speed;
       if (r > 200) {
@@ -121,7 +123,7 @@ const enterTheVoid = () => {
       ctx.save();
       ctx.translate(100, 150);
       ctx.beginPath();
-      ctx.strokeStyle = '#eee';
+      //ctx.strokeStyle = '#eee';
       ctx.strokeWidth = 2;
       ctx.arc(0, 0, r, 0, 2 * Math.PI, false);
       ctx.stroke();
@@ -135,7 +137,7 @@ const increasingStars = () => {
   let r = Math.random()*200;
   let tangSpeed = 0.01;
   let angle = Math.random()*Math.PI*2;
-  stars.push({
+  starGroups[4].push({
     move: _=> {
       r += speed;
       angle += tangSpeed;
@@ -147,7 +149,7 @@ const increasingStars = () => {
       ctx.save();
       ctx.translate(100, 150);
       ctx.rotate(Math.PI*3/4);
-      backCardContext.strokeStyle = '#eee';
+      //ctx.strokeStyle = '#eee';
       ctx.strokeRect(-r, -r, r*2, r*2);
       ctx.restore();
     }
@@ -156,20 +158,24 @@ const increasingStars = () => {
 
 
 for (let i=0;i<10; i++){ addRandomDimension();}
-//for (let i=0;i<100; i++){ addExplodingStar();}
-//for (let i=0;i<100; i++){ addStar();}
-//for (let i=0;i<10; i++){ increasingStars();}
-//for (let i=0;i<30; i++){ enterTheVoid();}
+for (let i=0;i<100; i++){ addExplodingStar();}
+for (let i=0;i<100; i++){ addStar();}
+for (let i=0;i<10; i++){ increasingStars();}
+for (let i=0;i<30; i++){ enterTheVoid();}
 
 
 var playing = true;
 var playing = true;
 const loopStars = () => {
   backCardContext.fillStyle = 'rgba(0,0,0, 0.2)';
+  //backCardContext.fillStyle = 'rgba(255,255,255, 0.2)';
   //backCardContext.clearRect(0,0,400,400);
-  backCardContext.fillRect(0, 0, 400, 300);
-  backCardContext.fillStyle = '#888';
-  stars.forEach(star=>star.move() && star.draw(backCardContext));
+  backCardContext.fillRect(0, 0, 200, 300);
+  backCardContext.fillStyle = '#999';
+  starGroups.forEach(stars=>stars.forEach(star=>star.move()));
+  contexts.forEach(fn => {
+    fn(starGroups)
+  });
 };
 
 if (DEBUG) {

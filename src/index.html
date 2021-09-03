@@ -36,6 +36,7 @@
                 0.6 1 315 2 1 brightness(0.75) sepia(1) hue-rotate(315deg) saturate(8) invert(1)
             */
             filter: brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0);
+            
         }
         h1, h2, h3 {
             margin: 0;
@@ -311,11 +312,12 @@
             display: block;
             image-rendering: pixelated
         }
-        #d {
-            width: 100%;
-            height: 100%;
+        .card canvas {
+            width: 102%;
+            height: 102%;
             position: absolute;
-            top: 0;
+            top: -1;
+            left: -1;
             right: auto;
             z-index: -5;
         }
@@ -577,33 +579,25 @@
 	background-size: 10em;
 }
 
+#fullcard {
+    font-size: 70%;
+}
+#fullcard a {
+    padding: 1%;
+}
+#fullcard .card {
+    width: 30%;
+    margin: 1.5%;
+    height: 30%;
+}
 #previewDebug {
     position: relative;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-}
-#previewDebug:before{
-    content: '';
+    float:left;
     width: 100%;
-    height: 2px;
-    background: white;
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 50%;
-}
-
-#previewDebug:after {
-    content: '';
-    width: 2px;
-    height: 100%;
-    background: white;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 50%;
 }
     </style>
 </head>
@@ -611,6 +605,12 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" style='width:0;height:0'>
         <defs>
             <!-- http://tutorials.jenkov.com/svg/fill-patterns.html -->
+            <pattern id="pattern0"
+                    x="0" y="0" width="1" height="1"
+                    patternUnits="userSpaceOnUse"
+                >
+                    <rect width="1" height="1" style="fill:#fff3ff" />
+                </pattern>
             <pattern id="pattern1"
                      width="3" height="3"
                      patternTransform="rotate(45)"
@@ -691,13 +691,6 @@
                 >
                     <rect width="1" height="1" style="fill:#111" />
                 </pattern>
-                
-                <pattern id="pattern10"
-                    x="0" y="0" width="1" height="1"
-                    patternUnits="userSpaceOnUse"
-                >
-                    <rect width="1" height="1" style="fill:#fff3ff" />
-                </pattern>
         </defs>
     </svg>
     <div id='main' >
@@ -723,7 +716,7 @@
                 <span>REMAINING SHIPS: 8</span>
             </div>
             <div id='ship' class='card card--flipped'>
-                <div class="card-face trellis card-backing">
+                <div class="card-face discount card-backing">
                 </div>
                 <div class="card-face card-front">
                     <canvas id='d' height="300" width="200"></canvas>
@@ -792,28 +785,7 @@
             </div>
             <a class='' href='#' onclick='back()'>back</a>
         </div>
-        <div id='fullcard' class='page'>
-            <h2>Shape</h2>
-            <a onclick='setShapeDebug(0)'>0</a>
-            <a onclick='setShapeDebug(1)'>1</a>
-            <a onclick='setShapeDebug(2)'>2</a>
-            <a onclick='setShapeDebug(3)'>3</a>
-            <a onclick='setShapeDebug(4)'>4</a>
-            <a onclick='setShapeDebug(5)'>5</a>
-            <a onclick='setShapeDebug(6)'>6</a>
-            <a onclick='setShapeDebug(7)'>7</a>
-            <a onclick='setShapeDebug(8)'>8</a>
-            <h2>Wings</h2>
-            <a onclick='setWingsDebug(0)'>0</a>
-            <a onclick='setWingsDebug(1)'>1</a>
-            <a onclick='setWingsDebug(2)'>2</a>
-            <a onclick='setWingsDebug(3)'>3</a>
-            <a onclick='setWingsDebug(4)'>4</a>
-            <a onclick='setWingsDebug(5)'>5</a>
-            <a onclick='setWingsDebug(6)'>6</a>
-            <a onclick='setWingsDebug(7)'>7</a>
-            <a onclick='setWingsDebug(8)'>8</a>
-            <div id='previewDebug' style='height: 40vh;border: 1px solid;width: 30vh;margin: 0 auto;'></div>
+        <div id='fullcard' class='page hide'>
         </div>
     </div>
     <div id='overlay'></div>

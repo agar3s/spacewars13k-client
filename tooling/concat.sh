@@ -16,7 +16,7 @@ fi;
 #cat src/setup/definitions.js
 
 # libs
-#cat lib/utils.js
+cat lib/utils.js
 #cat lib/jsfxr.js
 #cat lib/audio.js
 #cat lib/webgl.js
@@ -24,6 +24,7 @@ fi;
 
 # game engine declaration
 cat src/ships/descriptors.js
+cat src/ships/generator.js
 cat src/ui/ui.js
 cat src/ui/miniGame.js
 #cat src/setup/generatedSprites.js
