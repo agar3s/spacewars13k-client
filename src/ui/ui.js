@@ -155,11 +155,11 @@ const increasingStars = () => {
 }
 
 
-//for (let i=0;i<10; i++){ addRandomDimension();}
+for (let i=0;i<10; i++){ addRandomDimension();}
 //for (let i=0;i<100; i++){ addExplodingStar();}
 //for (let i=0;i<100; i++){ addStar();}
 //for (let i=0;i<10; i++){ increasingStars();}
-for (let i=0;i<30; i++){ enterTheVoid();}
+//for (let i=0;i<30; i++){ enterTheVoid();}
 
 
 var playing = true;
@@ -173,5 +173,5 @@ const loopStars = () => {
 };
 
 if (DEBUG) {
-  changePage('game');
+  changePage('fullcard');
 }

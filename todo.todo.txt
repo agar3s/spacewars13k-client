@@ -5,14 +5,12 @@
 +- 10 foreground
 +- 10 background
 +- 6 back
-
-
-- 9 wings
++- 9 wings
++- import svg wings
 
 - es posible que las naves requieran una posicion para el viewport  
 - load the svg ship from code
 - load the svg wings from code
-- import svg wings
 - click on arsenal set the hand
 - extract card component
 
