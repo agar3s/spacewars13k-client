@@ -23,8 +23,8 @@ cat src/lib/utils.js
 #cat lib/keyboardController.js
 
 # game engine declaration
-cat src/ships/descriptors.js
 cat src/ships/generator.js
+cat src/ships/descriptors.js
 cat src/ui/ui.js
 cat src/ui/miniGame.js
 #cat src/setup/generatedSprites.js

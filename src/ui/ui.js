@@ -42,6 +42,19 @@ divShip.onclick = (e) => {
   }
 };
 
+window.oncardClicked = (target) => {
+  if(target.classList.contains('card--flipped')) {
+    target.classList.add('card--unflip');
+    setTimeout(() => {
+      target.classList.remove('card--flipped', 'card--unflip');
+    }, 500);
+  }
+  else { 
+    target.classList.add("card--flipped");
+  }
+}
+
+
 
 const backCardContext = d.getContext('2d');
 const starGroups = [[],[],[],[],[]];
@@ -178,6 +191,22 @@ const loopStars = () => {
   });
 };
 
-if (DEBUG) {
-  changePage('fullcard');
+
+// init code
+const initialization = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const id = parseInt(urlParams.get('id'));
+  if (isNaN(id) || id < 0 || id >= 13*1024) return;
+  changePage('viewCard');
+  const adn = codesToShip[id];
+  const config = adnToShipConfig(adn);
+  const card = createCard(config);
+  viewCard.appendChild(card.cardElement);
+  card.cardElement.classList.add('card--flipped');
 }
+
+if (DEBUG) {
+  changePage('game');
+}
+initialization();

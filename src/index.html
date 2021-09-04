@@ -13,7 +13,7 @@
             background: #111;
             margin: 0;
             padding: 0;
-            text-shadow: 2px 0 0 #ff21bd85, -2px 0 0 #5cf14e9f;
+            text-shadow: 0.1vh 0 0 #ff21bd85, -0.1vh 0 0 #5cf14e9f;
             /**colors
                 goood trick found in: https://css-tricks.com/solved-with-css-colorizing-svg-backgrounds/
                 1.0 0   0 0 0 brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0)
@@ -162,13 +162,16 @@
             /* overflow: hidden; */
             width: 35%;
             height: 35%;
-            border: 0.8vh solid #fff3ff;
-            border-radius: 2%;
             background: #111;
             transition: 0.3s;
             transform-style: preserve-3d;
             transform: rotateY(180deg);
-
+            border-radius: 2vh;
+            
+        }
+        .card svg {
+            border: 0.8vh solid #fff3ff;
+            border-radius: 2vh;
         }
         .card.card--flipped {
             animation: cardFlip .275s forwards linear;
@@ -191,6 +194,8 @@
             display: flex;
             flex-direction: column;
             transform: rotateY(180deg);
+            border: 0.8vh solid #fff3ff;
+            border-radius: 2vh;
         }
         
         @keyframes cardFlip {
@@ -262,25 +267,26 @@
         .arsenal {
             width: 16%;
             height: 37%;
-            border: 0.4vh solid #fff3ff;
             margin: 2% 1.55%;
             transition: 0.3s;
             display: block;
             float: left;
-            overflow: hidden;
             font-size: 50%;
             text-align: center;
             position: relative;
+            border-radius: 1vh;
+        }
+        .card.arsenal svg, .card.arsenal .card-face {
+            border: 0.2vh solid #fff3ff;
+            border-radius: 1vh;
         }
         .arsenal.selected {
-            border-style: double;
             color: #111;
             background: #ffffff;
             text-shadow: 0 0 0.1vh #fff, 0 0 0.2vh #fff, 0 0 0.3vh #fff3ff, 0 0 0.4vh #fff3ff, 0 0 0.5vh #fff3ff;
         }
         .arsenal:hover {
             cursor: pointer;
-            border: 0.6vh solid #fff3ff;
             box-shadow: 0px 0px 20px gray;
         }
         .arsenal .order {
@@ -313,13 +319,14 @@
             image-rendering: pixelated
         }
         .card canvas {
-            width: 102%;
-            height: 102%;
+            width: 100%;
+            height: 100%;
             position: absolute;
             top: -1;
             left: -1;
             right: auto;
             z-index: -5;
+            border-radius: 2vh;
         }
 /** patterns modified from https://codepen.io/lunamatic/pen/MBaXwB*/
         .discount {
@@ -521,7 +528,7 @@
 			#e3e3e3 3.4vh,
 			transparent 0.415vh,
 			transparent 10vh);
-	background-size: 32vh 32vh;
+	background-size: 50vh 50vh;
 }
 
 .lobby {
@@ -543,7 +550,7 @@
 			transparent 0.98vh,
 			#333 0.98vh,
 			#333 0.6vh);
-	background-size: 60vh 60vh;
+	background-size: 60vh 100vh;
 }
 
 .target {
@@ -579,15 +586,15 @@
 	background-size: 10em;
 }
 
-#fullcard {
+#debugView {
     font-size: 75%;
     font-weight: 100;
     overflow: visible;
 }
-#fullcard a {
+#debugView a {
     padding: 0.7%;
 }
-#fullcard .card {
+#debugView .card {
     width: 30%;
     margin: 1.5%;
     height: 30%;
@@ -606,6 +613,18 @@
     font-size: 4vh;
     width: 15vh;
 }
+#viewCard .card {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    float: none;
+    margin: auto;
+}
+
     </style>
 </head>
 <body class='spectrum-background'>
@@ -765,35 +784,72 @@
             <div id='hand'>
                 <h3>ARSENAL</h3>
                 <div id='group'>
-                    <div class='arsenal'>
-                        <div class='order'>3</div>
-                        <code>SCISSORS</code>
-                    </div>
-                    <div class='arsenal selected'>
+                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
                         <div class='order'>2</div>
-                        <code>PAPER</code>
+                        <div class="card-face card-backing ">
+                        </div>
+                        <div class="card-face card-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="rock">
+                                <g>
+                                  <path class="cls-1" d="M 15 17 c -1 2 2 5 5 3 a 21 20 0 0 0 4 -6 m -14 1 c 0 1 5 8 8 -5 m 3 9 c -1 4 4 4 5 3 0 0 3 -4 4 -8 M 12 23 a 20 10 -50 0 0 -6 -7 c 2 -2 4 -3 9 -3 3 -0 5 -6 -1 -6 -0 -0 -6 0 -11 3 C 0 13 -5 31 15 31 c 9 0 15 -10 15 -16 0 -4 -3 -5 -5 -3 M 25 12 a 2 2 0 0 0  -6 -3 c 2 -4 -3 -6 -5 -4 1 -3 -4 -6 -8 -2 -3 3 -5 12 -5 11 m 7 -8 L 7 8"/>
+                                </g>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
+                                <g id="Capa_2" data-name="Capa 2">
+                                  <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                </g>
+                            </svg>
+                        </div>
                     </div>
-                    <div class='arsenal'>
-                        <code>ROCK</code>
+                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                        <div class="card-face discount card-backing">
+                        </div>
+                        <div class="card-face card-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
+                                <g id="Capa_2" data-name="Capa 2">
+                                  <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                </g>
+                            </svg>
+                        </div>
                     </div>
-                    <div class='arsenal selected'>
-                        <div class='order'>1</div>
-                        <code>SCISSORS</code>
-                        <code class='sub'>PAPER</code>
+                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                        <div class="card-face discount card-backing">
+                        </div>
+                        <div class="card-face card-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
+                                <g id="Capa_2" data-name="Capa 2">
+                                  <path class="cls-1" d="M 18 35 c -2 -7 -7 -7 -9 -8 a 14 14 0 0 1 -3 -3 c -5 -5 -7 1 -4 3 3 2 6 4 6 7 C 9 43 22 44 26 42 c 7 -4 2 -11 13 -28 2 -3 -2 -5 -3 -2 -4 7 -5 10 -6 10 -1 0 -1 -4 1 -16 a 2 2 0 1 0 -4 -1 c -2 11 -2 16 -4 15 -1 0 -1 -5 -1 -17 0 -3 -5 -4 -5 0 0 12 1 17 -1 17 -2 0 -2 -4 -4 -15 C 12 2 7 3 8 6 c 2 10 4 18 2 21"/>
+                                </g>
+                              </svg>
+                        </div>
                     </div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
-                    <div class='arsenal'></div>
+                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                        <div class="card-face discount card-backing">
+                        </div>
+                        <div class="card-face card-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
+                                <g id="Capa_2" data-name="Capa 2">
+                                </g>
+                              </svg>
+                        </div>
+                    </div>
+                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                        <div class="card-face discount card-backing">
+                        </div>
+                        <div class="card-face card-front">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
+                                <g id="Capa_2" data-name="Capa 2">
+                                </g>
+                              </svg>
+                        </div>
+                    </div>
                 </div>
                 <a class='button' href='#'>SET</a>
             </div>
             <a class='' href='#' onclick='back()'>back</a>
         </div>
-        <div id='fullcard' class='page hide'>
-        </div>
+        <div id='viewCard' class='page hide'></div>
+        <div id='debugView' class='page hide'></div>
     </div>
     <div id='overlay'></div>
     <script src="b.js"></script>

@@ -598,6 +598,8 @@ const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pa
         cardElement.classList.add("card--flipped");
       }
     }
+  
+  changePallete(shipConfig.pallete);
 
   return {
     cardElement,
@@ -615,11 +617,13 @@ const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pa
   };
 };
 
+ShipGeneration();
+
 if (DEBUG) {
   console.log(decode(encode(ship8[0])));
   ship8.forEach((svgLine)=>console.log(encode(svgLine)));
   
-  fullcard.innerHTML = `
+  debugView.innerHTML = `
     <div id='previewDebug' style='width=100%;display=block;height=40vh'></div>
     <span>Shape: </span>
     <a onclick='setShapeDebug(0)'>0</a>
@@ -717,6 +721,7 @@ if (DEBUG) {
     <br>
     <a class='button' onclick='randomConfig()'>randomProps</a>
     <a class='button' onclick='randomConfig(true)'>all random</a>
+    <a class='button' onclick='addCard()'>add card</a>
     <br>
     <a class='button' onclick='loadById()'>
       load by id
@@ -817,13 +822,12 @@ if (DEBUG) {
     cardsSelector.appendChild(chooseCardLink);
   }
 
-  const total = 2;
+  const total = 0;
   for (let i = 0; i < total; i++) {
     addCard();
   }
 
-  window.ShipGeneration = ShipGeneration;
-  setTimeout(window.ShipGeneration, 100);
+  window.addCard = addCard;
 }
 //wrapInCard(renderSVG(translateShip(ship7)));
 // renderSVG(document.body, translateShip(ship7));
