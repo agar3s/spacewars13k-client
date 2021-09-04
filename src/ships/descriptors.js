@@ -483,6 +483,83 @@ const getRandomshipConfig = () => {
   }
 };
 
+const codesToShip = [];
+const getConfigWithSeed = (id) => {
+  const rnd = pseudoRandom(id);
+  const config = {
+    shapeId: getRandomIndexProb(rnd, shipShapesChances),
+    wingsId: getRandomIndexProb(rnd, shipWingsChances),
+    bgColor: getRandomIndexProb(rnd, shipBGColorsChances),
+    fgColor: getRandomIndexProb(rnd, shipFGColorsChances),
+    bgEffect: getRandomIndexProb(rnd, shipBGEffectChances),
+    pallete: getRandomIndexProb(rnd, shipPalleteChances),
+    backCover: getRandomIndexProb(rnd, shipBackCoverChances)
+  }
+  const encodeADN = index => index.toString(16);
+  let adn = `${encodeADN(config.shapeId)}`;
+  adn += `${encodeADN(config.wingsId)}`;
+  adn += `${encodeADN(config.bgColor)}`;
+  adn += `${encodeADN(config.fgColor)}`;
+  adn += `${encodeADN(config.bgEffect)}`;
+  adn += `${encodeADN(config.pallete)}`;
+  adn += `${encodeADN(config.backCover)}`;
+  config.adn = adn;
+  return config;
+};
+
+const shipsShapesDistribution = {};
+const shipsWingsDistribution = {};
+const shipsBGColorDistribution = {};
+const shipsFGColorDistribution = {};
+const shipBGEffectDistribution = {};
+const shipPalleteDistribution = {};
+const shipBackCoverDistribution = {};
+
+const ShipGeneration = () => {
+  let collisions = 0;
+  let addToDistribution = (distribution, value) => {
+    if (!distribution[value]) {
+      distribution[value] = 0;
+    }
+    distribution[value] += 1;
+  }
+  const ships = {};
+  const shipsToGenerate = 13*1024
+  for (let i = 0; codesToShip.length < shipsToGenerate; i++) {
+    const config = getConfigWithSeed(i);
+  
+    
+    const key = config.adn.substring(0,5);
+    if (!ships[key]) {
+      ships[key] = 1;
+      codesToShip.push(config.adn);
+      addToDistribution(shipsShapesDistribution, config.shapeId);
+      addToDistribution(shipsWingsDistribution, config.wingsId);
+      addToDistribution(shipsBGColorDistribution, config.bgColor);
+      addToDistribution(shipsFGColorDistribution, config.fgColor);
+      addToDistribution(shipBGEffectDistribution, config.bgEffect);
+      addToDistribution(shipPalleteDistribution, config.pallete);
+      addToDistribution(shipBackCoverDistribution, config.backCover);
+    } else {
+      collisions += 1;
+      ships[key] += 1;
+    }
+  }
+}
+
+const adnToShipConfig = (adn) => {
+  const pieces = adn.split('').map(code=>parseInt(code, 16));
+  return {
+    shapeId: pieces[0],
+    wingsId: pieces[1],
+    bgColor: pieces[2],
+    fgColor: pieces[3],
+    bgEffect: pieces[4],
+    pallete: pieces[5],
+    backCover: pieces[6]
+  }
+}
+
 const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pallete=0, backCover=0 }) => {
   let shipConfig = {
     shapeId,
@@ -543,7 +620,8 @@ if (DEBUG) {
   ship8.forEach((svgLine)=>console.log(encode(svgLine)));
   
   fullcard.innerHTML = `
-    <span>Shape</span>
+    <div id='previewDebug' style='width=100%;display=block;height=40vh'></div>
+    <span>Shape: </span>
     <a onclick='setShapeDebug(0)'>0</a>
     <a onclick='setShapeDebug(1)'>1</a>
     <a onclick='setShapeDebug(2)'>2</a>
@@ -554,7 +632,7 @@ if (DEBUG) {
     <a onclick='setShapeDebug(7)'>7</a>
     <a onclick='setShapeDebug(8)'>8</a>
     <br>
-    <span>Wings</span>
+    <span>Wings: </span>
     <a onclick='setWingsDebug(0)'>0</a>
     <a onclick='setWingsDebug(1)'>1</a>
     <a onclick='setWingsDebug(2)'>2</a>
@@ -569,9 +647,7 @@ if (DEBUG) {
     <a onclick='setWingsDebug(11)'>11</a>
     <a onclick='setWingsDebug(12)'>12</a>
     <br>
-    <div id='previewDebug' style='width=100%;display=block;height=40vh'></div>
-    <br>
-    <span>Color1</span>
+    <span>BGcolor: </span>
     <a onclick='setColorBgDebug(0)'>0</a>
     <a onclick='setColorBgDebug(1)'>1</a>
     <a onclick='setColorBgDebug(2)'>2</a>
@@ -583,7 +659,7 @@ if (DEBUG) {
     <a onclick='setColorBgDebug(8)'>8</a>
     <a onclick='setColorBgDebug(9)'>9</a>
     <br>
-    <span>Color2</span>
+    <span>FGcolor: </span>
     <a onclick='setColorFgDebug(0)'>0</a>
     <a onclick='setColorFgDebug(1)'>1</a>
     <a onclick='setColorFgDebug(2)'>2</a>
@@ -595,8 +671,7 @@ if (DEBUG) {
     <a onclick='setColorFgDebug(8)'>8</a>
     <a onclick='setColorFgDebug(9)'>9</a>
     <br>
-    <span>Pallete</span>
-    <br>
+    <span>Pallete: </span>
     <a onclick='changePallete(0)'>0</a>
     <a onclick='changePallete(1)'>1</a>
     <a onclick='changePallete(2)'>2</a>
@@ -616,7 +691,7 @@ if (DEBUG) {
     <a onclick='changePallete(16)'>16</a>
     <a onclick='changePallete(17)'>17</a>
     <br>
-    <span>Background</span>
+    <span>Background: </span>
     <a onclick='setBackground(0)'>0</a>
     <a onclick='setBackground(1)'>1</a>
     <a onclick='setBackground(2)'>2</a>
@@ -630,9 +705,7 @@ if (DEBUG) {
     <a onclick='setBackground(10)'>10</a>
     <a onclick='setBackground(11)'>11</a>
     <br>
-    <br>
     <span>Back cover: </span>
-    <br>
     <a onclick='setBackCover(0)'>${backCovers[0]}</a>
     <a onclick='setBackCover(1)'>${backCovers[1]}<b/a>
     <a onclick='setBackCover(2)'>${backCovers[2]}</a>
@@ -640,13 +713,24 @@ if (DEBUG) {
     <a onclick='setBackCover(4)'>${backCovers[4]}</a>
     <a onclick='setBackCover(5)'>${backCovers[5]}</a>
     <br>
+    <div id='cardsSelector'><span>Select Card: </span></div>
     <br>
-    <span>Select Card</span>
+    <a class='button' onclick='randomConfig()'>randomProps</a>
+    <a class='button' onclick='randomConfig(true)'>all random</a>
     <br>
-    <div id='cardsSelector'></div>
+    <a class='button' onclick='loadById()'>
+      load by id
+      <input id='shipid' type='number' value='0'/>
+    </a>
     <br>
-    <a class='button' onclick='randomConfig()'>randomProps<b/a>
-    <a class='button' onclick='randomConfig(true)'>all random<b/a>
+    <span id='adn-debug'></span></br>
+    <span id='shapeId-id-prob'>shapeId: </span></br>
+    <span id='wingsId-id-prob'>wingsId: </span></br>
+    <span id='bgColor-id-prob'>bgColor: </span></br>
+    <span id='fgColor-id-prob'>fgColor: </span></br>
+    <span id='bgEffect-id-prob'>bgEffect: </span></br>
+    <span id='pallete-id-prob'>pallete: </span></br>
+    <span id='backCover-id-prob'>backCover: </span>
 `;
  
   let cards = [];
@@ -684,6 +768,37 @@ if (DEBUG) {
       cards[selectedCard].setShipConfiguration(getRandomshipConfig());
     }
   };
+  
+
+  const setProbText = ( key, dis, config) => {
+    const value = config[key];
+    const percentage = ((dis[config[key]]*100)/13312).toFixed(2);
+    console.log(key, `${key}-id-prob`);
+    document.getElementById(`${key}-id-prob`).innerHTML = `${ key }: ${ percentage }% ships have this property`;
+  }
+  window.loadById = () => {
+    const adn = codesToShip[parseInt(shipid.value)];
+    const config = adnToShipConfig(adn);
+    cards.forEach(card=>card.setShipConfiguration(config));
+    document.getElementById('adn-debug').innerHTML = adn;
+    setProbText('shapeId', shipsShapesDistribution, config);
+    setProbText('wingsId', shipsWingsDistribution, config);
+    setProbText('bgColor', shipsBGColorDistribution, config);
+    setProbText('fgColor', shipsFGColorDistribution, config);
+    setProbText('bgEffect', shipBGEffectDistribution, config);
+    setProbText('pallete', shipPalleteDistribution, config);
+    setProbText('backCover', shipBackCoverDistribution, config);
+  };
+  
+  // let i = 999999;
+  // setInterval(()=> {
+  //   if (++i > 13*1024) i=0;
+  //   shipid.value = i;
+  //   const adn = codesToShip[i];
+  //   const config = adnToShipConfig(adn);
+  //   cards.forEach(card=>card.setShipConfiguration(config));
+  //   document.getElementById('adn-debug').innerHTML = adn;
+  // }, 500)
 
   
   let shapeId = ~~(Math.random()*9);
@@ -701,12 +816,14 @@ if (DEBUG) {
     chooseCardLink.innerHTML = cards.length - 1;
     cardsSelector.appendChild(chooseCardLink);
   }
-  addCard();
-  addCard();
-  addCard();
-  addCard();
-  addCard();
-  addCard();
+
+  const total = 2;
+  for (let i = 0; i < total; i++) {
+    addCard();
+  }
+
+  window.ShipGeneration = ShipGeneration;
+  setTimeout(window.ShipGeneration, 100);
 }
 //wrapInCard(renderSVG(translateShip(ship7)));
 // renderSVG(document.body, translateShip(ship7));

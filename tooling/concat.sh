@@ -16,7 +16,7 @@ fi;
 #cat src/setup/definitions.js
 
 # libs
-cat lib/utils.js
+cat src/lib/utils.js
 #cat lib/jsfxr.js
 #cat lib/audio.js
 #cat lib/webgl.js
