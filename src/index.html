@@ -14,27 +14,6 @@
             margin: 0;
             padding: 0;
             text-shadow: 0.1vh 0 0 #ff21bd85, -0.1vh 0 0 #5cf14e9f;
-            /**colors
-                goood trick found in: https://css-tricks.com/solved-with-css-colorizing-svg-backgrounds/
-                1.0 0   0 0 0 brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0)
-                1.0 0   0 0 1 brightness(0.95) sepia(0.5) hue-rotate(108deg) saturate(0.5) brightness(0.9) invert(1)
-                0.6 1   0 2 0 brightness(0.7) sepia(1) hue-rotate(0deg) saturate(5) brightness(1.1) invert(0)
-                0.6 1  45 2 0 brightness(0.7) sepia(1) hue-rotate(45deg) saturate(1) brightness(1.3) invert(0)
-                0.6 1  90 2 0 brightness(0.6) sepia(1) hue-rotate(90deg) saturate(3) brightness(1.1) invert(0)
-                0.6 1 135 2 0 brightness(0.4) sepia(1) hue-rotate(135deg) saturate(11) brightness(1.1) invert(0)
-                0.6 1 180 2 0 brightness(0.6) sepia(1) hue-rotate(180deg) saturate(6) brightness(1.3) invert(0)
-                0.6 1 225 2 0 brightness(0.12) sepia(1) hue-rotate(225deg) saturate(3) brightness(3.9) invert(0)
-                0.6 1 270 2 0 brightness(0.4) sepia(1) hue-rotate(270deg) saturate(3) brightness(1.2) invert(0)
-                0.6 1 315 2 0 brightness(0.4) sepia(1) hue-rotate(320deg) saturate(4) brightness(1.3) invert(0)
-                0.6 1   0 2 1 brightness(0.4) sepia(1) hue-rotate(0deg) saturate(3) invert(1)
-                0.6 1  45 2 1 brightness(0.5) sepia(1) hue-rotate(45deg) saturate(2) invert(1)
-                0.6 1  90 2 1 brightness(0.6) sepia(1) hue-rotate(90deg) saturate(3) invert(1)
-                0.6 1 135 2 1 brightness(0.5) sepia(1) hue-rotate(135deg) saturate(5) invert(1)
-                0.6 1 180 2 1 brightness(0.83) sepia(1) hue-rotate(180deg) saturate(18) invert(1)
-                0.6 1 225 2 1 brightness(0.65) sepia(1) hue-rotate(225deg) saturate(6) invert(1)
-                0.6 1 270 2 1 brightness(0.4) sepia(1) hue-rotate(270deg) saturate(5) invert(1)
-                0.6 1 315 2 1 brightness(0.75) sepia(1) hue-rotate(315deg) saturate(8) invert(1)
-            */
             filter: brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0);
             
         }
@@ -275,6 +254,9 @@
             text-align: center;
             position: relative;
             border-radius: 1vh;
+        }
+        .card-face {
+            height: 100%;
         }
         .card.arsenal svg, .card.arsenal .card-face {
             border: 0.2vh solid #fff3ff;
@@ -624,6 +606,30 @@
     float: none;
     margin: auto;
 }
+.card-container  {
+    display: block;
+    float: left;
+}
+.card-container, .card-container svg {
+    width: 20vh;
+    height: 28vh;
+}
+#viewBattle .arsenal {
+    width: 4vh;
+    height: 6vh;
+    float: none;
+    margin: 0;
+}
+.turn div {
+    display: inline-block;
+}
+
+#battles {
+    float: left;
+    width: 100%;
+    height: 66%;
+    padding: 2vh 0 0 0;
+}
 
     </style>
 </head>
@@ -814,6 +820,11 @@
                     </div>
                     <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
                         <div class="card-face discount card-backing">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
+                                <g id="Capa_2" data-name="Capa 2">
+                                    <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                </g>
+                              </svg>
                         </div>
                         <div class="card-face card-front">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
@@ -849,6 +860,135 @@
             <a class='' href='#' onclick='back()'>back</a>
         </div>
         <div id='viewCard' class='page hide'></div>
+        <div id='viewBattle' class='page hide'>
+            <div class='card-container' style='width: 50%;'>
+                <div id='' class='card card--flipped'>
+                    <div class="card-face discount card-backing">
+                    </div>
+                    <div class="card-face card-front">
+                        <canvas id='' height="300" width="200"></canvas>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200" class="cls-1">
+                            <g transform="translate(0, -30)">
+                                <g transform="translate(-2.5, 52) scale(0.85)">
+                                    <g transform="translate(-45, 0)">
+                                        <path fill="url(#pattern4)" d="M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z"></path>
+                                        <path fill="url(#pattern2)" d="M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z"></path>
+                                        <path fill="url(#pattern4)" d="M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z"></path>
+                                        <path fill="url(#pattern2)" d="M 19 30 l 2 -4 8 3 2 6 z"></path>
+                                    </g>
+                                    <g transform="scale(-1, 1) translate(-90, 0)">
+                                        <path fill="url(#pattern4)" d="M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z"></path>
+                                        <path fill="url(#pattern2)" d="M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z"></path>
+                                        <path fill="url(#pattern4)" d="M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z"></path>
+                                        <path fill="url(#pattern2)" d="M 19 30 l 2 -4 8 3 2 6 z"></path>
+                                    </g>
+                                </g>
+                                <g transform="translate(-11, 30) scale(1)">
+                                    <path fill="url(#pattern4)" d="M 28 0 c -9 11 -11 25 -11 25 V 83 h 23 V 26 S 37 11 28 0 z"/>
+                                    <path fill="url(#pattern4)" d="M 22 54 s -4 11 -12 17 -9 14 -9 14 h 21 z m 13 0 s 4 11 12 17 9 14 9 14 H 34 z M 22 85 h 13 v 8 h -13 z"/>
+                                    <path fill="url(#pattern2)" d="M 28 32 c -8 4 -8 25 -8 25 v 30 h 17 V 57 s 0 -21 -8 -25 z"/>
+                                    <path fill="url(#pattern4)" d="M 30 97 h -3 V 70 a 1 1 0 0 1 1 -1 1 1 0 0 1 1 1 z M 20 63 l 4 2 v 9 l -4 2 V 63 z m 17 0 -4 2 v 9 l 4 2 V 63 z"/>
+                                    <path fill="url(#pattern2)" d="M 11 85 v -7 m 4 7 V 74 m 29 11 v -7 m -4 7 V 74"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class='card-container' style='width: 50%;'>
+                <div id='' class='card card--flipped'>
+                    <div class="card-face discount card-backing">
+                    </div>
+                    <div class="card-face card-front">
+                        <canvas id='' height="300" width="200"></canvas>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200" class="cls-1">
+                            <g transform="translate(0, -30)">
+                                <g transform="translate(-2.5, 52) scale(0.85)">
+                                    <g transform="translate(-45, 0)">
+                                        <path fill="url(#pattern4)" d="M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z"></path>
+                                        <path fill="url(#pattern2)" d="M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z"></path>
+                                        <path fill="url(#pattern4)" d="M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z"></path>
+                                        <path fill="url(#pattern2)" d="M 19 30 l 2 -4 8 3 2 6 z"></path>
+                                    </g>
+                                    <g transform="scale(-1, 1) translate(-90, 0)">
+                                        <path fill="url(#pattern4)" d="M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z"></path>
+                                        <path fill="url(#pattern2)" d="M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z"></path>
+                                        <path fill="url(#pattern4)" d="M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z"></path>
+                                        <path fill="url(#pattern2)" d="M 19 30 l 2 -4 8 3 2 6 z"></path>
+                                    </g>
+                                </g>
+                                <g transform="translate(-11, 30) scale(1)">
+                                    <path fill="url(#pattern4)" d="M 28 0 c -9 11 -11 25 -11 25 V 83 h 23 V 26 S 37 11 28 0 z"/>
+                                    <path fill="url(#pattern4)" d="M 22 54 s -4 11 -12 17 -9 14 -9 14 h 21 z m 13 0 s 4 11 12 17 9 14 9 14 H 34 z M 22 85 h 13 v 8 h -13 z"/>
+                                    <path fill="url(#pattern2)" d="M 28 32 c -8 4 -8 25 -8 25 v 30 h 17 V 57 s 0 -21 -8 -25 z"/>
+                                    <path fill="url(#pattern4)" d="M 30 97 h -3 V 70 a 1 1 0 0 1 1 -1 1 1 0 0 1 1 1 z M 20 63 l 4 2 v 9 l -4 2 V 63 z m 17 0 -4 2 v 9 l 4 2 V 63 z"/>
+                                    <path fill="url(#pattern2)" d="M 11 85 v -7 m 4 7 V 74 m 29 11 v -7 m -4 7 V 74"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div id='battles'>
+                <div class='battle'>
+                    <div class='turn'>
+                        <div class='result'></div>
+                        <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                            <div class="card-face discount card-backing">
+                            </div>
+                            <div class="card-face card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
+                                    <g id="Capa_2" data-name="Capa 2">
+                                      <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <span>VS</span>
+                        <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                            <div class="card-face discount card-backing">
+                            </div>
+                            <div class="card-face card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
+                                    <g id="Capa_2" data-name="Capa 2">
+                                      <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class='result'></div>
+                    </div>
+
+                    <div class='turn'>
+                        <div class='result'>-</div>
+                        <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                            <div class="card-face discount card-backing">
+                            </div>
+                            <div class="card-face card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
+                                    <g id="Capa_2" data-name="Capa 2">
+                                      <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <span>VS</span>
+                        <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
+                            <div class="card-face discount card-backing">
+                            </div>
+                            <div class="card-face card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
+                                    <g id="Capa_2" data-name="Capa 2">
+                                      <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class='result'>-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id='debugView' class='page hide'></div>
     </div>
     <div id='overlay'></div>

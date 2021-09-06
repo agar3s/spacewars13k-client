@@ -207,6 +207,6 @@ const initialization = () => {
 }
 
 if (DEBUG) {
-  changePage('game');
+  changePage('index');
 }
 initialization();
