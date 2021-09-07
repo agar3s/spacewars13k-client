@@ -10,12 +10,98 @@ const changePage = (page, back) => {
   currentPage = page;
 };
 
-window.joinGame = () => {
-  changePage('game', false);
+const joinGame = async () => {
+  await delay(1500);
+  moveDialog(-14);
+  await delay(1300);
+  moveDialog(-14);
+  await delay(1000);
+  toggleDialog();
+  joinGameButton.classList.add('hide');
+  joinGameLabel.classList.remove('hide');
+  netSelect.disabled = true;
+  setTimeout(async ()=>{
+    if (dialogOpen) {
+      await toggleDialog();
+    }
+    toggleDialog('wait');
+  }, 5000);
 };
 
 window.back = () => {
   changePage(previousPage.pop(), true);
+};
+
+const delay = (ms) => new Promise((resolve)=>setTimeout(resolve, ms));
+
+let dialogTop = 0;
+let dialogMax = -105;
+let dialogCategory = '';
+let dialogConfig = {
+  rules: {
+    max: -105
+  },
+  join: {
+    max: -28,
+    disableLinks: true,
+    onOpen: joinGame
+  },
+  wait: {
+    max: -14,
+    disableLinks: true,
+    onOpen: async () => {
+      await delay(800);
+      moveDialog(-14);
+      await delay(1200);
+      setGameState(JOINED);
+      await delay(600);
+      toggleDialog();
+    }
+  }
+};
+
+moveDialog = (val) => {
+  dialogTop += val;
+  if (dialogTop < dialogMax) toggleDialog(dialogCategory);
+  if (dialogTop > 0) dialogTop =  0;
+  dialogText.style.top = `${dialogTop}vh`;
+};
+
+let dialogOpen = false;
+
+toggleDialog = async (category=dialogCategory) => {
+  dialogTop = 0;
+  dialogText.style.top = `${dialogTop}vh`;
+  const targetDialog = document.getElementById(`dialog-${category}`);
+  //targetDialog.classList.toggle('hide');
+  let isOpenEvent = targetDialog.classList.contains('hide');
+  dialogCategory=category;
+  let {max, disableLinks, onOpen} = dialogConfig[category];
+  dialogMax = max;
+  const links = dialog.querySelectorAll('a');
+  
+  for (let i=0;i<links.length;i++) {
+    disableLinks?links[i].classList.add('hide'):links[i].classList.remove('hide');
+  }
+  if (isOpenEvent) {
+    targetDialog.classList.toggle('hide');
+    dialog.classList.toggle('hide');
+    await delay(1);
+    dialogBox.style.top = '35vh';
+    dialogBox.style.opacity = '1';
+    await delay(300);
+    onOpen && onOpen();
+    dialogOpen = true;
+  } else {
+    await delay(1);
+    dialogBox.style.top = '100vh';
+    dialogBox.style.opacity = '0';
+    await delay(300);
+    dialogBox.style.top = '0vh';
+    targetDialog.classList.toggle('hide');
+    dialog.classList.toggle('hide');
+    dialogOpen = false;
+  }
 };
 
 const divGameState = document.getElementById('game-state');
@@ -25,6 +111,10 @@ const updatetime = () => {
   const mins = ~~(time / (1000 * 60));
   const secs = (~~((time - mins*60*1000) / 1000)).toString().padStart(2, '0');
   divGameState.innerHTML = `NEXT WAR IN ${mins}:${secs}`;
+  const timer = document.getElementById('timer');
+  if (timer) {
+    timer.innerHTML = `${mins}:${secs}`;
+  }
 }
 
 const divShip = document.getElementById('ship');
@@ -54,9 +144,6 @@ window.oncardClicked = (target) => {
   }
 }
 
-
-
-const backCardContext = d.getContext('2d');
 const starGroups = [[],[],[],[],[]];
 const addStar = () => {
   let x=~~(Math.random()*300), y=-50, vy=Math.random()*5+5;
@@ -180,15 +267,26 @@ for (let i=0;i<30; i++){ enterTheVoid();}
 var playing = true;
 var playing = true;
 const loopStars = () => {
-  backCardContext.fillStyle = 'rgba(0,0,0, 0.2)';
-  //backCardContext.fillStyle = 'rgba(255,255,255, 0.2)';
-  //backCardContext.clearRect(0,0,400,400);
-  backCardContext.fillRect(0, 0, 200, 300);
-  backCardContext.fillStyle = '#999';
-  starGroups.forEach(stars=>stars.forEach(star=>star.move()));
-  contexts.forEach(fn => {
-    fn(starGroups)
-  });
+  starGroups.forEach(stars => stars.forEach(star => star.move()));
+  contexts.forEach(fn => fn(starGroups));
+};
+
+const renderGamePage = () => {
+  gameStats.innerHTML = `
+    <span>ROUND: #${ game.round }</span>
+    <span>NEXT BATTLE: <span id='timer'>00:00:11</span></span>
+    <span>REMAINING SHIPS: ${ 8 }</span>
+  `;
+
+  shipStats.innerHTML = `
+    <span>SPACESHIP: <a href='?id=${ game.shipId }' target='_blank'>#${ game.shipId }</a></span>
+    <span>FACTION: VULTK</span>
+    <span>BASE: ZEPPEL</span>
+    <span>WINGS: NONE</span>
+    <hr>
+    <span>VICTORIES: ${ game.victories }</span>
+  `;
+  
 };
 
 
@@ -207,6 +305,11 @@ const initialization = () => {
 }
 
 if (DEBUG) {
-  changePage('index');
+  //changePage('game');
+  loadGameScreen();
 }
+
+
+
+
 initialization();

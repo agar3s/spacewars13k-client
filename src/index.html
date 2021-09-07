@@ -4,18 +4,17 @@
     <style>
         * {
             box-sizing: border-box;
-        }
-        body {
             font-family: fantasy;
             color: #fff;
-            font-size: min(3vh, 4.5vw);
-            overflow: hidden;
             background: #111;
+            text-shadow: 0.1vh 0 0 #ff21bd85, -0.1vh 0 0 #5cf14e9f;
+            font-size: min(3vh, 4.5vw);
+        }
+        body {
+            overflow: hidden;
             margin: 0;
             padding: 0;
-            text-shadow: 0.1vh 0 0 #ff21bd85, -0.1vh 0 0 #5cf14e9f;
             filter: brightness(1) sepia(0) hue-rotate(0deg) saturate(0) brightness(1) invert(0);
-            
         }
         h1, h2, h3 {
             margin: 0;
@@ -45,6 +44,7 @@
             image-rendering: pixelated;
             transform-origin: center center;
             border: 1vh solid #fff3ff;
+            overflow: hidden;
         }
         .page {
             width: 100%;
@@ -98,8 +98,13 @@
             right: 0;
             font-size: 70%;
         }
+        select {
+            border: 0.5vh solid #fff3ff;
+            padding: 0 3vh;
+        }
         .hide {
-            display: none;
+            display: none !important;
+            opacity: 0;
         }
         .show {
             display: block;
@@ -118,18 +123,86 @@
             float: right;
         }
 
+        #dialog {
+            position: absolute;
+            top: 0;
+            background: #000000aa;
+            height: 88vh;
+            width: 100%;
+            left: 0;
+            z-index: 5;
+            transition: 0.25s ease-in-out;
+            opacity: 1;
+        }
+        #dialog * {
+            background: #fff3ff;
+            color: #111;
+        }
+        #dialogBox {
+            position: absolute;
+            display: block;
+            top: -15vh;
+            opacity: 0;
+            height: 15vh;
+            border: 0.2vh solid #fff3ff;
+            transition: 0.25s ease-in-out;
+            width: 100%;
+            left: 0;
+            overflow: hidden; 
+        }
+        .tutor-container {
+            height: 100%;
+            width: 33%;
+            display: block;
+            float: left;
+        }
+        #dialogText {
+            display: block;
+            float: right;
+            width: 66%;
+            position: relative;
+            top: 0;
+            transition: 0.35s ease-in-out;
+        }
+        #dialog p {
+            padding: 1vh;
+            margin: 0;
+            font-size: 2.6vh;
+            height: 14vh;
+            display: flex;
+            align-items: center;
+        }
+        #dialogBox a {
+            display: block;
+            position: absolute;
+            bottom: 6;
+            right: 0.2vh;
+            font-size: 2.5vh;
+        }
+        #dialog a.first {
+            right: 3vh;
+        }
+        #dialog a.close {
+            bottom: auto;
+            right: -0.5vw;
+            font-size: 2vh;
+        }
+        
         /**GAME PAGE STYLES*/
         #game span {
             display: block;
         }
-        #game-stats {
-            border: 0.6vh solid white;
+        #game span#timer {
+            display: inline-block;
+        }
+        #gameStats {
+            border: 0.6vh solid #fff3ff;
             margin: -0.5vh;
             padding: 1vh;
             margin-bottom: 3%;
         }
 
-        #ship-stats {
+        #shipStats {
             display: block;
             float: left;
             width: 50%;
@@ -151,6 +224,7 @@
         .card svg {
             border: 0.8vh solid #fff3ff;
             border-radius: 2vh;
+            background: none;
         }
         .card.card--flipped {
             animation: cardFlip .275s forwards linear;
@@ -257,6 +331,7 @@
         }
         .card-face {
             height: 100%;
+            background: none;
         }
         .card.arsenal svg, .card.arsenal .card-face {
             border: 0.2vh solid #fff3ff;
@@ -645,8 +720,8 @@
                 </pattern>
             <pattern id="pattern1"
                      width="3" height="3"
-                     patternTransform="rotate(45)"
-                     patternUnits="userSpaceOnUse" >
+                     patternUnits="userSpaceOnUse"
+                     patternTransform="rotate(45)">
                 <rect width="4" height="4" style="fill:#fff3ff"/>
                 <circle cx="1.5" cy="1.5" r="1.5" style="stroke: none; fill: #111" />
             </pattern>
@@ -719,7 +794,6 @@
                 
                 <pattern id="pattern9"
                     x="0" y="0" width="1" height="1"
-                    patternUnits="userSpaceOnUse"
                 >
                     <rect width="1" height="1" style="fill:#111" />
                 </pattern>
@@ -729,64 +803,32 @@
         <div id='index' class='page'>
             <div id='credits'>
                 <span>CREDITS 01</span>
-                <a class='right' href='#'>RULES</a>
+                <a class='right' href='#' onclick='toggleDialog("rules")'>RULES</a>
             </div>
             <h1>SPACE SHIP WARS<br>NFT 13K</h1>
             <canvas id='c'></canvas>
             <div id='game-state' class='center'>NEXT GAME IN 00:00:11</div>
             <div class='center space'>
-                <a class='button' id='join-game' onclick='joinGame()' href='#'>JOIN GAME</a>
+                <a class='button' id='joinGameButton' onclick='toggleDialog("join")' href='#'>JOIN GAME</a>
+                <span id='joinGameLabel' class='hide'>JOINED</span>
                 <br>
                 <a class='button' href='#' onclick='addCredits()'>ADD CREDITS</a>
             </div>
-            <footer class='center'>MADE WITH &lt;3 BY <a href='https://twitter.com/agar3s'>@AGAR3S</a></footer>
+            <div class='center'>
+                <select id='netSelect'>
+                    <option>MAINNET</option>
+                    <option>TESTNET</option>
+                    <option>LOCAL</option>
+                </select>
+            </div>
+            <footer class='center'>MADE WITH &lt;3 BY <a href='https://twitter.com/agar3s' target="_blank">@AGAR3S</a></footer>
         </div>
+
         <div id='game' class='page hide'>
-            <div id='game-stats'> 
-                <span>ROUND: #1</span>
-                <span>NEXT BATTLE: 00:00:11</span>
-                <span>REMAINING SHIPS: 8</span>
+            <div id='gameStats'></div>
+            <div id='ship'>
             </div>
-            <div id='ship' class='card card--flipped'>
-                <div class="card-face discount card-backing">
-                </div>
-                <div class="card-face card-front">
-                    <canvas id='d' height="300" width="200"></canvas>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 35 200" class="cls-1">
-                        <g transform="translate(0, -30)">
-                            <g transform="translate(-2.5, 52) scale(0.85)">
-                                <g transform="translate(-45, 0)">
-                                    <path fill="url(#pattern4)" d="M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z"></path>
-                                    <path fill="url(#pattern2)" d="M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z"></path>
-                                    <path fill="url(#pattern4)" d="M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z"></path>
-                                    <path fill="url(#pattern2)" d="M 19 30 l 2 -4 8 3 2 6 z"></path>
-                                </g>
-                                <g transform="scale(-1, 1) translate(-90, 0)">
-                                    <path fill="url(#pattern4)" d="M 9 6 h 4 v 16 h -4 z M 21 1 h 4 v 20 h -4 z"></path>
-                                    <path fill="url(#pattern2)" d="M 16 15 H 1 v 6 l 16 5 z M 59 41 l -22 -7 V 15 h 22 z"></path>
-                                    <path fill="url(#pattern4)" d="M 37 15 H 16 v 14 l 21 8z M 1 22 V 7 l 3 -3 v 18 z"></path>
-                                    <path fill="url(#pattern2)" d="M 19 30 l 2 -4 8 3 2 6 z"></path>
-                                </g>
-                            </g>
-                            <g transform="translate(-11, 30) scale(1)">
-                                <path fill="url(#pattern4)" d="M 28 0 c -9 11 -11 25 -11 25 V 83 h 23 V 26 S 37 11 28 0 z"/>
-                                <path fill="url(#pattern4)" d="M 22 54 s -4 11 -12 17 -9 14 -9 14 h 21 z m 13 0 s 4 11 12 17 9 14 9 14 H 34 z M 22 85 h 13 v 8 h -13 z"/>
-                                <path fill="url(#pattern2)" d="M 28 32 c -8 4 -8 25 -8 25 v 30 h 17 V 57 s 0 -21 -8 -25 z"/>
-                                <path fill="url(#pattern4)" d="M 30 97 h -3 V 70 a 1 1 0 0 1 1 -1 1 1 0 0 1 1 1 z M 20 63 l 4 2 v 9 l -4 2 V 63 z m 17 0 -4 2 v 9 l 4 2 V 63 z"/>
-                                <path fill="url(#pattern2)" d="M 11 85 v -7 m 4 7 V 74 m 29 11 v -7 m -4 7 V 74"/>
-                            </g>
-                        </g>
-                    </svg>
-                </div>
-            </div>
-            <div id='ship-stats'>
-                <span>SPACESHIP: #1369</span>
-                <span>FACTION: VULTK</span>
-                <span>BASE: ZEPPEL</span>
-                <span>WINGS: NONE</span>
-                <hr>
-                <span>VICTORIES: 1</span>
-            </div>
+            <div id='shipStats'></div>
             <div id='hand'>
                 <h3>ARSENAL</h3>
                 <div id='group'>
@@ -857,16 +899,8 @@
                 </div>
                 <a class='button' href='#'>SET</a>
             </div>
-            <a class='' href='#' onclick='back()'>back</a>
         </div>
         <div id='viewCard' class='page hide'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 552 375" style='position:absolute;bottom:0;'>
-                <g stroke='#fff' fill='#fff'>
-                    <path d="M264 336c-2 0-55-4-67-4-3 0-4 1-5 5-13 61 79 73 81 11 0-10 1-10-9-12zm-62 38c-5-23 45-12 58 5-29 19-57-1-58-5zm0-41c12 0 50 3 62 3-6 16-55 11-62-3zm55-35c10-7-1-11-5-41-2 19 2 36-5 46a36 36 0 0 0 10-4z"/>
-                    <path d="M553 413c-3-85-71-103-88-260-6-51-29-153-29-153L1 3v51c4-13 5-26 12-38C6 44 2 72 0 101c3-17 6-34 12-50-17 67-11 218 0 269 0 0-6-9-13-46-3 28 9 52 17 77 0 0-12-26-17-40v100h137c-16-22-50-79-61-144 22 76 70 144 70 144h6c-34-46-78-131-81-212l20 11c4-12 9-23 20-30-5 18-4 33 9 46-1-15 10-9 12-35a12 12 0 0 1 14-11c7 1 12 9 11 18-2 15 14 20 8 34 19-12 18-39 16-39-6 2-15 1-15-5 0-5 9-6 14-4a26 26 0 0 0-3-9c14 7 23 18 29 32 7-10 2-18-4-26l1-1 9 7c-9-13-21-22-35-26-8-3-16-6-24-8v5l-27-10 10 10c-8 4-14 1-22-1l5 8h-18l-1 1 7 4c-7 4-7 4-22 6l5 6c-6 2-10 3-15 4-3 1-4 0-4-4 0-23 18-41 18-41-3-25 0-53 4-80v38a178 178 0 0 0 3 38c6-4 21-11 21-11s-4-31 4-33c17-4 13 21 14 21s6-22 10-22c6 0 26 0 25 4-5 22-8 27-2 29s10 4 11 1c5-8 13-18 19-27-3 11-10 20-16 30 3 1 13 5 13 5 4-7 10-19 14-26 3-5 3-5 8-1l-14 29c9 3 16-1 21-9 6-8 31-77 38-113 2 43-5 84-13 126 3 1 15 2 15 2s29-85 29-84c-5 30-13 58-26 85 9 4 10 4 14-4 13-26 34-103 34-103a395 395 0 0 1-30 111c7 3 7 3 10-5 5-12 2-12 15-6 4 2 6 1 8-2 15-23 26-48 32-75 2-10 4-19 6-29-2 40-13 77-34 111 7 4 8 5 13-1 8-11 25-38 26-37-2 12-5 48-9 48s-52 9-70 31c35-16 60-22 68-21 0 2-1 12 3 14 11 7 35 20 35 27 0 10 1 20 1 29 0 1-12-9-18-14h4c-9-2-4-9-4-14l-15 6c-2 0 1-4 3-6-21 8-44 2-65 13 6-1 14-2 15-2l-18 15c15-7 56-12 80 3l-7-6c19 5 25 9 24 20-10 80-35 124-79 165h101c-6-26-12-51-18-75 1 1 23 75 23 75s60 1 62 0c-1-5-22-72-31-93 13 23 38 93 38 93h24c-17-92-50-96-53-192 52 151 55 100 80 192zM69 17 52-9"/>
-                    <path d="M206 164c-17-11-40-19-56-19 8 2 33 7 51 21-1-1-3-4-2-5zm-48 72c-1 0-2-1-3-2-11 2-21 2-31-5l1 4 9 2c0 2-1 3-1 4 10-5 19-6 28 2 0-3 3-8 6-9-2 0-9 2-10 2zm149-39c15-5 21-4 34-5a48 48 0 0 0-34 6zm-48 6c-7 7-12 15-8 25 2-7 4-16 8-25zm-107-8c0-7-5-14-10-14s-10 6-10 14 4 14 10 14c5 0 10-7 10-14z"/>
-                </g>
-            </svg>
         </div>
         <div id='viewBattle' class='page hide'>
             <div class='card-container' style='width: 50%;'>
@@ -998,6 +1032,43 @@
             </div>
         </div>
         <div id='debugView' class='page hide'></div>
+        <div id='dialog' class='hide'>
+            <div id='dialogBox'>
+                <div class='tutor-container'>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 552 375">
+                        <g stroke='#111' fill='#111'>
+                            <path d="M264 336c-2 0-55-4-67-4-3 0-4 1-5 5-13 61 79 73 81 11 0-10 1-10-9-12zm-62 38c-5-23 45-12 58 5-29 19-57-1-58-5zm0-41c12 0 50 3 62 3-6 16-55 11-62-3zm55-35c10-7-1-11-5-41-2 19 2 36-5 46a36 36 0 0 0 10-4z"/>
+                            <path d="M553 413c-3-85-71-103-88-260-6-51-29-153-29-153L1 3v51c4-13 5-26 12-38C6 44 2 72 0 101c3-17 6-34 12-50-17 67-11 218 0 269 0 0-6-9-13-46-3 28 9 52 17 77 0 0-12-26-17-40v100h137c-16-22-50-79-61-144 22 76 70 144 70 144h6c-34-46-78-131-81-212l20 11c4-12 9-23 20-30-5 18-4 33 9 46-1-15 10-9 12-35a12 12 0 0 1 14-11c7 1 12 9 11 18-2 15 14 20 8 34 19-12 18-39 16-39-6 2-15 1-15-5 0-5 9-6 14-4a26 26 0 0 0-3-9c14 7 23 18 29 32 7-10 2-18-4-26l1-1 9 7c-9-13-21-22-35-26-8-3-16-6-24-8v5l-27-10 10 10c-8 4-14 1-22-1l5 8h-18l-1 1 7 4c-7 4-7 4-22 6l5 6c-6 2-10 3-15 4-3 1-4 0-4-4 0-23 18-41 18-41-3-25 0-53 4-80v38a178 178 0 0 0 3 38c6-4 21-11 21-11s-4-31 4-33c17-4 13 21 14 21s6-22 10-22c6 0 26 0 25 4-5 22-8 27-2 29s10 4 11 1c5-8 13-18 19-27-3 11-10 20-16 30 3 1 13 5 13 5 4-7 10-19 14-26 3-5 3-5 8-1l-14 29c9 3 16-1 21-9 6-8 31-77 38-113 2 43-5 84-13 126 3 1 15 2 15 2s29-85 29-84c-5 30-13 58-26 85 9 4 10 4 14-4 13-26 34-103 34-103a395 395 0 0 1-30 111c7 3 7 3 10-5 5-12 2-12 15-6 4 2 6 1 8-2 15-23 26-48 32-75 2-10 4-19 6-29-2 40-13 77-34 111 7 4 8 5 13-1 8-11 25-38 26-37-2 12-5 48-9 48s-52 9-70 31c35-16 60-22 68-21 0 2-1 12 3 14 11 7 35 20 35 27 0 10 1 20 1 29 0 1-12-9-18-14h4c-9-2-4-9-4-14l-15 6c-2 0 1-4 3-6-21 8-44 2-65 13 6-1 14-2 15-2l-18 15c15-7 56-12 80 3l-7-6c19 5 25 9 24 20-10 80-35 124-79 165h101c-6-26-12-51-18-75 1 1 23 75 23 75s60 1 62 0c-1-5-22-72-31-93 13 23 38 93 38 93h24c-17-92-50-96-53-192 52 151 55 100 80 192zM69 17 52-9"/>
+                            <path d="M206 164c-17-11-40-19-56-19 8 2 33 7 51 21-1-1-3-4-2-5zm-48 72c-1 0-2-1-3-2-11 2-21 2-31-5l1 4 9 2c0 2-1 3-1 4 10-5 19-6 28 2 0-3 3-8 6-9-2 0-9 2-10 2zm149-39c15-5 21-4 34-5a48 48 0 0 0-34 6zm-48 6c-7 7-12 15-8 25 2-7 4-16 8-25zm-107-8c0-7-5-14-10-14s-10 6-10 14 4 14 10 14c5 0 10-7 10-14z"/>
+                        </g>
+                    </svg>
+                </div>
+                <div id='dialogText'>
+                    <div id='dialog-rules' class='hide'>
+                        <p>Welcome to<br>Space Ship Wars 13k!</p>
+                        <p>This is a turn based battleroyal card game running on the Near blockchain</p>
+                        <p>You will command a random and unique (NFT) space ship in a space war</p>
+                        <p>Each player will have a series of cards that can be arranged in any order</p>
+                        <p>Every turn all spaceships will be confronted in a rock-paper-scissors duel</p>
+                        <p>Winner will pick a random card from the loser and will pass to the next round</p>
+                        <p>The last survivor player will be rewarded with the ownership of the spaceship</p>
+                        <p>Good luck!</p>
+                    </div>
+                    <div id='dialog-join' class='hide'>
+                        <p>Connecting to the net...</p>
+                        <p>Joining to the game...</p>
+                        <p>Joined!</p>
+                    </div>
+                    <div id='dialog-wait' class='hide'>
+                        <p>The game is about to start!</p>
+                        <p>Assigning commanders to their space ships</p>
+                    </div>
+                </div>
+                <a class='close' href='#' onclick='toggleDialog()'>X</a>
+                <a class='first' href='#' onclick='moveDialog(14)'>↑</a>
+                <a class='' href='#' onclick='moveDialog(-14)'>↓</a>
+            </div>
+        </div>
     </div>
     <div id='overlay'></div>
     <script src="b.js"></script>
