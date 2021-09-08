@@ -28,6 +28,7 @@ cat src/ships/pieces.js
 cat src/state.js
 cat src/ships/descriptors.js
 cat src/cards/cards.js
+cat src/cards/battle.js
 cat src/ui/ui.js
 cat src/ui/miniGame.js
 #cat src/setup/generatedSprites.js

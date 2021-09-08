@@ -64,6 +64,7 @@ const renderShip = (shapeId, wingsId, bgColor, fgColor) => {
 const changePallete = (index) => {
   const [b=1, sep=0, hue=0, sat=0, b2=1, inv=0] = palletes[index];
   document.body.style.filter = `brightness(${b}) sepia(${sep}) hue-rotate(${hue}deg) saturate(${sat}) brightness(${b2}) invert(${inv})`;
+  dialog.style.filter = inv?`invert(1) brightness(${1/b2}) saturate(2) sepia(1) brightness(${1/b})`:'';
 };
 
 

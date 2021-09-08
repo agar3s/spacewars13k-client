@@ -31,7 +31,7 @@ let player = {
   id: ~~(rand()*8),
   shipId: ~~(rand()*13*1024),
   alive: true,
-  arsenal: [0, 1, 2, 0],
+  arsenal: [0, 1, 2, ~~(Math.random()*8)],
   hand: [],
   ready: false,
   victories: 0

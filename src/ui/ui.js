@@ -57,6 +57,13 @@ let dialogConfig = {
       await delay(600);
       toggleDialog();
     }
+  },
+  'battle-end': {
+    max: -14,
+    disableLinks: true,
+    onOpen: async () => {
+      await delay(800);
+    }
   }
 };
 
@@ -69,7 +76,20 @@ moveDialog = (val) => {
 
 let dialogOpen = false;
 
-toggleDialog = async (category=dialogCategory) => {
+const displayCustomDialog = async (text, timeout) => {
+  document.querySelector('#dialog-custom p').innerHTML = text;
+  dialogConfig.custom = {
+    max: 0,
+    disableLinks: true,
+    onOpen: async () => {
+      await delay(1200);
+      toggleDialog();
+    }
+  };
+  await this.toggleDialog('custom')
+}
+
+toggleDialog = async (category=dialogCategory, props) => {
   dialogTop = 0;
   dialogText.style.top = `${dialogTop}vh`;
   const targetDialog = document.getElementById(`dialog-${category}`);
@@ -288,15 +308,7 @@ const renderGamePage = () => {
     <span>VICTORIES: ${ player.victories }</span>
     <a class='button' href='#'>BATTLE LOG</a>
   `;
-  group.appendChild(getHTMLCard(0, 0));
-  group.appendChild(getHTMLCard(1, 1));
-  group.appendChild(getHTMLCard(2, 2));
-  group.appendChild(getHTMLCard(3, 3));
-  group.appendChild(getHTMLCard(4, 4));
-  group.appendChild(getHTMLCard(5, 5));
-  group.appendChild(getHTMLCard(6, 6));
-  group.appendChild(getHTMLCard(7, 7));
-  group.appendChild(getHTMLCard(8, 8));
+  player.arsenal.forEach((card, arsenalIndex)=>group.appendChild(getHTMLCard(card, arsenalIndex)));
 };
 
 
@@ -315,8 +327,10 @@ const initialization = () => {
 }
 
 if (DEBUG) {
+  changePage('viewBattle');
+  loadBattle(battleLog);
   //changePage('game');
-  loadGameScreen();
+  //loadGameScreen();
 }
 
 

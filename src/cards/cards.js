@@ -6,12 +6,12 @@ const SVG_ROCK = {
   [VIEWPORT_KEY]: '0 0 32 32'
 };
 
-const SVG_PAPER = {
+const SVG_SCISSORS = {
   [PATH_KEY]: 'M17 24s-2 5-2 5c-1 2 1 7 4 3 1-1 4-8 3-6m-4 7c0 3 4 3 5 1 1-2 3-6 3-6M10 35a5 8-1 0 0-1-4 4 3 10 0 0-4-2 1 0 0 0 0 5-2c0 0 0 0 4-1 3-1 3-5-1-5-1 0-8 2-10 3C-3 29 2 43 14 43c6 0 11-9 12-14 1-4-4-5-4-3 2-3 0-6-3-5-4 1-3-5-2-18 0-3-5-3-5 1-1 12-1 16-3 16-2 0-2-5-2-15 0-4-5-4-5 0 1 9 1 15 0 20',
   [VIEWPORT_KEY]: '0 0 32 44'
 };
 
-const SVG_SCISSORS = {
+const SVG_PAPER = {
   [PATH_KEY]: 'M18 35c-2-7-7-7-9-8a14 14 0 0 1-3-3c-5-5-7 1-4 3 3 2 6 4 6 7C9 43 22 44 26 42c7-4 2-11 13-28 2-3-2-5-3-2-4 7-5 10-6 10-1 0-1-4 1-16a2 2 0 1 0-4-1c-2 11-2 16-4 15-1 0-1-5-1-17 0-3-5-4-5 0 0 12 1 17-1 17-2 0-2-4-4-15C12 2 7 3 8 6c2 10 4 18 2 21',
   [VIEWPORT_KEY]: '-1 -1 42 45'
 };
@@ -19,9 +19,9 @@ const SVG_SCISSORS = {
 const ROCK_PAPER_SCISSORS = [SVG_ROCK, SVG_PAPER, SVG_SCISSORS];
 
 const cards = [
-  [0],
-  [1],
-  [2],
+  [0,0],
+  [1,1],
+  [2,2],
   [0, 1],
   [0, 2],
   [1, 0],
@@ -59,7 +59,7 @@ const toggleArsenalCard = (cardElement, orderElement, arsenalIndex) => {
 };
 
 const getHTMLCard = (code, arsenalIndex) => {
-  const svgs = cards[code].map((id, index)=>getGameCard(ROCK_PAPER_SCISSORS[id], index));
+  const svgs = cards[code].map((id, index) => getGameCard(ROCK_PAPER_SCISSORS[id], index));
   const orderElement = document.createElement('div');
   orderElement.className = 'order';
   svgs.push(orderElement);
@@ -70,6 +70,28 @@ const getHTMLCard = (code, arsenalIndex) => {
     , 'arsenal');
   flipCard(cardElement);
   return cardElement;
-}
+};
+
+const WINNER = 'winner';
+const LOSER = 'loser';
+const TIE = 'tie';
+
+const BATTLE_VALUES = {
+  [WINNER]: 1,
+  [TIE]: 0,
+  [LOSER]: -1
+};
+
+const solveBattle = (idA, idB, second=false) => {
+  let valA = cards[idA][second?1:0];
+  if (valA===undefined) valA = cards[idA][0];
+  let valB = cards[idB][second?1:0];
+  if (valB===undefined) valB = cards[idB][0];
+  if (valA === 0 && valB === 2) return WINNER;
+  if (valA === 1 && valB === 0) return WINNER;
+  if (valA === 2 && valB === 1) return WINNER;
+  if (valA === valB) return TIE;
+  return LOSER;
+};
 
 
