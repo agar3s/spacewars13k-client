@@ -8,7 +8,7 @@ const shipBGEffectChances = [10, 12, 10, 10, 5, 2, 8, 6, 4, 4, 2, 2];
 const shipPalleteChances = [10, 10, 6, 6, 3 ,6, 6, 3, 6, 3, 3, 1, 1, 1, 1, 1, 3, 5];
 const shipBackCoverChances = [1, 1, 1, 20, 10, 20];
 
-const randomInt = (rnd = getConfigForId(~~(Math.random()*1000)), min, max) => ~~(rnd()%(max - min) + min);
+const randomInt = (rnd = getConfigForId(~~(rand()*1000)), min, max) => ~~(rnd()%(max - min) + min);
 
 const getRandomIndexProb = (rnd, probs) => {
   const total = probs.reduce((acc, value) => acc + value, 0);

@@ -60,12 +60,6 @@ const renderShip = (shapeId, wingsId, bgColor, fgColor) => {
   return mainSVG;
 };
 
-const wrapInCard = (node) => {
-  const card = document.createElement('div');
-  card.classList.add('c');
-  card.appendChild(node);
-  document.body.appendChild(card);
-};
 
 const changePallete = (index) => {
   const [b=1, sep=0, hue=0, sat=0, b2=1, inv=0] = palletes[index];
@@ -110,13 +104,13 @@ const createCanvasElement = (cIndex) => {
 
 const getRandomshipConfig = () => { 
   return {
-    shapeId: ~~(Math.random()*Object.keys(ENCODED_SHAPES).length),
-    wingsId: ~~(Math.random()*Object.keys(ENCODED_WINGS).length),
-    bgColor: ~~(Math.random()*10),
-    fgColor: ~~(Math.random()*10),
-    bgEffect: ~~(Math.random()*backgroundConfig.length),
-    pallete: ~~(Math.random()*palletes.length),
-    backCover: ~~(Math.random()*backCovers.length)
+    shapeId: ~~(rand()*Object.keys(ENCODED_SHAPES).length),
+    wingsId: ~~(rand()*Object.keys(ENCODED_WINGS).length),
+    bgColor: ~~(rand()*10),
+    fgColor: ~~(rand()*10),
+    bgEffect: ~~(rand()*backgroundConfig.length),
+    pallete: ~~(rand()*palletes.length),
+    backCover: ~~(rand()*backCovers.length)
   }
 };
 
@@ -197,6 +191,36 @@ const adnToShipConfig = (adn) => {
   }
 }
 
+
+const flipCard = (cardElement) => {
+  //e.stopPropagation();
+  if (cardElement.classList.contains('card--flipped')) {
+    cardElement.classList.add('card--unflip');
+    setTimeout(() => {
+      cardElement.classList.remove('card--flipped', 'card--unflip');
+    }, 500);
+  }
+  else { 
+    cardElement.classList.add("card--flipped");
+  }
+};
+
+const wrapInCard = (backCover, frontChilds, onclick, className='') => {
+  const cardElement = document.createElement('div');
+  cardElement.className = `card ${ className }`;
+    const cardBackElement = document.createElement('div');
+      cardBackElement.className = `card-face ${ backCovers[backCover] } card-backing`;
+    cardElement.appendChild(cardBackElement);
+    
+    const cardFrontElement = document.createElement('div');
+      cardFrontElement.className = 'card-face card-front';
+      frontChilds.forEach(child=>cardFrontElement.appendChild(child));
+      
+  cardElement.appendChild(cardFrontElement);
+  cardElement.onclick = () => onclick(cardElement);
+  return cardElement;
+}
+
 const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pallete=0, backCover=0 }) => {
   let shipConfig = {
     shapeId,
@@ -207,35 +231,11 @@ const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pa
     pallete,
     backCover
   };
-  const cover = 'discount';
-  const cardElement = document.createElement('div');
-  cardElement.className = 'card';
-    const cardBackElement = document.createElement('div');
-      cardBackElement.className = `card-face ${ backCovers[backCover] } card-backing`;
-    cardElement.appendChild(cardBackElement);
-    
-    const cardFrontElement = document.createElement('div');
-      cardFrontElement.className = 'card-face card-front';
-      const canvasTest = createCanvasElement(bgEffect);
-        contexts.push(canvasTest.draw);
-      cardFrontElement.appendChild(canvasTest.canvas);
-      let svgGenerated = renderShip(shapeId, wingsId, bgColor, fgColor);
-      cardFrontElement.appendChild(svgGenerated);
-    cardElement.appendChild(cardFrontElement);
-    cardElement.onclick = e => {
-      const el = e.target;
-      e.stopPropagation();
-      if (cardElement.classList.contains('card--flipped')) {
-        cardElement.classList.add('card--unflip');
-        setTimeout(() => {
-          cardElement.classList.remove('card--flipped', 'card--unflip');
-        }, 500);
-      }
-      else { 
-        cardElement.classList.add("card--flipped");
-      }
-    }
-  
+
+  const canvasTest = createCanvasElement(bgEffect);
+  contexts.push(canvasTest.draw);
+  let svgGenerated = renderShip(shapeId, wingsId, bgColor, fgColor);
+  const cardElement = wrapInCard(backCover, [canvasTest.canvas, svgGenerated], flipCard);
   changePallete(shipConfig.pallete);
 
   return {
@@ -441,10 +441,10 @@ if (DEBUG) {
   // }, 500)
 
   
-  let shapeId = ~~(Math.random()*9);
-  let wingsId = ~~(Math.random()*13);
-  let bgColor = Math.ceil(Math.random()*10);
-  let fgColor = Math.ceil(Math.random()*10);
+  let shapeId = ~~(rand()*9);
+  let wingsId = ~~(rand()*13);
+  let bgColor = Math.ceil(rand()*10);
+  let fgColor = Math.ceil(rand()*10);
   
   const addCard = () => {
     const card = createCard(getRandomshipConfig());

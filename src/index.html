@@ -333,9 +333,30 @@
             height: 100%;
             background: none;
         }
-        .card.arsenal svg, .card.arsenal .card-face {
+        .card.arsenal svg {
+            border: none;
+        }
+        .card.arsenal .card-face {
             border: 0.2vh solid #fff3ff;
             border-radius: 1vh;
+        }
+        svg.opt0 {
+            width: 80%;
+            height: 80%;
+            border: none;
+            border-radius: 1vh;
+        }
+        svg.opt1 {
+            position: absolute;
+            bottom: 6px;
+            right: 0px;
+            height: 30%;
+            width: 30%;
+            border: none;
+            border-radius: 0;
+        }
+        .card.arsenal .card-front {
+            height: 100%;
         }
         .arsenal.selected {
             color: #111;
@@ -351,11 +372,13 @@
         }
         .arsenal.selected .order {
             position: absolute;
-            left: -2px;
-            background: white;
+            left: 0.3vh;
+            background: none;
             width: 19%;
             display: block;
             margin: 0 auto;
+            color: #000;
+            bottom: 0.2vh;
         }
         code {
             position: absolute;
@@ -831,73 +854,8 @@
             <div id='shipStats'></div>
             <div id='hand'>
                 <h3>ARSENAL</h3>
-                <div id='group'>
-                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
-                        <div class='order'>2</div>
-                        <div class="card-face card-backing ">
-                        </div>
-                        <div class="card-face card-front">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="rock">
-                                <g>
-                                  <path class="cls-1" d="M 15 17 c -1 2 2 5 5 3 a 21 20 0 0 0 4 -6 m -14 1 c 0 1 5 8 8 -5 m 3 9 c -1 4 4 4 5 3 0 0 3 -4 4 -8 M 12 23 a 20 10 -50 0 0 -6 -7 c 2 -2 4 -3 9 -3 3 -0 5 -6 -1 -6 -0 -0 -6 0 -11 3 C 0 13 -5 31 15 31 c 9 0 15 -10 15 -16 0 -4 -3 -5 -5 -3 M 25 12 a 2 2 0 0 0  -6 -3 c 2 -4 -3 -6 -5 -4 1 -3 -4 -6 -8 -2 -3 3 -5 12 -5 11 m 7 -8 L 7 8"/>
-                                </g>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
-                                <g id="Capa_2" data-name="Capa 2">
-                                  <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
-                        <div class="card-face discount card-backing">
-                        </div>
-                        <div class="card-face card-front">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44">
-                                <g id="Capa_2" data-name="Capa 2">
-                                  <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
-                        <div class="card-face discount card-backing">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
-                                <g id="Capa_2" data-name="Capa 2">
-                                    <path class="cls-1" d="M 17 24 s -2 5 -2 5 c -1 2 1 7 4 3 1 -1 4 -8 3 -6 m -4 7 c 0 3 4 3 5 1 1 -2 3 -6 3 -6 M 10 35 a 5 8 -1 0 0 -1 -4 4 3 10 0 0 -4 -2 1 0 0 0 0 5 -2 c 0 0 0 0 4 -1 3 -1 3 -5 -1 -5 -1 0 -8 2 -10 3 C -3 29 2 43 14 43 c 6 0 11 -9 12 -14 1 -4 -4 -5 -4 -3 2 -3 0 -6 -3 -5 -4 1 -3 -5 -2 -18 0 -3 -5 -3 -5 1 -1 12 -1 16 -3 16 -2 0 -2 -5 -2 -15 0 -4 -5 -4 -5 0 1 9 1 15 0 20"/>
-                                </g>
-                              </svg>
-                        </div>
-                        <div class="card-face card-front">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
-                                <g id="Capa_2" data-name="Capa 2">
-                                  <path class="cls-1" d="M 18 35 c -2 -7 -7 -7 -9 -8 a 14 14 0 0 1 -3 -3 c -5 -5 -7 1 -4 3 3 2 6 4 6 7 C 9 43 22 44 26 42 c 7 -4 2 -11 13 -28 2 -3 -2 -5 -3 -2 -4 7 -5 10 -6 10 -1 0 -1 -4 1 -16 a 2 2 0 1 0 -4 -1 c -2 11 -2 16 -4 15 -1 0 -1 -5 -1 -17 0 -3 -5 -4 -5 0 0 12 1 17 -1 17 -2 0 -2 -4 -4 -15 C 12 2 7 3 8 6 c 2 10 4 18 2 21"/>
-                                </g>
-                              </svg>
-                        </div>
-                    </div>
-                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
-                        <div class="card-face discount card-backing">
-                        </div>
-                        <div class="card-face card-front">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
-                                <g id="Capa_2" data-name="Capa 2">
-                                </g>
-                              </svg>
-                        </div>
-                    </div>
-                    <div class='card arsenal card--flipped' onclick="oncardClicked(this)">
-                        <div class="card-face discount card-backing">
-                        </div>
-                        <div class="card-face card-front">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 42 45">
-                                <g id="Capa_2" data-name="Capa 2">
-                                </g>
-                              </svg>
-                        </div>
-                    </div>
-                </div>
-                <a class='button' href='#'>SET</a>
+                <div id='group'></div>
+                <a id='setAction' class='button' href='#'>SET</a>
             </div>
         </div>
         <div id='viewCard' class='page hide'>

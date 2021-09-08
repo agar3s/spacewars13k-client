@@ -145,22 +145,23 @@ window.oncardClicked = (target) => {
 }
 
 const starGroups = [[],[],[],[],[]];
+
 const addStar = () => {
-  let x=~~(Math.random()*300), y=-50, vy=Math.random()*5+5;
+  let x=~~(rand()*300), y=-50, vy=rand()*5+5;
   starGroups[0].push({
-    move: _=> y = y+vy>300?((vy=Math.random()*5 + 5)||-50):y+vy, draw:(ctx)=>ctx.fillRect(x, y, 2, 4)
+    move: _=> y = y+vy>300?((vy=rand()*5 + 5)||-50):y+vy, draw:(ctx)=>ctx.fillRect(x, y, 2, 4)
   })
 }
 const addExplodingStar = () => {
-  let speed = Math.random()*5 + 0;
-  let r = Math.random()*Math.PI*2;
+  let speed = rand()*5 + 0;
+  let r = rand()*Math.PI*2;
   let x = -1, y = -1;
   let vx=0;
   let vy=0;
   const reset = () => {
     x = 100;
     y = 150;
-    r = Math.random()*Math.PI*2;
+    r = rand()*Math.PI*2;
     vx=Math.cos(r)*speed; vy=Math.sin(r)*speed;
   };
   console.log(vx, vy);
@@ -183,7 +184,7 @@ const addExplodingStar = () => {
 
 
 const addRandomDimension = () => {
-  let speed = Math.random()+1;
+  let speed = rand()+1;
   let x = -1, y = -1;
   let vx=0;
   let vy=0;
@@ -210,8 +211,8 @@ const addRandomDimension = () => {
 }
 
 const enterTheVoid = () => {
-  let speed = Math.random()+1;
-  let r = Math.random()*50;
+  let speed = rand()+1;
+  let r = rand()*50;
   starGroups[3].push({
     move: _=> {
       r += speed;
@@ -233,10 +234,10 @@ const enterTheVoid = () => {
 };
 
 const increasingStars = () => {
-  let speed = Math.random()+1;
-  let r = Math.random()*200;
+  let speed = rand()+1;
+  let r = rand()*200;
   let tangSpeed = 0.01;
-  let angle = Math.random()*Math.PI*2;
+  let angle = rand()*Math.PI*2;
   starGroups[4].push({
     move: _=> {
       r += speed;
@@ -279,14 +280,23 @@ const renderGamePage = () => {
   `;
 
   shipStats.innerHTML = `
-    <span>SPACESHIP: <a href='?id=${ game.shipId }' target='_blank'>#${ game.shipId }</a></span>
+    <span>SPACESHIP: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
     <span>FACTION: VULTK</span>
     <span>BASE: ZEPPEL</span>
     <span>WINGS: NONE</span>
     <hr>
-    <span>VICTORIES: ${ game.victories }</span>
+    <span>VICTORIES: ${ player.victories }</span>
+    <a class='button' href='#'>BATTLE LOG</a>
   `;
-  
+  group.appendChild(getHTMLCard(0, 0));
+  group.appendChild(getHTMLCard(1, 1));
+  group.appendChild(getHTMLCard(2, 2));
+  group.appendChild(getHTMLCard(3, 3));
+  group.appendChild(getHTMLCard(4, 4));
+  group.appendChild(getHTMLCard(5, 5));
+  group.appendChild(getHTMLCard(6, 6));
+  group.appendChild(getHTMLCard(7, 7));
+  group.appendChild(getHTMLCard(8, 8));
 };
 
 

@@ -27,22 +27,27 @@ let net = NETS[MAINNET];
 // Im in a game?
 let inGame = false;
 
-let game = {
-  state: GAME_STATE[LOBBY],
-  shipId: ~~(Math.random()*13*1024),
+let player = {
+  id: ~~(rand()*8),
+  shipId: ~~(rand()*13*1024),
   alive: true,
   arsenal: [0, 1, 2, 0],
   hand: [],
   ready: false,
-  victories: 0,
+  victories: 0
+};
+
+let game = {
+  id: ~~(rand()*100),
+  state: GAME_STATE[LOBBY],
   totalPlayers: 0,
   round: 3
 };
 
 const loadGameScreen = () => {
   changePage('game', false);
-  console.log(game.shipId);
-  const adn = codesToShip[game.shipId];
+  console.log(player.shipId);
+  const adn = codesToShip[player.shipId];
   const config = adnToShipConfig(adn);
   const card = createCard(config);
   ship.appendChild(card.cardElement);

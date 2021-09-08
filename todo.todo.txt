@@ -6,6 +6,8 @@
 - join game
 - display hand
 - set hand
+- upload them to the nft coso
+
 
 +- pseudo random with javascript
 

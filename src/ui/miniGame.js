@@ -3,10 +3,10 @@ const ctx = c.getContext('2d');
 
 const spaceShipsCanvas = [];
 const addSpaceShip = () => {
-  let x = Math.random()*400;
-  let y = Math.random()*300;
-  let vx = (Math.random() - 0.5) * 2;
-  let vy = (Math.random() - 0.5) * 2;
+  let x = rand()*400;
+  let y = rand()*300;
+  let vx = (rand() - 0.5) * 2;
+  let vy = (rand() - 0.5) * 2;
   const spaceShipCanvas = {
     move: () => {
       x += vx;
