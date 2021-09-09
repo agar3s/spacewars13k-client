@@ -11,25 +11,30 @@ const NETS = {
 
 const LOBBY = 0;
 const JOINED = 1;
-const WAITING = 2;
-const SOLVING_TURN = 3;
-const END = 4;
+const HOLD = 2;
+const TURN = 3;
+const SOLVING_TURN = 4;
+const GAMEWON = 5;
+const GAMELOST = 6;
 
 const GAME_STATE = {
   [LOBBY]: LOBBY,
   [JOINED]: JOINED,
-  [WAITING]: WAITING,
+  [TURN]: TURN,
+  [HOLD]: HOLD,
   [SOLVING_TURN]: SOLVING_TURN,
-  [END]: END
+  [GAMEWON]: GAMEWON,
+  [GAMELOST]: GAMELOST
 };
 
 let net = NETS[MAINNET];
 // Im in a game?
 let inGame = false;
 
+let players = [];
 let player = {
   id: ~~(rand()*8),
-  shipId: ~~(rand()*13*1024),
+  shipId: 0,
   alive: true,
   arsenal: [0, 1, 2, ~~(Math.random()*8)],
   hand: [],
@@ -41,28 +46,37 @@ let game = {
   id: ~~(rand()*100),
   state: GAME_STATE[LOBBY],
   totalPlayers: 0,
-  round: 3
+  round: 0
 };
 
 const loadGameScreen = () => {
   changePage('game', false);
   console.log(player.shipId);
-  const adn = codesToShip[player.shipId];
-  const config = adnToShipConfig(adn);
+  const config = getShipById(player.shipId);
   const card = createCard(config);
   ship.appendChild(card.cardElement);
   renderGamePage();
 };
 
 const setGameState = (state) => {
+  if (game.state === state) return;
   switch (state) {
+    // game created
     case LOBBY: break;
+    // local player joined to the game
     case JOINED:
       loadGameScreen();
     break;
-    case WAITING: break;
+    // game running waiting for player input
+    case TURN:
+    break;
+    // player set hand
+    case HOLD: break;
+    // game is busy displaying turn actions
     case SOLVING_TURN: break;
-    case END: break;
+    // game ends
+    case GAMEWON: break;
+    case GAMELOST: break;
   }
   game.state = state;
 };

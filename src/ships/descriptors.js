@@ -255,6 +255,8 @@ const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pa
   };
 };
 
+const getShipById = (id) => adnToShipConfig(codesToShip[id]);
+
 ShipGeneration();
 
 if (DEBUG) {

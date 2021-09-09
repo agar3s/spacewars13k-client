@@ -37,7 +37,7 @@ const animateBattle = async (cardElementA, cardElementB, cardA, cardB, second=fa
   !second && flipCard(cardElementA);
   !second && flipCard(cardElementB);
   await delay(second?0:8*timeFactor);
-  let winner = solveBattle(cardA, cardB, second);
+  let winner = solveCards(cardA, cardB, second);
   cardElementA.classList.add(winner);
   cardElementB.classList.add(winner);
   if (!second && winner===TIE) {
@@ -51,11 +51,9 @@ const animateBattle = async (cardElementA, cardElementB, cardA, cardB, second=fa
   return BATTLE_VALUES[winner];
 }
 
-const solveBattleScript = async (playerHandA, playerHandB) => {
-  console.log(playerHandA)
-  console.log(playerHandB)
-  const handA = setupHand(sideA, playerHandA, configA.backCover);
-  const handB = setupHand(sideB, playerHandB, configB.backCover);
+const solveBattleScript = async (coverA, coverB, playerHandA, playerHandB) => {
+  const handA = setupHand(sideA, playerHandA, coverA);
+  const handB = setupHand(sideB, playerHandB, coverB);
   await delay(1*timeFactor);
   handA.forEach(cardElement=>cardElement.style.top=0);
   handB.forEach(cardElement=>cardElement.style.top=0);
@@ -85,38 +83,14 @@ const dismissCards = async () => {
   await delay(14*timeFactor);
 }
 
-const configA = getRandomshipConfig();
-const configB = getRandomshipConfig();
-const battleLog = {
-  shipA: ~~(Math.random()*13*1024),
-  shipB: ~~(Math.random()*13*1024),
-  arsenalA: [0,0,0,0,0].map(c=>~~(Math.random()*9)),
-  arsenalB: [0,0,0,0,0].map(c=>~~(Math.random()*9)),
-  winner: 0,
-  rounds: [
-    {
-      handA: [0,0,0].map(c=>~~(Math.random()*5)),
-      handB: [0,0,0].map(c=>~~(Math.random()*5))
-    },
-    {
-      handA: [0,0,0].map(c=>~~(Math.random()*5)),
-      handB: [0,0,0].map(c=>~~(Math.random()*5))
-    },
-    {
-      handA: [0,0,0].map(c=>~~(Math.random()*5)),
-      handB: [0,0,0].map(c=>~~(Math.random()*5))
-    },
-    {
-      handA: [0].map(c=>~~(Math.random()*5)),
-      handB: [0].map(c=>~~(Math.random()*5))
-    },
-    {
-      handA: [0].map(c=>~~(Math.random()*5)),
-      handB: [0].map(c=>~~(Math.random()*5))
-    }
-  ]
-}
 const loadBattle = async (battleLog) => {
+  const configA = getShipById(battleLog.shipA);
+  const configB = getShipById(battleLog.shipB);
+  const playerContent = "<ul class='victories'><li></li><li></li></ul>";
+  playerA.innerHTML = playerContent;
+  playerB.innerHTML = playerContent;
+  sideA.innerHTML = '';
+  sideB.innerHTML = '';
   // present cards
   const cardA = addCardToBattle(configA, playerA);
   const cardB = addCardToBattle(configB, playerB);
@@ -134,7 +108,7 @@ const loadBattle = async (battleLog) => {
 
   for (let index = 0; index < battleLog.rounds.length && !winner; index++) {
     const { handA, handB } = battleLog.rounds[index];
-    const roundWinner = await solveBattleScript(handA.map(c=>battleLog.arsenalA[c]), handB.map(c=>battleLog.arsenalB[c]));
+    const roundWinner = await solveBattleScript(configA.backCover, configB.backCover, handA.map(c=>battleLog.arsenalA[c]), handB.map(c=>battleLog.arsenalB[c]));
     console.log(playerA.querySelector(`ul:nth-child(1)`));
     if (roundWinner>0) {
       scores[0]++;
@@ -154,6 +128,12 @@ const loadBattle = async (battleLog) => {
     }
   }
   toggleDialog('battle-end');
-
+  await delay(2000);
+  toggleDialog();
+  back();
+  player.arsenal.push(~~(Math.random()*8));
+  player.hand = [];
+  handSet = [false, false, false];
+  renderGamePage();
   // display winner
 }

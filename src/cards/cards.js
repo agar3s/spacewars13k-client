@@ -82,7 +82,7 @@ const BATTLE_VALUES = {
   [LOSER]: -1
 };
 
-const solveBattle = (idA, idB, second=false) => {
+const solveCards = (idA, idB, second=false) => {
   let valA = cards[idA][second?1:0];
   if (valA===undefined) valA = cards[idA][0];
   let valB = cards[idB][second?1:0];

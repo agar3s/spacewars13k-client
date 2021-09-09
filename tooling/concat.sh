@@ -26,6 +26,7 @@ cat src/lib/utils.js
 cat src/ships/generator.js
 cat src/ships/pieces.js
 cat src/state.js
+cat src/game/local.js
 cat src/ships/descriptors.js
 cat src/cards/cards.js
 cat src/cards/battle.js

@@ -11,6 +11,7 @@ const changePage = (page, back) => {
 };
 
 const joinGame = async () => {
+  joinGameLocal();
   await delay(1500);
   moveDialog(-14);
   await delay(1300);
@@ -20,12 +21,6 @@ const joinGame = async () => {
   joinGameButton.classList.add('hide');
   joinGameLabel.classList.remove('hide');
   netSelect.disabled = true;
-  setTimeout(async ()=>{
-    if (dialogOpen) {
-      await toggleDialog();
-    }
-    toggleDialog('wait');
-  }, 5000);
 };
 
 window.back = () => {
@@ -76,13 +71,13 @@ moveDialog = (val) => {
 
 let dialogOpen = false;
 
-const displayCustomDialog = async (text, timeout) => {
+const displayCustomDialog = async (text, timeout=1200) => {
   document.querySelector('#dialog-custom p').innerHTML = text;
   dialogConfig.custom = {
     max: 0,
     disableLinks: true,
     onOpen: async () => {
-      await delay(1200);
+      await delay(timeout);
       toggleDialog();
     }
   };
@@ -286,7 +281,6 @@ for (let i=0;i<30; i++){ enterTheVoid();}
 
 
 var playing = true;
-var playing = true;
 const loopStars = () => {
   starGroups.forEach(stars => stars.forEach(star => star.move()));
   contexts.forEach(fn => fn(starGroups));
@@ -308,8 +302,19 @@ const renderGamePage = () => {
     <span>VICTORIES: ${ player.victories }</span>
     <a class='button' href='#'>BATTLE LOG</a>
   `;
-  player.arsenal.forEach((card, arsenalIndex)=>group.appendChild(getHTMLCard(card, arsenalIndex)));
+  group.innerHTML='';
+  player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
 };
+
+window.setOrderAction = () => {
+  console.log('player.hand', player.hand);
+  if (player.hand.length < 3) {
+    displayCustomDialog('choose 3 cards from your arsenal');
+  }
+  setHandLocal();
+  //changePage('viewBattle');
+  //loadBattle(battleLog);
+}
 
 
 // init code
@@ -319,16 +324,16 @@ const initialization = () => {
   const id = parseInt(urlParams.get('id'));
   if (isNaN(id) || id < 0 || id >= 13*1024) return;
   changePage('viewCard');
-  const adn = codesToShip[id];
-  const config = adnToShipConfig(adn);
+  const config = getShipById(id);
   const card = createCard(config);
   viewCard.appendChild(card.cardElement);
   card.cardElement.classList.add('card--flipped');
 }
 
 if (DEBUG) {
-  changePage('viewBattle');
-  loadBattle(battleLog);
+  //setGameState(JOINED);
+  //changePage('viewBattle');
+  //loadBattle(battleLog);
   //changePage('game');
   //loadGameScreen();
 }
