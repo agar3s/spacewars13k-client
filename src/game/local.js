@@ -48,11 +48,10 @@ const loadNewRound = () => {
   setGameState(TURN);
 };
 
-const setHandLocal = () => {
+const setHandLocal = async () => {
   setGameState(HOLD);
-  setTimeout(() => {
-    solveTurnLocal();
-  }, 3000);
+  //await delay(30000);
+  solveTurnLocal();
 };
 
 const randomHand = (arsenal) => arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);

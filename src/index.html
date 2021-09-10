@@ -742,13 +742,15 @@
             80% { transform: translate(1.5, 1.5); }
             100% { transform: translate(1, 1); }
         }
-        .blink_me {
-        animation: blinker 0.8s ease-in-out infinite;
+        .blMe {
+            display:block;
+            margin-top:1vh;
+            animation: bb 0.8s ease-in-out infinite;
         }
-        @keyframes blinker {
-        50% {
-            opacity: 0.8;
-        }
+        @keyframes bb {
+            50% {
+                opacity: 0.8;
+            }
         }
         #viewBattle .arsenal {
             width: min(10vh, 16vw);
@@ -767,7 +769,7 @@
             display: inline-block;
             position: absolute;
             top: 34%;
-            margin: 0 6%;
+            margin: 0 7.5%;
             padding: 0;
         }
         ul.victories li {
@@ -778,7 +780,7 @@
         }
         ul.victories li.score {
             animation: score 0.5s;
-            background: #fff3ff;
+            background: #a08aa0;
         }
 
         #sideA .arsenal.winner {
@@ -893,7 +895,7 @@
             <div id='hand'>
                 <h3>ARSENAL</h3>
                 <div id='group'></div>
-                <a id='setAction' class='btn' href='#' onclick='setOrderAction()'>SET</a>
+                <a id='setAction' class='btn' href='#' onclick='setHand()'>SET</a>
             </div>
         </div>
         <div id='viewCard' class='page hide'>

@@ -254,7 +254,8 @@ const loopStars = () => {
   starGroups.forEach(stars => stars.forEach(star => star.move()));
   contexts.forEach(fn => fn(starGroups));
 };
-
+const blMeStates = ['WAITING FOR ORDERS', 'READY FOR BATTLE'];
+let blIndex = 0;
 const renderGamePage = () => {
   gameStats.innerHTML = `
 <tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
@@ -270,16 +271,20 @@ const renderGamePage = () => {
 <span>FACTION: ${ FACTION_NAMES[player.config.backCover] }</span>
 <span>VICTORIES: ${ player.victories }</span>
 <hr>
-<a style='display:block;margin-top:1vh' class='blink_me' href='#'>WAITING FOR ORDERS</a>`;
+<a id='blMe' href='#'>${blMeStates[blIndex]}</a>`;
   group.innerHTML='';
   player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
 };
 
-window.setOrderAction = () => {
+setHand = async () => {
   //console.log('player.hand', player.hand);
   if (player.hand.length < 3) {
     displayCustomDialog('choose 3 cards from your arsenal');
   } else {
+    blIndex = 1;
+    const reply = blMeStates[blIndex];
+    await displayCustomDialog(reply);
+    byId('blMe').innerHTML=reply;
     setHandLocal();
   }
   //changePage('viewBattle');
