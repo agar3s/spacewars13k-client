@@ -300,7 +300,6 @@ const renderGamePage = () => {
     <span>WINGS: NONE</span>
     <hr>
     <span>VICTORIES: ${ player.victories }</span>
-    <a class='button' href='#'>BATTLE LOG</a>
   `;
   group.innerHTML='';
   player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
@@ -310,8 +309,9 @@ window.setOrderAction = () => {
   console.log('player.hand', player.hand);
   if (player.hand.length < 3) {
     displayCustomDialog('choose 3 cards from your arsenal');
+  } else {
+    setHandLocal();
   }
-  setHandLocal();
   //changePage('viewBattle');
   //loadBattle(battleLog);
 }

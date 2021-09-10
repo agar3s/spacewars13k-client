@@ -51,10 +51,15 @@ const setHandLocal = () => {
   }, 3000);
 };
 
+const randomHand = (arsenal) => arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);
+
 const solveTurnLocal = () => {
   if (game.state !== HOLD) return;
+  if (player.hand.length === 0) {
+    player.hand = randomHand(player.arsenal);
+  }
   const rival = players[regularRandomInt( 1, players.length)];
-  rival.hand = [0,0,0].map(_=>regularRandomInt( 0, rival.arsenal.length));
+  rival.hand = randomHand(rival.arsenal);
   const battleLog = solveBattle(player, rival);
 
   changePage('viewBattle');
@@ -95,8 +100,8 @@ const solveBattle = (playerA, playerB) => {
           console.log(1, handA, handB);
           break;
           case 2: 
-          handA = playerA.arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);
-          handB = playerB.arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);
+          handA = randomHand(playerA.arsenal);
+          handB = randomHand(playerB.arsenal);
           console.log(2, handA, handB);
       break;
       default:
