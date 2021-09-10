@@ -1,6 +1,4 @@
 
-const timeFactor = 80;
-
 const battleCardClick = (cardElement) => {
   flipCard(cardElement);
 
@@ -33,15 +31,15 @@ const secondOption = (cardElement) => {
 }
 
 const animateBattle = async (cardElementA, cardElementB, cardA, cardB, second=false) => {
-  await delay(second?timeFactor*8:12*timeFactor);
+  await delay(second?800:1200);
   !second && flipCard(cardElementA);
   !second && flipCard(cardElementB);
-  await delay(second?0:8*timeFactor);
+  await delay(second?0:800);
   let winner = solveCards(cardA, cardB, second);
   cardElementA.classList.add(winner);
   cardElementB.classList.add(winner);
   if (!second && winner===TIE) {
-    await delay(5*timeFactor);
+    await delay(500);
     cardElementA.classList.remove(winner);
     cardElementB.classList.remove(winner);
     secondOption(cardElementA);
@@ -54,7 +52,7 @@ const animateBattle = async (cardElementA, cardElementB, cardA, cardB, second=fa
 const solveBattleScript = async (coverA, coverB, playerHandA, playerHandB) => {
   const handA = setupHand(sideA, playerHandA, coverA);
   const handB = setupHand(sideB, playerHandB, coverB);
-  await delay(1*timeFactor);
+  await delay(100);
   handA.forEach(cardElement=>cardElement.style.top=0);
   handB.forEach(cardElement=>cardElement.style.top=0);
   let points = 0;
@@ -65,7 +63,7 @@ const solveBattleScript = async (coverA, coverB, playerHandA, playerHandB) => {
 }
 
 const dismissCards = async () => {
-  await delay(25*timeFactor);
+  await delay(2500);
   const cardsA = sideA.querySelectorAll('.card');
   const cardsB = sideB.querySelectorAll('.card');
   const cardsLength = cardsA.length;
@@ -75,12 +73,12 @@ const dismissCards = async () => {
     //flipCard(cardsA[i]);
     //flipCard(cardsB[i]);
   }
-  await delay(5.5*timeFactor);
+  await delay(550);
   for(let i=0;i<cardsLength;i++) {
     cardsA[i].classList.add('vanish');
     cardsB[i].classList.add('vanish');
   }
-  await delay(14*timeFactor);
+  await delay(1400);
 }
 
 const loadBattle = async (battleLog) => {
@@ -95,13 +93,13 @@ const loadBattle = async (battleLog) => {
   const cardA = addCardToBattle(configA, playerA);
   const cardB = addCardToBattle(configB, playerB);
   changePallete(configA.pallete);
-  await delay(10*timeFactor);
+  await delay(1000);
   flipCard(cardA);
-  await delay(7*timeFactor);
+  await delay(700);
   viewBattle.querySelector('h3').classList.toggle('hide');
-  await delay(7*timeFactor);
+  await delay(700);
   flipCard(cardB);
-  await delay(12*timeFactor);
+  await delay(1200);
 
   let scores = [0, 0];
   let winner = false;
@@ -121,7 +119,7 @@ const loadBattle = async (battleLog) => {
       playerB.querySelector(`li:nth-child(${scores[1]})`).classList.add('score');
     };
     winner = scores[0] >= 2 || scores[1] >= 2;
-    await delay(15*timeFactor);
+    await delay(1500);
     if(!winner) {
       await displayCustomDialog('next round');
       await dismissCards();

@@ -100,9 +100,6 @@ const createCanvasElement = (cIndex) => {
   }
 }
 
-
-
-
 const getRandomshipConfig = () => { 
   return {
     shapeId: ~~(rand()*Object.keys(ENCODED_SHAPES).length),
@@ -238,7 +235,8 @@ const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pa
   let svgGenerated = renderShip(shapeId, wingsId, bgColor, fgColor);
   const cardElement = wrapInCard(backCover, [canvasTest.canvas, svgGenerated], flipCard);
   changePallete(shipConfig.pallete);
-
+  const cardFrontElement = cardElement.querySelector('.card-front');
+  const cardBackElement = cardElement.querySelector('.card-backing');
   return {
     cardElement,
     setShipConfiguration: (config) => {

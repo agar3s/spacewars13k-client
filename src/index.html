@@ -24,6 +24,9 @@
             margin-top: 22%;
             font-size: 240%;
         }
+        hr {
+            margin: 0.4vh 1vh 0.4vh 0;
+        }
         .c {
             width: 60px;
             height: 120px;
@@ -197,16 +200,25 @@
         }
         #gameStats {
             border: 0.6vh solid #fff3ff;
-            margin: -0.5vh;
-            padding: 1vh;
+            padding: 1%;
             margin-bottom: 3%;
+            width: 100%;
+        }
+        #gameStats td {
+            width: 50%;
         }
 
         #shipStats {
             display: block;
             float: left;
-            width: 50%;
+            width: 60%;
             margin-left: 5%;
+        }
+        #shipStats span {
+            font-size: 2.5vh;
+        }
+        #shipStats .shipName {
+            font-size:4.5vh;
         }
         .card {
             
@@ -731,6 +743,14 @@
     80% { transform: translate(1.5, 1.5); }
     100% { transform: translate(1, 1); }
 }
+.blink_me {
+  animation: blinker 0.8s ease-in-out infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0.8;
+  }
+}
 #viewBattle .arsenal {
     width: min(10vh, 16vw);
     height: min(15vh, 24vw);
@@ -897,7 +917,6 @@ ul.victories li.score {
                 <a class='right' href='#' onclick='toggleDialog("rules")'>RULES</a>
             </div>
             <h1>SPACE SHIP WARS<br>NFT 13K</h1>
-            <canvas id='c'></canvas>
             <div id='game-state' class='center'>NEXT GAME IN 00:00:11</div>
             <div class='center space'>
                 <a class='button' id='joinGameButton' onclick='toggleDialog("join")' href='#'>JOIN GAME</a>
@@ -916,7 +935,7 @@ ul.victories li.score {
         </div>
 
         <div id='game' class='page hide'>
-            <div id='gameStats'></div>
+            <table id='gameStats'></table>
             <div id='ship'>
             </div>
             <div id='shipStats'></div>

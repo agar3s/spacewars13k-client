@@ -3,9 +3,13 @@
 let mockRemoteGameState = LOBBY;
 
 const assignPlayer = (id) => {
+  const shipId = regularRandomInt(0, 13*1024);
+  const shipADN = codesToShip[shipId];
   return {
     id,
-    shipId: regularRandomInt(0, 13*1024),
+    shipId,
+    shipADN,
+    config: adnToShipConfig(shipADN),
     alive: true,
     arsenal: [0, 1, 2, regularRandomInt(3, cards.length)],
     hand: [],
@@ -74,6 +78,7 @@ const solveCardAbsolute = (cardA, cardB) => {
   }
   return BATTLE_VALUES[sol];
 }
+
 const solveBattle = (playerA, playerB) => {
   let log = {
     shipA: playerA.shipId,

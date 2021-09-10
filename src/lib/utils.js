@@ -6,3 +6,6 @@ const pseudoRandom = (seed) => {
 const rand = Math.random;
 
 const randomSort = (a, b) => Math.random()>0.5?-1:1;
+
+let timeFactor = 1;
+const delay = (ms) => new Promise((resolve)=>setTimeout(resolve, ~~(ms*timeFactor)));

@@ -299,6 +299,59 @@ const backgroundConfig = [
   [-1, 0], [0, 0], [1, 0], [2, 0], [3, 0], [4, 0],
   [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [4, 1]
 ];
+
+
+const FACTION_NAMES = [
+  'SHADOW PROCLAMATION',
+  'SKULZ',
+  'BORGZ',
+  'REBELS',
+  'THE EMPIRE',
+  'FEDERATION'
+];
+const BASE_NAMES = [
+  'ICARUS',
+  'USCSS',
+  'X-78',
+  'NIGHTFLY',
+  'SPACEWOLF',
+  'LEGACY',
+  'BEBOP',
+  'YAMATO',
+  'NAUTILUS',
+  'HYPERION'
+];
+const WINGS_NAMES = [
+  'HUNTER',
+  'LIBERATOR',
+  'EXPLORER',
+  'SEARCHER',
+  'RIDER',
+  'SEEKER',
+  'SKYWALKER',
+  'DESTROYER',
+  'INTREPID',
+  'EXPLORER',
+  'BRAVE',
+  'FEARLESS',
+  'CONQUEROR',
+  'MASTER'
+];
+const GALAXY_NAMES = [
+  'MILKY WAY',
+  'ANDROMEDA',
+  'HYDRA',
+  'HELIX',
+  'BW TAURI',
+  'RECURSIVE',
+  'VOID',
+  'KRAKEN',
+  'OMEGA',
+  'XIX',
+  'DARK',
+  'ULTIMATE'
+];
+
 const backCovers = [
   'discount',
   'skulls',

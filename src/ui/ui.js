@@ -27,8 +27,6 @@ window.back = () => {
   changePage(previousPage.pop(), true);
 };
 
-const delay = (ms) => new Promise((resolve)=>setTimeout(resolve, ms));
-
 let dialogTop = 0;
 let dialogMax = -105;
 let dialogCategory = '';
@@ -288,19 +286,20 @@ const loopStars = () => {
 
 const renderGamePage = () => {
   gameStats.innerHTML = `
-    <span>ROUND: #${ game.round }</span>
-    <span>NEXT BATTLE: <span id='timer'>00:00:11</span></span>
-    <span>REMAINING SHIPS: ${ 8 }</span>
+<tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
+<tr><td>ROUND: #${ game.round }</td><td>NEXT BATTLE: <span id='timer'>00:00:11</td></tr>
+<tr><td>REMAINING SHIPS: ${ 8 }</td></tr>
   `;
 
   shipStats.innerHTML = `
-    <span>SPACESHIP: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
-    <span>FACTION: VULTK</span>
-    <span>BASE: ZEPPEL</span>
-    <span>WINGS: NONE</span>
-    <hr>
-    <span>VICTORIES: ${ player.victories }</span>
-  `;
+<span class='shipName'>${BASE_NAMES[player.config.shapeId]} ${WINGS_NAMES[player.config.wingsId]}</span>
+<hr>
+<span>SPACESHIP: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
+<span>GALAXY: ${ GALAXY_NAMES[player.config.bgEffect] }</span>
+<span>FACTION: ${ FACTION_NAMES[player.config.backCover] }</span>
+<span>VICTORIES: ${ player.victories }</span>
+<hr>
+<a style='display:block;margin-top:1vh' class='blink_me' href='#'>WAITING FOR ORDERS</a>`;
   group.innerHTML='';
   player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
 };
@@ -331,11 +330,14 @@ const initialization = () => {
 }
 
 if (DEBUG) {
+  timeFactor = 0.1;
+  startGame();
   //setGameState(JOINED);
   //changePage('viewBattle');
   //loadBattle(battleLog);
   //changePage('game');
   //loadGameScreen();
+  //changePage('debugView')
 }
 
 

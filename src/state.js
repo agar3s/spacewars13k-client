@@ -4,9 +4,9 @@ const TESTNET=1;
 const LOCALNET=2;
 
 const NETS = {
-  [MAINNET]: 'mainnet',
-  [TESTNET]: 'testnet',
-  [LOCALNET]: '',
+  [MAINNET]: 'MAINNET',
+  [TESTNET]: 'TESTNET',
+  [LOCALNET]: 'LOCAL',
 };
 
 const LOBBY = 0;
