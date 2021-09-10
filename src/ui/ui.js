@@ -4,22 +4,22 @@ let previousPage = [];
 
 const changePage = (page, back) => {
   if (!back) previousPage.push(currentPage);
-  console.log(currentPage, page);
-  document.getElementById(currentPage).classList.add('hide');
-  document.getElementById(page).classList.remove('hide');
+  //console.log(currentPage, page);
+  addClass(byId(currentPage), 'hide');
+  removeClass(byId(page), 'hide');
   currentPage = page;
 };
 
 const joinGame = async () => {
   joinGameLocal();
   await delay(1500);
-  moveDialog(-14);
+  md(-14);
   await delay(1300);
-  moveDialog(-14);
+  md(-14);
   await delay(1000);
-  toggleDialog();
-  joinGameButton.classList.add('hide');
-  joinGameLabel.classList.remove('hide');
+  td();
+  addClass(joinGamebtn, 'hide');
+  removeClass(joinGameLabel, 'hide');
   netSelect.disabled = true;
 };
 
@@ -44,11 +44,11 @@ let dialogConfig = {
     disableLinks: true,
     onOpen: async () => {
       await delay(800);
-      moveDialog(-14);
+      md(-14);
       await delay(1200);
       setGameState(JOINED);
       await delay(600);
-      toggleDialog();
+      td();
     }
   },
   'battle-end': {
@@ -60,101 +60,72 @@ let dialogConfig = {
   }
 };
 
-moveDialog = (val) => {
+md = (val) => {
   dialogTop += val;
-  if (dialogTop < dialogMax) toggleDialog(dialogCategory);
+  if (dialogTop < dialogMax) td(dialogCategory);
   if (dialogTop > 0) dialogTop =  0;
-  dialogText.style.top = `${dialogTop}vh`;
+  dlt.style.top = `${dialogTop}vh`;
 };
 
 let dialogOpen = false;
 
 const displayCustomDialog = async (text, timeout=1200) => {
-  document.querySelector('#dialog-custom p').innerHTML = text;
+  document.querySelector('#dl-custom p').innerHTML = text;
   dialogConfig.custom = {
     max: 0,
     disableLinks: true,
     onOpen: async () => {
       await delay(timeout);
-      toggleDialog();
+      td();
     }
   };
-  await this.toggleDialog('custom')
+  await this.td('custom')
 }
 
-toggleDialog = async (category=dialogCategory, props) => {
+td = async (category=dialogCategory, props) => {
   dialogTop = 0;
-  dialogText.style.top = `${dialogTop}vh`;
-  const targetDialog = document.getElementById(`dialog-${category}`);
+  dlt.style.top = `${dialogTop}vh`;
+  const targetDialog = byId(`dl-${category}`);
   //targetDialog.classList.toggle('hide');
-  let isOpenEvent = targetDialog.classList.contains('hide');
+  let isOpenEvent = containsClass(targetDialog, 'hide');
   dialogCategory=category;
   let {max, disableLinks, onOpen} = dialogConfig[category];
   dialogMax = max;
-  const links = dialog.querySelectorAll('a');
+  const links = dl.querySelectorAll('a');
   
   for (let i=0;i<links.length;i++) {
-    disableLinks?links[i].classList.add('hide'):links[i].classList.remove('hide');
+    disableLinks?addClass(links[i], 'hide'):removeClass(links[i], 'hide');
   }
   if (isOpenEvent) {
-    targetDialog.classList.toggle('hide');
-    dialog.classList.toggle('hide');
+    toggleClass(targetDialog, 'hide');
+    toggleClass(dl, 'hide');
     await delay(1);
-    dialogBox.style.top = '35vh';
-    dialogBox.style.opacity = '1';
+    dlb.style.top = '35vh';
+    dlb.style.opacity = '1';
     await delay(300);
     onOpen && onOpen();
     dialogOpen = true;
   } else {
     await delay(1);
-    dialogBox.style.top = '100vh';
-    dialogBox.style.opacity = '0';
+    dlb.style.top = '100vh';
+    dlb.style.opacity = '0';
     await delay(300);
-    dialogBox.style.top = '0vh';
-    targetDialog.classList.toggle('hide');
-    dialog.classList.toggle('hide');
+    dlb.style.top = '0vh';
+    toggleClass(targetDialog, 'hide');
+    toggleClass(dl, 'hide');
     dialogOpen = false;
   }
 };
 
-const divGameState = document.getElementById('game-state');
+// dgs div game state
 let targetTime = Date.now() + 1000 * 60 * 5;
 const updatetime = () => {
   const time = targetTime - Date.now();
   const mins = ~~(time / (1000 * 60));
   const secs = (~~((time - mins*60*1000) / 1000)).toString().padStart(2, '0');
-  divGameState.innerHTML = `NEXT WAR IN ${mins}:${secs}`;
-  const timer = document.getElementById('timer');
-  if (timer) {
-    timer.innerHTML = `${mins}:${secs}`;
-  }
-}
-
-const divShip = document.getElementById('ship');
-divShip.onclick = (e) => {
-  const el = e.target;
-  e.stopPropagation();
-  if(divShip.classList.contains('card--flipped')) {
-    divShip.classList.add('card--unflip');
-    setTimeout(() => {
-      divShip.classList.remove('card--flipped', 'card--unflip');
-    }, 500);
-  }
-  else { 
-    divShip.classList.add("card--flipped");
-  }
-};
-
-window.oncardClicked = (target) => {
-  if(target.classList.contains('card--flipped')) {
-    target.classList.add('card--unflip');
-    setTimeout(() => {
-      target.classList.remove('card--flipped', 'card--unflip');
-    }, 500);
-  }
-  else { 
-    target.classList.add("card--flipped");
-  }
+  dgs.innerHTML = `NEXT WAR IN ${mins}:${secs}`;
+  const timer = byId('timer')
+  if (timer) timer.innerHTML = `${mins}:${secs}`;
 }
 
 const starGroups = [[],[],[],[],[]];
@@ -177,7 +148,7 @@ const addExplodingStar = () => {
     r = rand()*Math.PI*2;
     vx=Math.cos(r)*speed; vy=Math.sin(r)*speed;
   };
-  console.log(vx, vy);
+  //console.log(vx, vy);
   starGroups[1].push({
     move: _=> {
       y += vy; x+= vx;
@@ -305,7 +276,7 @@ const renderGamePage = () => {
 };
 
 window.setOrderAction = () => {
-  console.log('player.hand', player.hand);
+  //console.log('player.hand', player.hand);
   if (player.hand.length < 3) {
     displayCustomDialog('choose 3 cards from your arsenal');
   } else {
@@ -326,12 +297,13 @@ const initialization = () => {
   const config = getShipById(id);
   const card = createCard(config);
   viewCard.appendChild(card.cardElement);
-  card.cardElement.classList.add('card--flipped');
+  addClass(card.cardElement, 'cf');
 }
 
+initialization();
 if (DEBUG) {
-  timeFactor = 0.1;
-  startGame();
+  timeFactor = 1;
+  //startGame();  
   //setGameState(JOINED);
   //changePage('viewBattle');
   //loadBattle(battleLog);
@@ -342,5 +314,3 @@ if (DEBUG) {
 
 
 
-
-initialization();

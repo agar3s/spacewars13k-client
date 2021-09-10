@@ -21,7 +21,7 @@
             text-align: center;
         }
         h1 {
-            margin-top: 22%;
+            margin: 22% 0;
             font-size: 240%;
         }
         hr {
@@ -44,7 +44,6 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            image-rendering: pixelated;
             transform-origin: center center;
             border: 1vh solid #fff3ff;
             overflow: hidden;
@@ -60,7 +59,7 @@
             text-decoration: none;
             padding: 0 2%;
         }
-        a.button {
+        a.btn {
             display: inline-block;
             border: 0.6vh solid #fff3ff;
             padding: 1% 3%;
@@ -77,7 +76,7 @@
             background-color: #fff;
             text-shadow: 0 0 0.1vh #fff, 0 0 0.2vh #fff, 0 0 0.3vh #fff3ff, 0 0 0.4vh #fff3ff, 0 0 0.5vh #fff3ff;
         }
-        a.button:hover {
+        a.btn:hover {
             animation-duration: 0.5s;
             border: 0.6vh double #111;
             background-color: #fff;
@@ -126,7 +125,7 @@
             float: right;
         }
 
-        #dialog {
+        #dl {
             position: absolute;
             top: 0;
             background: #000000aa;
@@ -137,11 +136,11 @@
             transition: 0.25s ease-in-out;
             opacity: 1;
         }
-        #dialog * {
+        #dl * {
             background: #fff3ff;
             color: #111;
         }
-        #dialogBox {
+        #dlb {
             position: absolute;
             display: block;
             top: -15vh;
@@ -153,13 +152,13 @@
             left: 0;
             overflow: hidden; 
         }
-        .tutor-container {
+        .tco {
             height: 100%;
             width: 33%;
             display: block;
             float: left;
         }
-        #dialogText {
+        #dlt {
             display: block;
             float: right;
             width: 66%;
@@ -167,7 +166,7 @@
             top: 0;
             transition: 0.35s ease-in-out;
         }
-        #dialog p {
+        #dl p {
             padding: 1vh;
             margin: 0;
             font-size: 2.6vh;
@@ -175,17 +174,17 @@
             display: flex;
             align-items: center;
         }
-        #dialogBox a {
+        #dlb a {
             display: block;
             position: absolute;
             bottom: 6;
             right: 0.2vh;
             font-size: 2.5vh;
         }
-        #dialog a.first {
+        #dl a.first {
             right: 3vh;
         }
-        #dialog a.close {
+        #dl a.close {
             bottom: auto;
             right: -0.5vw;
             font-size: 2vh;
@@ -215,7 +214,7 @@
             margin-left: 5%;
         }
         #shipStats span {
-            font-size: 2.5vh;
+            font-size: 2.4vh;
         }
         #shipStats .shipName {
             font-size:4.5vh;
@@ -238,11 +237,11 @@
             border-radius: 2vh;
             background: none;
         }
-        .card.card--flipped {
-            animation: cardFlip .275s forwards linear;
+        .card.cf {
+            animation: acf .275s forwards linear;
         }
-        .card.card--unflip {
-            animation: cardUnFlip .275s forwards linear;
+        .card.cu {
+            animation: acu .275s forwards linear;
         }
         .card:hover {
             cursor: pointer;
@@ -263,7 +262,7 @@
             border-radius: 2vh;
         }
         
-        @keyframes cardFlip {
+        @keyframes acf {
             0% {
                 transform: rotateZ(0deg) rotateY(180deg);
             } 
@@ -275,7 +274,7 @@
             }
         }
 
-        @keyframes cardUnFlip {
+        @keyframes acu {
             0% {
                 transform: rotateZ(0deg) rotateY(0deg);
             } 
@@ -309,7 +308,7 @@
             width: 30%;
             margin: auto;
         }
-        #hand a.button {
+        #hand a.btn {
             position: absolute;
             bottom: 1%;
             display: block;
@@ -320,7 +319,7 @@
             right: 0;
             margin: 0 auto;
         }
-        #hand a.button:hover {
+        #hand a.btn:hover {
             background-color: #fff3ff;
         }
         #group {
@@ -490,439 +489,391 @@
             background-position: 100% 100%;
         }
         .skulls {
-	background-color: #111;
-	background-image:
-		
-		repeating-radial-gradient(
-			circle at 9.5vh 13.48vh,
-			#e3e3e3,
-			#e3e3e3 0.1vh,
-			transparent 0.11vh,
-			transparent 1vh),
-		repeating-radial-gradient(
-			circle at 9.4vh 13.46vh,
-			#e3e3e3,
-			#e3e3e3 0.1vh,
-			transparent 0.11vh,
-			transparent 1vh),
-		repeating-radial-gradient(
-			circle at 9.6vh 13.46vh,
-			#e3e3e3,
-			#e3e3e3 0.1vh,
-			transparent 0.11vh,
-			transparent 1vh),
-		
-		repeating-radial-gradient(
-			circle at 9.5vh 13.68vh,
-			transparent,
-			transparent 0.24vh,
-			#e3e3e3 0.25vh,
-			#e3e3e3 0.37vh,
-			transparent 0.38vh,
-			transparent 1vh),
-		
-		repeating-radial-gradient(
-			circle at 9.35vh 13.7vh,
-			transparent,
-			transparent 0.1vh,
-			#e3e3e3 0.11vh,
-			#e3e3e3 0.18vh,
-			transparent 0.19vh,
-			transparent 1vh),
-		repeating-radial-gradient(
-			circle at 9.65vh 13.7vh,
-			transparent,
-			transparent 0.1vh,
-			#e3e3e3 0.11vh,
-			#e3e3e3 0.18vh,
-			transparent 0.19vh,
-			transparent 1vh),
-		
-		repeating-radial-gradient(
-			circle at 9.42vh 13.87vh,
-			transparent,
-			transparent 0.05vh,
-			#e3e3e3 0.06vh,
-			#e3e3e3 0.1vh,
-			transparent 0.11vh,
-			transparent 1vh),
-		
-		repeating-radial-gradient(
-			circle at 9.56vh 13.86vh,
-			transparent,
-			transparent 0.14vh,
-			#e3e3e3 0.15vh,
-			#e3e3e3 0.23vh,
-			transparent 0.24vh,
-			transparent 1vh),
-		repeating-radial-gradient(
-			circle at 9.32vh 14.01vh,
-			#e3e3e3,
-			#e3e3e3 0.04vh,
-			transparent 0.05vh,
-			transparent 2vh);
-	background-size: 200% 200%;
-	background-position: -0.5vh 0vh;
-}
+            background-color: #111;
+            background-image:
+                
+                repeating-radial-gradient(
+                    circle at 9.5vh 13.48vh,
+                    #e3e3e3,
+                    #e3e3e3 0.1vh,
+                    transparent 0.11vh,
+                    transparent 1vh),
+                repeating-radial-gradient(
+                    circle at 9.4vh 13.46vh,
+                    #e3e3e3,
+                    #e3e3e3 0.1vh,
+                    transparent 0.11vh,
+                    transparent 1vh),
+                repeating-radial-gradient(
+                    circle at 9.6vh 13.46vh,
+                    #e3e3e3,
+                    #e3e3e3 0.1vh,
+                    transparent 0.11vh,
+                    transparent 1vh),
+                
+                repeating-radial-gradient(
+                    circle at 9.5vh 13.68vh,
+                    transparent,
+                    transparent 0.24vh,
+                    #e3e3e3 0.25vh,
+                    #e3e3e3 0.37vh,
+                    transparent 0.38vh,
+                    transparent 1vh),
+                
+                repeating-radial-gradient(
+                    circle at 9.35vh 13.7vh,
+                    transparent,
+                    transparent 0.1vh,
+                    #e3e3e3 0.11vh,
+                    #e3e3e3 0.18vh,
+                    transparent 0.19vh,
+                    transparent 1vh),
+                repeating-radial-gradient(
+                    circle at 9.65vh 13.7vh,
+                    transparent,
+                    transparent 0.1vh,
+                    #e3e3e3 0.11vh,
+                    #e3e3e3 0.18vh,
+                    transparent 0.19vh,
+                    transparent 1vh),
+                
+                repeating-radial-gradient(
+                    circle at 9.42vh 13.87vh,
+                    transparent,
+                    transparent 0.05vh,
+                    #e3e3e3 0.06vh,
+                    #e3e3e3 0.1vh,
+                    transparent 0.11vh,
+                    transparent 1vh),
+                
+                repeating-radial-gradient(
+                    circle at 9.56vh 13.86vh,
+                    transparent,
+                    transparent 0.14vh,
+                    #e3e3e3 0.15vh,
+                    #e3e3e3 0.23vh,
+                    transparent 0.24vh,
+                    transparent 1vh),
+                repeating-radial-gradient(
+                    circle at 9.32vh 14.01vh,
+                    #e3e3e3,
+                    #e3e3e3 0.04vh,
+                    transparent 0.05vh,
+                    transparent 2vh);
+            background-size: 200% 200%;
+            background-position: -0.5vh 0vh;
+        }
 
-.biohazard {
-	background-color: #333;
-	background-image:
-		repeating-radial-gradient(
-			circle at 1.01vh 1.07vh,
-			#333,
-			#333 0.07vh,
-			transparent 0.085vh,
-			transparent 2vh),
-		repeating-radial-gradient(
-			circle at 0.57vh 1.3vh,
-			transparent,
-			transparent 0.3vh,
-			#333 0.315vh,
-			#333 0.34vh,
-			transparent 0.355vh,
-			transparent 2vh),
-		repeating-radial-gradient(
-			circle at 1vh 0.58vh,
-			transparent,
-			transparent 0.3vh,
-			#333 0.315vh,
-			#333 0.34vh,
-			transparent 0.355vh,
-			transparent 2vh),
-		repeating-radial-gradient(
-			circle at 1.01vh 1.06vh,
-			transparent,
-			transparent 0.3vh,
-			#e3e3e3 0.315vh,
-			#e3e3e3 0.4vh,
-			transparent 0.415vh,
-			transparent 2vh),
-		repeating-radial-gradient(
-			circle at 1vh 0.58vh,
-			#333,
-			#333 0.34vh,
-			transparent 0.355vh,
-			transparent 2vh),
-		repeating-radial-gradient(
-			circle at -1vh -1.65vh,
-			#e3e3e3,
-			#e3e3e3 3.4vh,
-			transparent 0.415vh,
-			transparent 10vh);
-	background-size: 50vh 50vh;
-}
+        .biohazard {
+            background-color: #333;
+            background-image:
+                repeating-radial-gradient(
+                    circle at 1.01vh 1.07vh,
+                    #333,
+                    #333 0.07vh,
+                    transparent 0.085vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 0.57vh 1.3vh,
+                    transparent,
+                    transparent 0.3vh,
+                    #333 0.315vh,
+                    #333 0.34vh,
+                    transparent 0.355vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1vh 0.58vh,
+                    transparent,
+                    transparent 0.3vh,
+                    #333 0.315vh,
+                    #333 0.34vh,
+                    transparent 0.355vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1.01vh 1.06vh,
+                    transparent,
+                    transparent 0.3vh,
+                    #e3e3e3 0.315vh,
+                    #e3e3e3 0.4vh,
+                    transparent 0.415vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at 1vh 0.58vh,
+                    #333,
+                    #333 0.34vh,
+                    transparent 0.355vh,
+                    transparent 2vh),
+                repeating-radial-gradient(
+                    circle at -1vh -1.65vh,
+                    #e3e3e3,
+                    #e3e3e3 3.4vh,
+                    transparent 0.415vh,
+                    transparent 10vh);
+            background-size: 50vh 50vh;
+        }
 
-.lobby {
-	background-color: #e3e3e3;
-	background-image:
-		repeating-linear-gradient(
-			-90deg,
-			#333,
-			#333 -0.6vh,
-			transparent -0.6vh,
-			transparent 1.98vh,
-			#333 0.98vh,
-			#333 1vh),
-		repeating-linear-gradient(
-			45deg,
-			#333,
-			#333 0.9vh,
-			transparent 0.9vh, 
-			transparent 0.98vh,
-			#333 0.98vh,
-			#333 0.6vh);
-	background-size: 60vh 100vh;
-}
+        .lobby {
+            background-color: #e3e3e3;
+            background-image:
+                repeating-linear-gradient(
+                    -90deg,
+                    #333,
+                    #333 -0.6vh,
+                    transparent -0.6vh,
+                    transparent 1.98vh,
+                    #333 0.98vh,
+                    #333 1vh),
+                repeating-linear-gradient(
+                    45deg,
+                    #333,
+                    #333 0.9vh,
+                    transparent 0.9vh, 
+                    transparent 0.98vh,
+                    #333 0.98vh,
+                    #333 0.6vh);
+            background-size: 60vh 100vh;
+        }
 
-.target {
-	background-color: #e3e3e3;
-	background-image:
-		repeating-radial-gradient(
-			circle at 0.5vh 0.5vh,
-			transparent,
-			transparent 0.14vh,
-			#333 0.15vh,
-			#333 0.28vh,
-			transparent 0.29vh);
-	background-size: 3vh 3vh;
-}
+        .target {
+            background-color: #e3e3e3;
+            background-image:
+                repeating-radial-gradient(
+                    circle at 0.5vh 0.5vh,
+                    transparent,
+                    transparent 0.14vh,
+                    #333 0.15vh,
+                    #333 0.28vh,
+                    transparent 0.29vh);
+            background-size: 3vh 3vh;
+        }
 
-.trellis {
-	background: #333;
-	background-image:
-		repeating-linear-gradient(
-			-60deg,
-			#e3e3e3, 
-			#e3e3e3 0.1em, 
-			transparent 0.11em, 
-			transparent 0.4em, 
-			#e3e3e3 0.41em),
-		repeating-linear-gradient(
-			60deg,
-			#e3a3a3, 
-			#e3a3a3 0.1em, 
-			transparent 0.11em, 
-			transparent 0.4em, 
-			#e3a3a3 0.41em);
-	background-size: 10em;
-}
+        .trellis {
+            background: #333;
+            background-image:
+                repeating-linear-gradient(
+                    -60deg,
+                    #e3e3e3, 
+                    #e3e3e3 0.1em, 
+                    transparent 0.11em, 
+                    transparent 0.4em, 
+                    #e3e3e3 0.41em),
+                repeating-linear-gradient(
+                    60deg,
+                    #e3a3a3, 
+                    #e3a3a3 0.1em, 
+                    transparent 0.11em, 
+                    transparent 0.4em, 
+                    #e3a3a3 0.41em);
+            background-size: 10em;
+        }
 
-#debugView {
-    font-size: 75%;
-    font-weight: 100;
-    overflow: visible;
-}
-#debugView a {
-    padding: 0.7%;
-}
-#debugView .card {
-    width: 30%;
-    margin: 1.5%;
-    height: 30%;
-}
-#previewDebug {
-    position: relative;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    float: left;
-    width: 100%;
-}
-#shipid {
-    height: 5vh;
-    font-size: 4vh;
-    width: 15vh;
-}
-#viewCard .card {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 50%;
-    height: 50%;
-    float: none;
-    margin: auto;
-}
-.card-container  {
-    display: block;
-    float: left;
-    width: 30%;
-    height: 30%;
-    margin: 5% 10%;
-}
-#viewBattle h3 {
-    display: block;
-    position: absolute;
-    top: 16%;
-    left: 0;
-    right: 0;
-    background: none;
-    font-size: 6vh;
-}
-#playerB {
-    float: right;
-}
-.card-container  .card {
-    width: 100%;
-    height: 100%;
-}
-@keyframes shake {
-    0% { transform: translate(1px, 0px); }
-    20% { transform: translate(-2px, -4px); }
-    40% { transform: translate(-6px, 0px); }
-    60% { transform: translate(6px, 4px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0, 0); }
-}
-@keyframes score{
-    0% { transform: scale(1, 1); }
-    50% { transform: scale(2, 2); }
-    80% { transform: translate(1.5, 1.5); }
-    100% { transform: translate(1, 1); }
-}
-.blink_me {
-  animation: blinker 0.8s ease-in-out infinite;
-}
-@keyframes blinker {
-  50% {
-    opacity: 0.8;
-  }
-}
-#viewBattle .arsenal {
-    width: min(10vh, 16vw);
-    height: min(15vh, 24vw);
-    float: none;
-    left: 0;
-    margin: 4% 31%;
-    display: block;
-    transition: 0.5s;
-    opacity: 1;
-}
-#viewBattle .arsenal.tie svg {
-    animation: shake 0.3s;
-}
-ul.victories {
-    display: inline-block;
-    position: absolute;
-    top: 34%;
-    margin: 0 6%;
-    padding: 0;
-}
-ul.victories li {
-    display: inline-block;
-    width: min(4vh, 5vw);
-    height: min(2vh, 3vw);
-    border: min(0.5vh, 0.5vw) solid #fff3ff;
-}
-ul.victories li.score {
-    animation: score 0.5s;
-    background: #fff3ff;
-}
+        #debugView {
+            font-size: 75%;
+            font-weight: 100;
+            overflow: visible;
+        }
+        #debugView a {
+            padding: 0.7%;
+        }
+        #debugView .card {
+            width: 30%;
+            margin: 1.5%;
+            height: 30%;
+        }
+        #previewDebug {
+            position: relative;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            float: left;
+            width: 100%;
+        }
+        #shipid {
+            height: 5vh;
+            font-size: 4vh;
+            width: 15vh;
+        }
+        #viewCard .card {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            float: none;
+            margin: auto;
+        }
+        .cCon  {
+            display: block;
+            float: left;
+            width: 30%;
+            height: 30%;
+            margin: 5% 10%;
+        }
+        #viewBattle h3 {
+            display: block;
+            position: absolute;
+            top: 16%;
+            left: 0;
+            right: 0;
+            background: none;
+            font-size: 6vh;
+        }
+        #playerB {
+            float: right;
+        }
+        .cCon  .card {
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 0px); }
+            20% { transform: translate(-2px, -4px); }
+            40% { transform: translate(-6px, 0px); }
+            60% { transform: translate(6px, 4px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0, 0); }
+        }
+        @keyframes score{
+            0% { transform: scale(1, 1); }
+            50% { transform: scale(2, 2); }
+            80% { transform: translate(1.5, 1.5); }
+            100% { transform: translate(1, 1); }
+        }
+        .blink_me {
+        animation: blinker 0.8s ease-in-out infinite;
+        }
+        @keyframes blinker {
+        50% {
+            opacity: 0.8;
+        }
+        }
+        #viewBattle .arsenal {
+            width: min(10vh, 16vw);
+            height: min(15vh, 24vw);
+            float: none;
+            left: 0;
+            margin: 4% 31%;
+            display: block;
+            transition: 0.5s;
+            opacity: 1;
+        }
+        #viewBattle .arsenal.tie svg {
+            animation: shake 0.3s;
+        }
+        ul.victories {
+            display: inline-block;
+            position: absolute;
+            top: 34%;
+            margin: 0 6%;
+            padding: 0;
+        }
+        ul.victories li {
+            display: inline-block;
+            width: min(4vh, 5vw);
+            height: min(2vh, 3vw);
+            border: min(0.5vh, 0.5vw) solid #fff3ff;
+        }
+        ul.victories li.score {
+            animation: score 0.5s;
+            background: #fff3ff;
+        }
 
-#sideA .arsenal.winner {
-    left: 5vh;
-}
-#sideB .arsenal.winner {
-    left: 15vh;
-    opacity: 0;
-}
-#sideA .arsenal.loser {
-    left: -15vh;
-    opacity: 0;
-}
-#sideB .arsenal.loser {
-    left: -5vh;
-}
-#sideA .arsenal.vanish, #sideB .arsenal.vanish {
-    opacity: 0;
-}
-.turn div {
-    display: inline-block;
-}
+        #sideA .arsenal.winner {
+            left: 5vh;
+        }
+        #sideB .arsenal.winner {
+            left: 15vh;
+            opacity: 0;
+        }
+        #sideA .arsenal.loser {
+            left: -15vh;
+            opacity: 0;
+        }
+        #sideB .arsenal.loser {
+            left: -5vh;
+        }
+        #sideA .arsenal.vanish, #sideB .arsenal.vanish {
+            opacity: 0;
+        }
+        .turn div {
+            display: inline-block;
+        }
 
-#battles {
-    float: left;
-    width: 100%;
-    height: 66%;
-    padding: 2vh 0 0 0;
-}
-.battle {
-    width: 50%;
-    height: 50vh;
-    display: block;
-    float: left;
-}
-
-
+        #battles {
+            float: left;
+            width: 100%;
+            height: 66%;
+            padding: 2vh 0 0 0;
+        }
+        .battle {
+            width: 50%;
+            height: 50vh;
+            display: block;
+            float: left;
+        }
     </style>
 </head>
-<body class='spectrum-background'>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" style='width:0;height:0'>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" style="width:0;height:0">
         <defs>
-            <!-- http://tutorials.jenkov.com/svg/fill-patterns.html -->
-            <pattern id="pattern0"
-                    x="0" y="0" width="1" height="1"
-                    patternUnits="userSpaceOnUse"
-                >
-                    <rect width="1" height="1" style="fill:#fff3ff" />
-                </pattern>
-            <pattern id="pattern1"
-                     width="3" height="3"
-                     patternUnits="userSpaceOnUse"
-                     patternTransform="rotate(45)">
-                <rect width="4" height="4" style="fill:#fff3ff"/>
-                <circle cx="1.5" cy="1.5" r="1.5" style="stroke: none; fill: #111" />
-            </pattern>
-            <pattern id="pattern2"
-                     x="1.5" y="1.5" width="1.5" height="1.5"
-                     patternUnits="userSpaceOnUse"
-                     patternTransform="rotate(35)"
-                     >
-                     <rect width="3" height="3" style="fill:#111" />
-                     <circle cx="0.5" cy="0.5" r="0.5" style="stroke: none; fill: #fff3ff" />
-            </pattern>
-                <pattern id="pattern3"
-                    x="0" y="0" width="2" height="2"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                    >
-                    <rect width="2" height="2" style="fill:#111" />
-                    <line x1="0" y1="0" x2="8" y2="0" stroke="#fff3ff" stroke-width="1" />
-                    <line x1="0" y1="0" x2="0" y2="8" stroke="#fff3ff" stroke-width="1" />
-                </pattern>
-                <pattern id="pattern4"
-                    x="0" y="0" width="3" height="3"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                    >
-                    <rect width="3" height="3" style="fill:#fff3ff" />
-                    <circle cx="0.5" cy="0.5" r="3" style="stroke: none; fill: #111" />
-                </pattern>
-                <pattern id="pattern5"
-                    x="0" y="0" width="3" height="3"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                >
-                    <rect width="3" height="3" style="fill:#fff3ff" />
-                    <circle cx="0.5" cy="0.5" r="2" style="stroke: none; fill: #111" />
-                    <line x1="0" y1="0" x2="8" y2="8" stroke="#fff3ff" stroke-width="0.5" />
-                    <line x1="0" y1="0" x2="0" y2="8" stroke="#fff3ff" stroke-width="0.5" />
-                </pattern>
-                
-                <pattern id="pattern6"
-                    x="0" y="0" width="6" height="6"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                >
-                    <rect width="6" height="6" style="fill:#111" />
-                    <rect width="3" height="3" style="fill:#fff3ff" />
-                </pattern>
-                
-                <pattern id="pattern7"
-                    x="0" y="0" width="6" height="6"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                >
-                    <rect width="6" height="6" style="fill:#111" />
-                    <rect width="1" height="3" style="fill:#fff3ff" />
-                    <rect width="3" height="1" style="fill:#fff3ff" />
-                </pattern>
-                
-                <pattern id="pattern8"
-                    x="0" y="0" width="6" height="6"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                >
-                    <rect width="6" height="6" style="fill:#111" />
-                    <rect x="1" y="1" width="2" height="2" style="fill:none" stroke="#fff" stroke-width="0.5" />
-                    <rect x="3" y="3" width="2" height="2" style="fill:none" stroke="#fff" stroke-width="0.5" />
-                    <rect x="1" y="3" width="2" height="2" style="fill:none" stroke="#fff" stroke-width="0.5" />
-                    <rect x="3" y="1" width="2" height="2" style="fill:none" stroke="#fff" stroke-width="0.5" />
-                </pattern>
-                
-                <pattern id="pattern9"
-                    x="0" y="0" width="1" height="1"
-                >
-                    <rect width="1" height="1" style="fill:#111" />
-                </pattern>
+          <pattern id="pattern0" x="0" y="0" width="1" height="1" patternUnits="userSpaceOnUse">
+            <path style="fill:#fff3ff" d="M0 0h1v1H0z"/>
+          </pattern>
+          <pattern id="pattern1" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#fff3ff" d="M0 0h4v4H0z"/>
+            <circle cx="1.5" cy="1.5" r="1.5" style="stroke:none;fill:#111"/>
+          </pattern>
+          <pattern id="pattern2" x="1.5" y="1.5" width="1.5" height="1.5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <path style="fill:#111" d="M0 0h3v3H0z"/>
+            <circle cx=".5" cy=".5" r=".5" style="stroke:none;fill:#fff3ff"/>
+          </pattern>
+          <pattern id="pattern3" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#111" d="M0 0h2v2H0z"/>
+            <path stroke="#fff3ff" d="M0 0h8M0 0v8"/>
+          </pattern>
+          <pattern id="pattern4" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#fff3ff" d="M0 0h3v3H0z"/>
+            <circle cx=".5" cy=".5" r="3" style="stroke:none;fill:#111"/>
+          </pattern>
+          <pattern id="pattern5" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#fff3ff" d="M0 0h3v3H0z"/>
+            <circle cx=".5" cy=".5" r="2" style="stroke:none;fill:#111"/>
+            <path stroke="#fff3ff" stroke-width=".5" d="m0 0 8 8M0 0v8"/>
+          </pattern>
+          <pattern id="pattern6" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#111" d="M0 0h6v6H0z"/>
+            <path style="fill:#fff3ff" d="M0 0h3v3H0z"/>
+          </pattern>
+          <pattern id="pattern7" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#111" d="M0 0h6v6H0z"/>
+            <path style="fill:#fff3ff" d="M0 0h1v3H0z"/>
+            <path style="fill:#fff3ff" d="M0 0h3v1H0z"/>
+          </pattern>
+          <pattern id="pattern8" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path style="fill:#111" d="M0 0h6v6H0z"/>
+            <path style="fill:none" stroke="#fff" stroke-width=".5" d="M1 1h2v2H1zm2 2h2v2H3zM1 3h2v2H1zm2-2h2v2H3z"/>
+          </pattern>
+          <pattern id="pattern9" x="0" y="0" width="1" height="1">
+            <path style="fill:#111" d="M0 0h1v1H0z"/>
+          </pattern>
         </defs>
-    </svg>
+      </svg>
     <div id='main' >
         <div id='index' class='page'>
-            <div id='credits'>
+            <div id='dc'>
                 <span>CREDITS 01</span>
-                <a class='right' href='#' onclick='toggleDialog("rules")'>RULES</a>
+                <a class='right' href='#' onclick='td("rules")'>RULES</a>
             </div>
             <h1>SPACE SHIP WARS<br>NFT 13K</h1>
-            <div id='game-state' class='center'>NEXT GAME IN 00:00:11</div>
+            <div id='dgs' class='center'></div>
             <div class='center space'>
-                <a class='button' id='joinGameButton' onclick='toggleDialog("join")' href='#'>JOIN GAME</a>
+                <a class='btn' id='joinGamebtn' onclick='td("join")' href='#'>JOIN GAME</a>
                 <span id='joinGameLabel' class='hide'>JOINED</span>
                 <br>
-                <a class='button' href='#' onclick='addCredits()'>ADD CREDITS</a>
+                <a class='btn' href='#' onclick='addCredits()'>ADD CREDITS</a>
             </div>
             <div class='center'>
                 <select id='netSelect'>
@@ -942,15 +893,15 @@ ul.victories li.score {
             <div id='hand'>
                 <h3>ARSENAL</h3>
                 <div id='group'></div>
-                <a id='setAction' class='button' href='#' onclick='setOrderAction()'>SET</a>
+                <a id='setAction' class='btn' href='#' onclick='setOrderAction()'>SET</a>
             </div>
         </div>
         <div id='viewCard' class='page hide'>
         </div>
         <div id='viewBattle' class='page hide'>
             <h3 class='hide'>VS</h3>
-            <div id='playerA' class='card-container'></div>
-            <div id='playerB' class='card-container'></div>
+            <div id='playerA' class='cCon'/></div>
+            <div id='playerB' class='cCon'></div>
             <div id='battles'>
                 <div id='sideA' class='battle'>
                 </div>
@@ -959,9 +910,9 @@ ul.victories li.score {
             </div>
         </div>
         <div id='debugView' class='page hide'></div>
-        <div id='dialog' class='hide'>
-            <div id='dialogBox'>
-                <div class='tutor-container'>
+        <div id='dl' class='hide'>
+            <div id='dlb'>
+                <div class='tco'>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 552 375">
                         <g stroke='#111' fill='#111'>
                             <path d="M264 336c-2 0-55-4-67-4-3 0-4 1-5 5-13 61 79 73 81 11 0-10 1-10-9-12zm-62 38c-5-23 45-12 58 5-29 19-57-1-58-5zm0-41c12 0 50 3 62 3-6 16-55 11-62-3zm55-35c10-7-1-11-5-41-2 19 2 36-5 46a36 36 0 0 0 10-4z"/>
@@ -970,8 +921,8 @@ ul.victories li.score {
                         </g>
                     </svg>
                 </div>
-                <div id='dialogText'>
-                    <div id='dialog-rules' class='hide'>
+                <div id='dlt'>
+                    <div id='dl-rules' class='hide'>
                         <p>Welcome to<br>Space Ship Wars 13k!</p>
                         <p>This is a turn based battleroyal card game running on the Near blockchain</p>
                         <p>You will command a random and unique (NFT) space ship in a space war</p>
@@ -981,35 +932,35 @@ ul.victories li.score {
                         <p>The last survivor player will be rewarded with the ownership of the spaceship</p>
                         <p>Good luck!</p>
                     </div>
-                    <div id='dialog-join' class='hide'>
+                    <div id='dl-join' class='hide'>
                         <p>Connecting to the net...</p>
                         <p>Joining to the game...</p>
                         <p>Joined!</p>
                     </div>
-                    <div id='dialog-wait' class='hide'>
+                    <div id='dl-wait' class='hide'>
                         <p>The game is about to start!</p>
                         <p>Assigning commanders to their space ships</p>
                     </div>
-                    <div id='dialog-custom' class='hide'>
+                    <div id='dl-custom' class='hide'>
                         <p></p>
                     </div>
-                    <div id='dialog-battle-end' class='hide'>
+                    <div id='dl-battle-end' class='hide'>
                         <p>We have a winner!!</p>
                     </div>
-                    <div id='dialog-winner' class='hide'>
+                    <div id='dl-winner' class='hide'>
                         <p>Congratulations! You will pass to the next round!</p>
                     </div>
-                    <div id='dialog-loser' class='hide'>
+                    <div id='dl-loser' class='hide'>
                         <p>You lose!!</p>
                     </div>
-                    <div id='dialog-chicken-dinner' class='hide'>
+                    <div id='dl-chicken-dinner' class='hide'>
                         <p>Congratulations!!!<br>You won the war!</p>
                         <p>The NFT #id has been assigned to you!</p>
                     </div>
                 </div>
-                <a class='close' href='#' onclick='toggleDialog()'>X</a>
-                <a class='first' href='#' onclick='moveDialog(14)'>↑</a>
-                <a class='' href='#' onclick='moveDialog(-14)'>↓</a>
+                <a class='close' href='#' onclick='td()'>X</a>
+                <a class='first' href='#' onclick='md(14)'>↑</a>
+                <a class='' href='#' onclick='md(-14)'>↓</a>
             </div>
         </div>
     </div>

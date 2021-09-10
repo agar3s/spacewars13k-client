@@ -7,8 +7,9 @@ cat src/wrappers/pre.js
 
 if [ "$NODE_ENV" == "production" ]; then
   cat src/env/prod.js
+elif [ "$NODE_ENV" == "near" ]; then
+  cat src/env/near.js
 else
-  #cat lib/stats.min.js
   cat src/env/dev.js 
 fi;
 
@@ -17,6 +18,8 @@ fi;
 
 # libs
 cat src/lib/utils.js
+#cat src/index.js
+#cat src/lib/htmlparser.js
 #cat lib/jsfxr.js
 #cat lib/audio.js
 #cat lib/webgl.js

@@ -51,7 +51,7 @@ let game = {
 
 const loadGameScreen = () => {
   changePage('game', false);
-  console.log(player.shipId);
+  //console.log(player.shipId);
   const config = getShipById(player.shipId);
   const card = createCard(config);
   ship.appendChild(card.cardElement);

@@ -46,7 +46,7 @@ const toggleArsenalCard = (cardElement, orderElement, arsenalIndex) => {
   const indexOfCard = player.hand.indexOf(arsenalIndex);
   const addCard = indexOfCard==-1;
   if ( addCard && player.hand.length >=3) return;
-  cardElement.classList.toggle('selected');
+  toggleClass(cardElement, 'selected');
   if (addCard) {
     player.hand.push(arsenalIndex);
     let indexHand = handSet.indexOf(false);
@@ -60,7 +60,7 @@ const toggleArsenalCard = (cardElement, orderElement, arsenalIndex) => {
 
 const getHTMLCard = (code, arsenalIndex) => {
   const svgs = cards[code].map((id, index) => getGameCard(ROCK_PAPER_SCISSORS[id], index));
-  const orderElement = document.createElement('div');
+  const orderElement = createElement('div');
   orderElement.className = 'order';
   svgs.push(orderElement);
   const cardElement = wrapInCard(1, svgs, 

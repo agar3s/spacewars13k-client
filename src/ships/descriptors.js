@@ -1,7 +1,5 @@
 
-const createSVGelement = (elementType) => document.createElementNS('http://www.w3.org/2000/svg', elementType);
-const setAttribute = (element, attribute, value) => element.setAttribute(attribute, value);
-const appendChild = (element, child) => element.appendChild(child);
+
 const contexts = [];
 
 const SVG_ATTRIBUTES = {
@@ -64,12 +62,12 @@ const renderShip = (shapeId, wingsId, bgColor, fgColor) => {
 const changePallete = (index) => {
   const [b=1, sep=0, hue=0, sat=0, b2=1, inv=0] = palletes[index];
   document.body.style.filter = `brightness(${b}) sepia(${sep}) hue-rotate(${hue}deg) saturate(${sat}) brightness(${b2}) invert(${inv})`;
-  dialog.style.filter = inv?`invert(1) brightness(${1/b2}) saturate(2) sepia(1) brightness(${1/b})`:'';
+  dl.style.filter = inv?`invert(1) brightness(${1/b2}) saturate(2) sepia(1) brightness(${1/b})`:'';
 };
 
 
 const createCanvasElement = (cIndex) => {
-  const canvas = document.createElement('canvas');
+  const canvas = createElement('canvas');
   setAttribute(canvas, 'width', 200);
   setAttribute(canvas, 'height', 300);
   const ctx = canvas.getContext('2d');
@@ -192,25 +190,26 @@ const adnToShipConfig = (adn) => {
 
 const flipCard = (cardElement) => {
   //e.stopPropagation();
-  if (cardElement.classList.contains('card--flipped')) {
-    cardElement.classList.add('card--unflip');
+  if (containsClass(cardElement, 'cf')) {
+    addClass(cardElement, 'cu');
     setTimeout(() => {
-      cardElement.classList.remove('card--flipped', 'card--unflip');
+      removeClass(cardElement, 'cf');
+      removeClass(cardElement, 'cu');
     }, 500);
   }
   else { 
-    cardElement.classList.add("card--flipped");
+    addClass(cardElement, 'cf');
   }
 };
 
 const wrapInCard = (backCover, frontChilds, onclick, className='') => {
-  const cardElement = document.createElement('div');
+  const cardElement = createElement('div');
   cardElement.className = `card ${ className }`;
-    const cardBackElement = document.createElement('div');
+    const cardBackElement = createElement('div');
       cardBackElement.className = `card-face ${ backCovers[backCover] } card-backing`;
     cardElement.appendChild(cardBackElement);
     
-    const cardFrontElement = document.createElement('div');
+    const cardFrontElement = createElement('div');
       cardFrontElement.className = 'card-face card-front';
       frontChilds.forEach(child=>cardFrontElement.appendChild(child));
       
@@ -355,11 +354,11 @@ if (DEBUG) {
     <br>
     <div id='cardsSelector'><span>Select Card: </span></div>
     <br>
-    <a class='button' onclick='randomConfig()'>randomProps</a>
-    <a class='button' onclick='randomConfig(true)'>all random</a>
-    <a class='button' onclick='addCard()'>add card</a>
+    <a class='btn' onclick='randomConfig()'>randomProps</a>
+    <a class='btn' onclick='randomConfig(true)'>all random</a>
+    <a class='btn' onclick='addCard()'>add card</a>
     <br>
-    <a class='button' onclick='loadById()'>
+    <a class='btn' onclick='loadById()'>
       load by id
       <input id='shipid' type='number' value='0'/>
     </a>
@@ -414,14 +413,14 @@ if (DEBUG) {
   const setProbText = ( key, dis, config) => {
     const value = config[key];
     const percentage = ((dis[config[key]]*100)/13312).toFixed(2);
-    console.log(key, `${key}-id-prob`);
-    document.getElementById(`${key}-id-prob`).innerHTML = `${ key }: ${ percentage }% ships have this property`;
+    //console.log(key, `${key}-id-prob`);
+    byId(`${key}-id-prob`).innerHTML = `${ key }: ${ percentage }% ships have this property`;
   }
   window.loadById = () => {
     const adn = codesToShip[parseInt(shipid.value)];
     const config = adnToShipConfig(adn);
     cards.forEach(card=>card.setShipConfiguration(config));
-    document.getElementById('adn-debug').innerHTML = adn;
+    byId('adn-debug').innerHTML = adn;
     setProbText('shapeId', shipsShapesDistribution, config);
     setProbText('wingsId', shipsWingsDistribution, config);
     setProbText('bgColor', shipsBGColorDistribution, config);
@@ -438,7 +437,7 @@ if (DEBUG) {
   //   const adn = codesToShip[i];
   //   const config = adnToShipConfig(adn);
   //   cards.forEach(card=>card.setShipConfiguration(config));
-  //   document.getElementById('adn-debug').innerHTML = adn;
+  //   byId('adn-debug').innerHTML = adn;
   // }, 500)
 
   
@@ -452,7 +451,7 @@ if (DEBUG) {
     previewDebug.appendChild(card.cardElement);
     cards.push(card);
 
-    const chooseCardLink = document.createElement('a');
+    const chooseCardLink = createElement('a');
     chooseCardLink.setAttribute('onclick', `chooseCard(${cards.length - 1})`);
     chooseCardLink.innerHTML = cards.length - 1;
     cardsSelector.appendChild(chooseCardLink);

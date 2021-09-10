@@ -19,13 +19,13 @@ const assignPlayer = (id) => {
 }
 
 const startGame = async () => {
-  if (dialogOpen) await toggleDialog();
+  if (dialogOpen) await td();
   for (let i=0; i<8; i++) {
     players.push(assignPlayer(i));
   }
   game.totalPlayers = player.length;
   player = { ...players[0] };
-  toggleDialog('wait');
+  td('wait');
   loadNewRound();
 };
 
@@ -93,21 +93,21 @@ const solveBattle = (playerA, playerB) => {
   let handA = playerA.hand.map(_=>_);
   let handB = playerB.hand.map(_=>_);
   while (scores[0]<2&&scores[1]<2) {
-    console.log('a problem?', battleRound);
+    //console.log('a problem?', battleRound);
     if (battleRound>10) break;
     switch (battleRound) {
       case 0:
-        console.log(0, handA, handB);
+        //console.log(0, handA, handB);
       break;
       case 1:
           handA = playerA.hand.sort(randomSort).map(_=>_);
           handB = playerB.hand.sort(randomSort).map(_=>_);
-          console.log(1, handA, handB);
+          //console.log(1, handA, handB);
           break;
           case 2: 
           handA = randomHand(playerA.arsenal);
           handB = randomHand(playerB.arsenal);
-          console.log(2, handA, handB);
+          //console.log(2, handA, handB);
       break;
       default:
         handA = [regularRandomInt(0, playerA.arsenal.length)];
@@ -117,8 +117,8 @@ const solveBattle = (playerA, playerB) => {
     const res = handA.reduce((score, _, index) => score + solveCardAbsolute(playerA.arsenal[handA[index]], playerB.arsenal[handB[index]]), 0);
     if (res>0) scores[0]++;
     if (res<0) scores[1]++;
-    console.log(battleRound, handA, handB);
-    console.log(res);
+    //console.log(battleRound, handA, handB);
+    //console.log(res);
     log.rounds.push({ handA, handB });
     battleRound += 1;
   }
@@ -128,7 +128,7 @@ const solveBattle = (playerA, playerB) => {
 
 const checkGameState = () => {
   if (mockRemoteGameState === SOLVING_TURN || mockRemoteGameState === TURN) {
-    console.log('do something');
+    //console.log('do something');
   }
 }
 
