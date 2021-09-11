@@ -28,6 +28,7 @@ cat src/lib/utils.js
 # game engine declaration
 cat src/ships/generator.js
 cat src/ships/pieces.js
+cat src/game/near.js
 cat src/state.js
 cat src/game/local.js
 cat src/ships/descriptors.js
