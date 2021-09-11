@@ -1,9 +1,10 @@
 
 
 let mockRemoteGameState = LOBBY;
+const LOCAL_PLAYERS = 8;
 
 const assignPlayer = (id) => {
-  const shipId = regularRandomInt(0, 13*1024);
+  const shipId = regularRandomInt(0, TOTAL_NFTS);
   const shipADN = codesToShip[shipId];
   return {
     id,
@@ -18,10 +19,10 @@ const assignPlayer = (id) => {
   };
 }
 
-const LOCAL_PLAYERS = 8;
 
 const startGame = async () => {
   if (dialogOpen) await td();
+  // check network
   for (let i=0; i<LOCAL_PLAYERS; i++) {
     players.push(assignPlayer(i));
   }
@@ -92,24 +93,25 @@ const solveBattle = (playerA, playerB) => {
   };
   let scores = [0, 0];
   let battleRound = 0;
-  let handA = playerA.hand.map(_=>_);
-  let handB = playerB.hand.map(_=>_);
+  let handA;
+  let handB;
   while (scores[0]<2&&scores[1]<2) {
     //console.log('a problem?', battleRound);
     if (battleRound>10) break;
     switch (battleRound) {
       case 0:
-        //console.log(0, handA, handB);
+        handA = playerA.hand.map(_=>_);
+        handB = playerB.hand.map(_=>_);
       break;
       case 1:
-          handA = playerA.hand.sort(randomSort).map(_=>_);
-          handB = playerB.hand.sort(randomSort).map(_=>_);
-          //console.log(1, handA, handB);
-          break;
-          case 2: 
-          handA = randomHand(playerA.arsenal);
-          handB = randomHand(playerB.arsenal);
-          //console.log(2, handA, handB);
+        handA = playerA.hand.sort(randomSort).map(_=>_);
+        handB = playerB.hand.sort(randomSort).map(_=>_);
+        //console.log(1, handA, handB);
+        break;
+        case 2: 
+        handA = randomHand(playerA.arsenal);
+        handB = randomHand(playerB.arsenal);
+        //console.log(2, handA, handB);
       break;
       default:
         handA = [regularRandomInt(0, playerA.arsenal.length)];
@@ -136,8 +138,8 @@ const checkGameState = () => {
 
 
 const roundFinish = () => {
-  back();
-  player.arsenal.push(~~(Math.random()*8));
+  changePage('game');
+  player.arsenal.push(regularRandomInt(0,9));
   player.hand = [];
   handSet = [false, false, false];
 

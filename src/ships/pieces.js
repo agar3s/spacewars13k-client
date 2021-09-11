@@ -314,7 +314,7 @@ const BASE_NAMES = [
   'USCSS',
   'X-78',
   'NIGHTFLY',
-  'SPACEWOLF',
+  'Z-WOLF',
   'LEGACY',
   'BEBOP',
   'YAMATO',
@@ -335,7 +335,7 @@ const WINGS_NAMES = [
   'BRAVE',
   'FEARLESS',
   'CONQUEROR',
-  'MASTER'
+  ''
 ];
 const GALAXY_NAMES = [
   'MILKY WAY',

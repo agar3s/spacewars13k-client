@@ -1,8 +1,9 @@
+
+const TOTAL_NFTS = 13*1024;
 const pseudoRandom = (seed) => {
-  let value = seed + 13*1024;
+  let value = seed + TOTAL_NFTS;
   return () => value = value * 16807 % 2147483647;
 };
-
 const rand = Math.random;
 
 const randomSort = (a, b) => Math.random()>0.5?-1:1;

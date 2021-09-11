@@ -1,10 +1,7 @@
 
 let currentPage = 'index';
-let previousPage = [];
 
-const changePage = (page, back) => {
-  if (!back) previousPage.push(currentPage);
-  //console.log(currentPage, page);
+const changePage = (page) => {
   addClass(byId(currentPage), 'hide');
   removeClass(byId(page), 'hide');
   currentPage = page;
@@ -17,6 +14,7 @@ const toggleJoin = () => {
 };
 
 const joinGame = async () => {
+  // add network
   await delay(1500);
   md(-14);
   await delay(1300);
@@ -28,13 +26,11 @@ const joinGame = async () => {
 };
 
 
-window.back = () => {
-  changePage(previousPage.pop(), true);
-};
-
 let dialogTop = 0;
 let dialogMax = -105;
 let dialogCategory = '';
+let dialogOpen = false;
+
 let dialogConfig = {
   rules: {
     max: -105
@@ -101,7 +97,6 @@ md = (val) => {
   dlt.style.top = `${dialogTop}vh`;
 };
 
-let dialogOpen = false;
 
 const displayCustomDialog = async (text, timeout=1200) => {
   document.querySelector('#dl-custom p').innerHTML = text;
@@ -157,9 +152,16 @@ td = async (category=dialogCategory, props) => {
 };
 
 // dgs div game state
-let targetTime = Date.now() + 1000 * 60 * 5;
+const MINS = 3; // setup different times depending on network?
+let targetTime;
+const setTargetTime = delay => targetTime = Date.now() + 1000 * 60 * MINS + delay;
+setTargetTime(0);
 const updatetime = () => {
   const time = targetTime - Date.now();
+  if (time < 0) {
+    // emit timeout!!!
+    setTargetTime(time);
+  }
   const mins = ~~(time / (1000 * 60));
   const secs = (~~((time - mins*60*1000) / 1000)).toString().padStart(2, '0');
   dgs.innerHTML = `NEXT WAR IN ${mins}:${secs}`;
@@ -172,7 +174,8 @@ const starGroups = [[],[],[],[],[]];
 const addStar = () => {
   let x=~~(rand()*300), y=-50, vy=rand()*5+5;
   starGroups[0].push({
-    move: _=> y = y+vy>300?((vy=rand()*5 + 5)||-50):y+vy, draw:(ctx)=>ctx.fillRect(x, y, 2, 4)
+    move: _ => y = y+vy>300?((vy=rand()*5 + 5)||-50):y+vy,
+    draw: ctx => ctx.fillRect(x, y, 2, 4)
   })
 }
 const addExplodingStar = () => {
@@ -191,44 +194,32 @@ const addExplodingStar = () => {
   starGroups[1].push({
     move: _=> {
       y += vy; x+= vx;
-      if (y<0||y>300||x<0||x>200) {
-        reset();
-      }
-      return 1;
+      if (y<0||y>300||x<0||x>200) reset();
     }, draw:(ctx)=>{
-      ctx.save();
       ctx.translate(x, y);
       ctx.rotate(r);
       ctx.fillRect(0, -15, 1, 30)
-      ctx.restore();
     }
   })
 }
 
 
 const addRandomDimension = () => {
-  let speed = rand()+1;
-  let x = -1, y = -1;
-  let vx=0;
-  let vy=0;
+  let x = -1;
+  let vx=rand()+1;
   const reset = () => {
     x = 100;
-    vx=speed;
+    vx=rand()+1;
   };
   starGroups[2].push({
     move: _=> {
       x+= vx;
-      if (x<0||x>200) {
-        reset();
-      }
-      return 1;
+      if (x<0||x>200) reset();
     }, draw:(ctx)=>{
-      ctx.save();
       //ctx.fillStyle = '#999';
       ctx.globalAlpha = 1- (200-x)/100;
       ctx.fillRect(x, 0, 2, 300)
       ctx.fillRect(200-x, 0, 2, 300)
-      ctx.restore();
     }
   })
 }
@@ -239,19 +230,14 @@ const enterTheVoid = () => {
   starGroups[3].push({
     move: _=> {
       r += speed;
-      if (r > 200) {
-        r = 1;
-      }
-      return 1;
+      if (r > 200) r = 1;
     }, draw:(ctx)=>{
-      ctx.save();
       ctx.translate(100, 150);
       ctx.beginPath();
       //ctx.strokeStyle = '#eee';
       ctx.strokeWidth = 2;
       ctx.arc(0, 0, r, 0, 2 * Math.PI, false);
       ctx.stroke();
-      ctx.restore();
     }
   })
 };
@@ -265,30 +251,27 @@ const increasingStars = () => {
     move: _=> {
       r += speed;
       angle += tangSpeed;
-      if (r > 200) {
-        r = 1;
-      }
-      return 1;
+      if (r > 200) r = 1;
     }, draw:(ctx)=>{
-      ctx.save();
       ctx.translate(100, 150);
       ctx.rotate(Math.PI*3/4);
       //ctx.strokeStyle = '#eee';
       ctx.strokeRect(-r, -r, r*2, r*2);
-      ctx.restore();
     }
   })
 }
 
 
-for (let i=0;i<10; i++){ addRandomDimension();}
-for (let i=0;i<100; i++){ addExplodingStar();}
-for (let i=0;i<100; i++){ addStar();}
-for (let i=0;i<10; i++){ increasingStars();}
+for (let i=0;i<10; i++){
+  addRandomDimension();
+  increasingStars();
+}
+for (let i=0;i<100; i++){ 
+  addExplodingStar();
+  addStar();
+}
 for (let i=0;i<30; i++){ enterTheVoid();}
 
-
-var playing = true;
 const loopStars = () => {
   starGroups.forEach(stars => stars.forEach(star => star.move()));
   contexts.forEach(fn => fn(starGroups));
@@ -298,7 +281,7 @@ let blIndex = 0;
 const renderGamePage = () => {
   gameStats.innerHTML = `
 <tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
-<tr><td>ROUND: #${ game.round }</td><td>NEXT BATTLE: <span id='timer'>00:00:11</td></tr>
+<tr><td>ROUND: #${ game.round }</td><td>NEXT BATTLE: <span id='timer'></td></tr>
 <tr><td>REMAINING SHIPS: ${ players.length }</td></tr>
   `;
 
@@ -336,7 +319,7 @@ const initialization = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const id = parseInt(urlParams.get('id'));
-  if (isNaN(id) || id < 0 || id >= 13*1024) return;
+  if (isNaN(id) || id < 0 || id >= TOTAL_NFTS) return;
   changePage('viewCard');
   const config = getShipById(id);
   const card = createCard(config);

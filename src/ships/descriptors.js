@@ -77,8 +77,12 @@ const createCanvasElement = (cIndex) => {
     //ctx.clearRect(0,0,400,400);
     ctx.fillRect(0, 0, 200, 300);
     ctx.fillStyle = '#888';
-    ctx.strokeStyle = '#888';
-    palleteIndex>=0 && stars[palleteIndex].forEach(star => star.draw(ctx));
+    ctx.strokeStyle = ctx.fillStyle;
+    palleteIndex>=0 && stars[palleteIndex].forEach(star => {
+      ctx.save();
+      star.draw(ctx);
+      ctx.restore();
+    });
     ctx.restore();
   };
   const setIndex = (_index) => {
@@ -140,7 +144,7 @@ if (DEBUG) {
 }
 
 const ShipGeneration = () => {
-  let collisions = 0;
+  //let collisions = 0;
   let addToDistribution;
   if (DEBUG) {
     addToDistribution = (distribution, value) => {
@@ -151,7 +155,7 @@ const ShipGeneration = () => {
     }
   }
   const ships = {};
-  const shipsToGenerate = 13*1024
+  const shipsToGenerate = TOTAL_NFTS;
   for (let i = 0; codesToShip.length < shipsToGenerate; i++) {
     const config = getConfigWithSeed(i);
     const key = config.adn.substring(0,5);
@@ -168,7 +172,7 @@ const ShipGeneration = () => {
         addToDistribution(shipBackCoverDistribution, config.backCover);
       }
     } else {
-      collisions += 1;
+      //collisions += 1;
       ships[key] += 1;
     }
   }
@@ -186,7 +190,6 @@ const adnToShipConfig = (adn) => {
     backCover: pieces[6]
   }
 }
-
 
 const flipCard = (cardElement) => {
   //e.stopPropagation();

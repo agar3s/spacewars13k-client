@@ -39,16 +39,16 @@ let game;
 const resetState = () => {
   players = [];
   player = {
-    id: ~~(rand()*8),
+    id: 0,
     shipId: 0,
     alive: true,
-    arsenal: [0, 1, 2, ~~(Math.random()*8)],
+    arsenal: [0, 1, 2, regularRandomInt(0, 9)],
     hand: [],
     ready: false,
     victories: 0
   };
   game = {
-    id: ~~(rand()*100),
+    id: regularRandomInt(0,1000),
     state: GAME_STATE[LOBBY],
     totalPlayers: 0,
     round: 0
@@ -57,7 +57,7 @@ const resetState = () => {
 resetState();
 
 const loadGameScreen = () => {
-  changePage('game', false);
+  changePage('game');
   //console.log(player.shipId);
   const config = getShipById(player.shipId);
   const card = createCard(config);
