@@ -189,6 +189,10 @@
             right: -0.5vw;
             font-size: 2vh;
         }
+        #dlb .da {
+            display: contents;
+            position: inherit;
+        }
         
         /**GAME PAGE STYLES*/
         #game span {
@@ -816,6 +820,18 @@
             display: block;
             float: left;
         }
+        #playerA .card {
+            position: relative;
+        }
+        .card.chicken {
+            animation-duration: 0.8s;
+            z-index: 6;
+            width: 180%;
+            display: block;
+            height: 180%;
+            left: 50%;
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -946,18 +962,18 @@
                     <div id='dl-custom' class='hide'>
                         <p></p>
                     </div>
-                    <div id='dl-battle-end' class='hide'>
+                    <div id='dl-battle-win' class='hide'>
                         <p>We have a winner!!</p>
+                        <p>Congratulations!<br>You will pass to the next round!</p>
                     </div>
-                    <div id='dl-winner' class='hide'>
-                        <p>Congratulations! You will pass to the next round!</p>
-                    </div>
-                    <div id='dl-loser' class='hide'>
-                        <p>You lose!!</p>
+                    <div id='dl-battle-lose' class='hide'>
+                        <p>We have a winner!!</p>
+                        <p>You lose!!</br>Best luck the next time!</p>
                     </div>
                     <div id='dl-chicken-dinner' class='hide'>
-                        <p>Congratulations!!!<br>You won the war!</p>
-                        <p>The NFT #id has been assigned to you!</p>
+                        <p>Congratulations!!!<br>You won the space war!</p>
+                        <p id='winnerMessage'></p>
+                        <p>Thanks for playing!<br>MADE WITH &lt;3 BY <a class='da' href='https://twitter.com/agar3s' target="_blank">@AGAR3S</a></p>
                     </div>
                 </div>
                 <a class='close' href='#' onclick='td()'>X</a>

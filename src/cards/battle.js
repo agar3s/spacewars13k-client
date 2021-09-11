@@ -31,15 +31,15 @@ const secondOption = (cardElement) => {
 }
 
 const animateBattle = async (cardElementA, cardElementB, cardA, cardB, second=false) => {
-  await delay(second?800:1200);
+  await delay(second?400:600);
   !second && flipCard(cardElementA);
   !second && flipCard(cardElementB);
-  await delay(second?0:800);
+  await delay(second?0:600);
   let winner = solveCards(cardA, cardB, second);
   addClass(cardElementA, winner);
   addClass(cardElementB, winner);
   if (!second && winner===TIE) {
-    await delay(500);
+    await delay(600);
     removeClass(cardElementA, winner);
     removeClass(cardElementB, winner);
     secondOption(cardElementA);
@@ -63,7 +63,7 @@ const solveBattleScript = async (coverA, coverB, playerHandA, playerHandB) => {
 }
 
 const dismissCards = async () => {
-  await delay(2500);
+  await delay(500);
   const cardsA = sideA.querySelectorAll('.card');
   const cardsB = sideB.querySelectorAll('.card');
   const cardsLength = cardsA.length;
@@ -73,12 +73,12 @@ const dismissCards = async () => {
     //flipCard(cardsA[i]);
     //flipCard(cardsB[i]);
   }
-  await delay(550);
+  await delay(300);
   for(let i=0;i<cardsLength;i++) {
     addClass(cardsA[i], 'vanish');
     addClass(cardsB[i], 'vanish');
   }
-  await delay(1400);
+  await delay(800);
 }
 
 const loadBattle = async (battleLog) => {
@@ -93,45 +93,46 @@ const loadBattle = async (battleLog) => {
   const cardA = addCardToBattle(configA, playerA);
   const cardB = addCardToBattle(configB, playerB);
   changePallete(configA.pallete);
-  await delay(1000);
+  await delay(400);
   flipCard(cardA);
-  await delay(700);
+  await delay(300);
   toggleClass(viewBattle.querySelector('h3'), 'hide');
-  await delay(700);
+  await delay(300);
   flipCard(cardB);
-  await delay(1200);
+  await delay(400);
 
   let scores = [0, 0];
   let winner = false;
-
   for (let index = 0; index < battleLog.rounds.length && !winner; index++) {
+    let message = 'POINT!!!';
     const { handA, handB } = battleLog.rounds[index];
     const roundWinner = await solveBattleScript(configA.backCover, configB.backCover, handA.map(c=>battleLog.arsenalA[c]), handB.map(c=>battleLog.arsenalB[c]));
-    //console.log(playerA.querySelector(`ul:nth-child(1)`));
     if (roundWinner>0) {
       scores[0]++;
-      //console.log(playerA.querySelector(`li`));
       addClass(playerA.querySelector(`li:nth-child(${scores[0]})`), 'score');
-    };
+    }
     if (roundWinner<0) {
       scores[1]++;
-      //console.log(playerB.querySelector(`li:nth-child(${scores[1]})`));
       addClass(playerB.querySelector(`li:nth-child(${scores[1]})`), 'score');
-    };
+    }
+    if (roundWinner == 0) {
+      message = 'DRAW!!!'
+    }
     winner = scores[0] >= 2 || scores[1] >= 2;
-    await delay(1500);
+    await delay(500);
     if(!winner) {
-      await displayCustomDialog('next round');
+      await displayCustomDialog(message);
       await dismissCards();
     }
   }
-  td('battle-end');
-  await delay(2000);
-  td();
-  back();
-  player.arsenal.push(~~(Math.random()*8));
-  player.hand = [];
-  handSet = [false, false, false];
-  renderGamePage();
+  if (battleLog.winner === 0) {
+    if (players.length === 1) {
+      td('chicken-dinner');
+    } else {
+      td('battle-win');
+    }
+  } else {
+    td('battle-lose');
+  }
   // display winner
 }

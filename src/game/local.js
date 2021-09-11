@@ -18,9 +18,11 @@ const assignPlayer = (id) => {
   };
 }
 
+const LOCAL_PLAYERS = 2;
+
 const startGame = async () => {
   if (dialogOpen) await td();
-  for (let i=0; i<8; i++) {
+  for (let i=0; i<LOCAL_PLAYERS; i++) {
     players.push(assignPlayer(i));
   }
   game.totalPlayers = player.length;
@@ -37,7 +39,7 @@ const createGame = () => {
 }
 
 const joinGameLocal = async () => {
-  await delay(5000);
+  await delay(350);
   startGame();
 };
 
@@ -51,20 +53,21 @@ const loadNewRound = () => {
 const setHandLocal = async () => {
   setGameState(HOLD);
   //await delay(30000);
-  solveTurnLocal();
+  await solveTurnLocal();
 };
 
 const randomHand = (arsenal) => arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);
 
-const solveTurnLocal = () => {
+const solveTurnLocal = async () => {
   if (game.state !== HOLD) return;
   if (player.hand.length === 0) {
     player.hand = randomHand(player.arsenal);
   }
-  const rival = players[regularRandomInt( 1, players.length)];
+  const [rival] = players.splice(regularRandomInt( 1, players.length), 1);
+  players.splice(1, ~~(players.length/2));
   rival.hand = randomHand(rival.arsenal);
   const battleLog = solveBattle(player, rival);
-
+  await displayCustomDialog('BATTLE IS ABOUT TO START!', 1500);
   changePage('viewBattle');
   loadBattle(battleLog);
   setGameState(SOLVING_TURN);
@@ -132,3 +135,14 @@ const checkGameState = () => {
 }
 
 
+const roundFinish = () => {
+  back();
+  player.arsenal.push(~~(Math.random()*8));
+  player.hand = [];
+  handSet = [false, false, false];
+
+  player.victories += 1;
+  game.round += 1;
+  blIndex = 0;
+  renderGamePage();
+}

@@ -27,27 +27,34 @@ const GAME_STATE = {
   [GAMELOST]: GAMELOST
 };
 
-let net = NETS[MAINNET];
+let net = NETS[LOCALNET];
 // Im in a game?
 let inGame = false;
 
-let players = [];
-let player = {
-  id: ~~(rand()*8),
-  shipId: 0,
-  alive: true,
-  arsenal: [0, 1, 2, ~~(Math.random()*8)],
-  hand: [],
-  ready: false,
-  victories: 0
-};
 
-let game = {
-  id: ~~(rand()*100),
-  state: GAME_STATE[LOBBY],
-  totalPlayers: 0,
-  round: 0
+let players;
+let player;
+let game;
+
+const resetState = () => {
+  players = [];
+  player = {
+    id: ~~(rand()*8),
+    shipId: 0,
+    alive: true,
+    arsenal: [0, 1, 2, ~~(Math.random()*8)],
+    hand: [],
+    ready: false,
+    victories: 0
+  };
+  game = {
+    id: ~~(rand()*100),
+    state: GAME_STATE[LOBBY],
+    totalPlayers: 0,
+    round: 0
+  };
 };
+resetState();
 
 const loadGameScreen = () => {
   changePage('game', false);

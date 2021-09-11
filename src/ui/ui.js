@@ -10,18 +10,23 @@ const changePage = (page, back) => {
   currentPage = page;
 };
 
+const toggleJoin = () => {
+  toggleClass(joinGamebtn, 'hide');
+  toggleClass(joinGameLabel, 'hide');
+  netSelect.disabled = !netSelect.disabled;
+};
+
 const joinGame = async () => {
-  joinGameLocal();
   await delay(1500);
   md(-14);
   await delay(1300);
   md(-14);
   await delay(1000);
   td();
-  addClass(joinGamebtn, 'hide');
-  removeClass(joinGameLabel, 'hide');
-  netSelect.disabled = true;
+  joinGameLocal();
+  toggleJoin();
 };
+
 
 window.back = () => {
   changePage(previousPage.pop(), true);
@@ -51,18 +56,47 @@ let dialogConfig = {
       td();
     }
   },
-  'battle-end': {
+  'battle-lose': {
+    max: -14,
+    onOpen: async () => {
+      await delay(1200);
+      md(-14);
+    },
+    onClose: ()=>location.reload()
+  }, 
+  'battle-win': {
     max: -14,
     disableLinks: true,
     onOpen: async () => {
-      await delay(800);
-    }
+      await delay(2000);
+      md(-14);
+      await delay(3000);
+      td();
+    },
+    onClose: roundFinish
+  },
+  'chicken-dinner': {
+    max: -28,
+    top: 60,
+    onOpen: async () => {
+      const aLink = `<a class='da' href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a>`;
+      if (net == NETS[LOCALNET]) {
+        winnerMessage.innerHTML = `Now you can Join to the<br>Near blockchain to earn<br>spaceships NFTs`;
+      } else {
+        winnerMessage.innerHTML = `The NFT ${aLink} is beeing<br>assigned to your wallet!`;
+      }
+      addClass(playerA.querySelector('.card'), 'chicken');
+      await delay(2000);
+      md(-14);
+      await delay(3000);
+    },
+    onClose: ()=>location.reload()
   }
 };
 
 md = (val) => {
   dialogTop += val;
-  if (dialogTop < dialogMax) td(dialogCategory);
+  if (dialogTop < dialogMax) dialogTop -= val;
   if (dialogTop > 0) dialogTop =  0;
   dlt.style.top = `${dialogTop}vh`;
 };
@@ -71,15 +105,19 @@ let dialogOpen = false;
 
 const displayCustomDialog = async (text, timeout=1200) => {
   document.querySelector('#dl-custom p').innerHTML = text;
+  let globalResolve =_=>_;
+  const returnPromise = new Promise(resolve=>globalResolve=resolve);
   dialogConfig.custom = {
     max: 0,
     disableLinks: true,
     onOpen: async () => {
       await delay(timeout);
       td();
-    }
+    },
+    onClose: globalResolve
   };
-  await this.td('custom')
+  this.td('custom');
+  return returnPromise;
 }
 
 td = async (category=dialogCategory, props) => {
@@ -89,7 +127,7 @@ td = async (category=dialogCategory, props) => {
   //targetDialog.classList.toggle('hide');
   let isOpenEvent = containsClass(targetDialog, 'hide');
   dialogCategory=category;
-  let {max, disableLinks, onOpen} = dialogConfig[category];
+  let { max, disableLinks, onOpen, onClose, top=35 } = props || dialogConfig[category];
   dialogMax = max;
   const links = dl.querySelectorAll('a');
   
@@ -100,7 +138,7 @@ td = async (category=dialogCategory, props) => {
     toggleClass(targetDialog, 'hide');
     toggleClass(dl, 'hide');
     await delay(1);
-    dlb.style.top = '35vh';
+    dlb.style.top = `${ top }vh`;
     dlb.style.opacity = '1';
     await delay(300);
     onOpen && onOpen();
@@ -113,6 +151,7 @@ td = async (category=dialogCategory, props) => {
     dlb.style.top = '0vh';
     toggleClass(targetDialog, 'hide');
     toggleClass(dl, 'hide');
+    onClose && onClose();
     dialogOpen = false;
   }
 };
@@ -260,7 +299,7 @@ const renderGamePage = () => {
   gameStats.innerHTML = `
 <tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
 <tr><td>ROUND: #${ game.round }</td><td>NEXT BATTLE: <span id='timer'>00:00:11</td></tr>
-<tr><td>REMAINING SHIPS: ${ 8 }</td></tr>
+<tr><td>REMAINING SHIPS: ${ players.length }</td></tr>
   `;
 
   shipStats.innerHTML = `
@@ -307,12 +346,10 @@ const initialization = () => {
 
 initialization();
 if (DEBUG) {
-  timeFactor = 1;
-  //startGame();  
+  timeFactor = 0.5;
   //setGameState(JOINED);
   //changePage('viewBattle');
-  //loadBattle(battleLog);
-  //changePage('game');
+  //startGame();
   //loadGameScreen();
   //changePage('debugView')
 }
