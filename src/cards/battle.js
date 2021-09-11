@@ -1,8 +1,5 @@
 
-const battleCardClick = (cardElement) => {
-  flipCard(cardElement);
-
-};
+const battleCardClick = flipCard;
 
 const addCardToBattle = (config, parent) => {
   const card = createCard(config);

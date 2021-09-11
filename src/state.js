@@ -27,7 +27,7 @@ const GAME_STATE = {
   [GAMELOST]: GAMELOST
 };
 
-let net = NETS[LOCALNET];
+let net = NETS[MAINNET];
 // Im in a game?
 let inGame = false;
 

@@ -18,7 +18,7 @@ const assignPlayer = (id) => {
   };
 }
 
-const LOCAL_PLAYERS = 2;
+const LOCAL_PLAYERS = 8;
 
 const startGame = async () => {
   if (dialogOpen) await td();

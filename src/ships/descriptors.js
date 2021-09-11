@@ -2,10 +2,6 @@
 
 const contexts = [];
 
-const SVG_ATTRIBUTES = {
-  TRANSFORM: 'transform',
-};
-
 const injectPieces = (element, config, patterns) => {
   const {[PIECE_KEY]: pieces, [STYLES_KEY]: styles} = config;
   pieces.forEach((path, index) => {
@@ -19,7 +15,7 @@ const injectPieces = (element, config, patterns) => {
 };
 
 const setTransform = (element, translate, scale=[1, 1]) => {
-  setAttribute(element, SVG_ATTRIBUTES.TRANSFORM, `scale(${scale[0]}, ${scale[1]}) translate(${ translate[0] }, ${translate[1]})`);
+  setAttribute(element, 'transform', `scale(${scale[0]}, ${scale[1]}) translate(${ translate[0] }, ${translate[1]})`);
 }
 
 const renderShip = (shapeId, wingsId, bgColor, fgColor) => {
@@ -133,40 +129,44 @@ const getConfigWithSeed = (id) => {
   config.adn = adn;
   return config;
 };
-
-const shipsShapesDistribution = {};
-const shipsWingsDistribution = {};
-const shipsBGColorDistribution = {};
-const shipsFGColorDistribution = {};
-const shipBGEffectDistribution = {};
-const shipPalleteDistribution = {};
-const shipBackCoverDistribution = {};
+if (DEBUG) {
+  shipsShapesDistribution = {};
+  shipsWingsDistribution = {};
+  shipsBGColorDistribution = {};
+  shipsFGColorDistribution = {};
+  shipBGEffectDistribution = {};
+  shipPalleteDistribution = {};
+  shipBackCoverDistribution = {};
+}
 
 const ShipGeneration = () => {
   let collisions = 0;
-  let addToDistribution = (distribution, value) => {
-    if (!distribution[value]) {
-      distribution[value] = 0;
+  let addToDistribution;
+  if (DEBUG) {
+    addToDistribution = (distribution, value) => {
+      if (!distribution[value]) {
+        distribution[value] = 0;
+      }
+      distribution[value] += 1;
     }
-    distribution[value] += 1;
   }
   const ships = {};
   const shipsToGenerate = 13*1024
   for (let i = 0; codesToShip.length < shipsToGenerate; i++) {
     const config = getConfigWithSeed(i);
-  
-    
     const key = config.adn.substring(0,5);
     if (!ships[key]) {
       ships[key] = 1;
       codesToShip.push(config.adn);
-      addToDistribution(shipsShapesDistribution, config.shapeId);
-      addToDistribution(shipsWingsDistribution, config.wingsId);
-      addToDistribution(shipsBGColorDistribution, config.bgColor);
-      addToDistribution(shipsFGColorDistribution, config.fgColor);
-      addToDistribution(shipBGEffectDistribution, config.bgEffect);
-      addToDistribution(shipPalleteDistribution, config.pallete);
-      addToDistribution(shipBackCoverDistribution, config.backCover);
+      if (DEBUG) {
+        addToDistribution(shipsShapesDistribution, config.shapeId);
+        addToDistribution(shipsWingsDistribution, config.wingsId);
+        addToDistribution(shipsBGColorDistribution, config.bgColor);
+        addToDistribution(shipsFGColorDistribution, config.fgColor);
+        addToDistribution(shipBGEffectDistribution, config.bgEffect);
+        addToDistribution(shipPalleteDistribution, config.pallete);
+        addToDistribution(shipBackCoverDistribution, config.backCover);
+      }
     } else {
       collisions += 1;
       ships[key] += 1;
@@ -234,18 +234,17 @@ const createCard = ({ shapeId=0, wingsId=0, bgColor=0, fgColor=0, bgEffect=0, pa
   let svgGenerated = renderShip(shapeId, wingsId, bgColor, fgColor);
   const cardElement = wrapInCard(backCover, [canvasTest.canvas, svgGenerated], flipCard);
   changePallete(shipConfig.pallete);
-  const cardFrontElement = cardElement.querySelector('.card-front');
-  const cardBackElement = cardElement.querySelector('.card-backing');
+  //const cardFrontElement = cardElement.querySelector('.card-front');
+  //const cardBackElement = cardElement.querySelector('.card-backing');
   return {
     cardElement,
     setShipConfiguration: (config) => {
       shipConfig = {...shipConfig, ...config};
-      cardFrontElement.removeChild(svgGenerated);
+      //cardFrontElement.removeChild(svgGenerated);
       svgGenerated = renderShip(shipConfig.shapeId, shipConfig.wingsId, shipConfig.bgColor, shipConfig.fgColor);
       canvasTest.setIndex(shipConfig.bgEffect)
-      cardFrontElement.appendChild(svgGenerated);
-      
-      cardBackElement.className = `card-face ${ backCovers[shipConfig.backCover] } card-backing`;
+      //cardFrontElement.appendChild(svgGenerated);
+      //cardBackElement.className = `card-face ${ backCovers[shipConfig.backCover] } card-backing`;
       // be careful to apply this only with the main card
       changePallete(shipConfig.pallete);
     }
