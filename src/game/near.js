@@ -1,68 +1,79 @@
 
 
-const CONTRACT_NAME = 'dev-1629007181166-2789359';
+const contractName = 'dev-1629007181166-2789359';
 
-const mainnet = {
-  networkId: 'mainnet',
-  nodeUrl: 'https://rpc.mainnet.near.org',
-  contractName: CONTRACT_NAME,
-  walletUrl: 'https://wallet.near.org',
-  deps: { keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore() }
-}
-const testnet = {
-  networkId: 'testnet',
-  nodeUrl: 'https://rpc.testnet.near.org',
-  contractName: CONTRACT_NAME,
-  walletUrl: 'https://wallet.testnet.near.org',
-  deps: { keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore() }
+const getNetworkConfig = (networkId) => {
+  return {
+    networkId,
+    nodeUrl: `https://rpc.${networkId}.near.org`,
+    walletUrl: `https://wallet.${networkId}.near.org`,
+    contractName,
+    deps: { keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore() }
+  };
 }
 
 const connectTo = async () => {
-  const near = await nearApi.connect(testnet);
+  const near = await nearApi.connect(getNetworkConfig(NETS[net].toLowerCase()));
   
   const walletConnection = new nearApi.WalletConnection(near);
-  contract = await new nearApi.Contract(walletConnection.account(), CONTRACT_NAME, {
+  contract = await new nearApi.Contract(walletConnection.account(), contractName, {
     viewMethods: ['getAccount', 'getGameState', 'getGame'],
     changeMethods: ['addCredit', 'getLastBattleLog', 'joinGame', 'startGame', 'setHand'],
     sender: walletConnection.account()
   });
-  let account;
   if (walletConnection.isSignedIn()) {
     // Logged in account, can write as user signed up through wallet
-    account = walletConnection.account();
+    //account = walletConnection.account();
+    syncGameState()
   } else {
-  // Contract account, normally only gonna work in read only mode
-    account = new nearApi.Account(near.connection, CONTRACT_NAME);
+    let account = new nearApi.Account(near.connection, contractName);
+    walletConnection.requestSignIn(contractName)
   }
-  walletConnection.requestSignIn(CONTRACT_NAME)
+  logout = async () => {
+    displayCustomDialog('loading...', 0);
+    await walletConnection.signOut();
+    saveLocalStorage('net', LOCAL);
+    location.reload();
+  }
 }
 
-addCreditNear = () => contract.addCredit({}, 20*10**12, nearApi.utils.format.parseNearAmount('0.1'));
 
+addCreditNear = () => {
+  displayCustomDialog('loading...', 0);
+  contract.addCredit({}, '20000000000000', '100000000000000000000000');
+}
 
-getAccountState = async () => {
-  let { id, state, totalPlayers, turn} = await contract.getGame();
-  let { ships=[], credits=1, player=null, inQueue=-1} = (await contract.getAccount({account_id:contract.account.accountId})) || {};
+const syncGameState = async () => {
+  let { ships=[], credits=1, player:_player, inQueue=-1} = (await contract.getAccount({account_id:contract.account.accountId})) || {};
+  game = await contract.getGame();
   updateCredits(credits);
-  if (player && player.state!=5 && state != 5) {
-    setPlayer(assignPlayer(player.id, player.ship, player.cards, player.wins))
-    await delay(100);
-    setGameState(JOINED);
+  if (_player) {
+    //player = _player;
+    player = assignPlayer(_player.id, _player.ship, _player.arsenal, _player.wins);
+    //player.shipId = _player.ship;
+    players=[player];
   }
-  if (inQueue>=0) {
+  if (_player&&_player.state!=5 && game.state>LOBBY&&game.state<OVER) {
+    await delay(100);
+    loadGameScreen();
+  }
+  if (game.state==LOBBY && inQueue>=0) {
     toggleJoin();
+    joinGameLabel.innerHTML = `${game.waitingPlayers}/8 PLAYERS READY TO PLAY`;
   }
 }
 
-updateCredits = (credits) => {
-  window.credits = credits;
+const updateCredits = (_credits) => {
+  credits = _credits;
   tCredits.innerHTML = `CREDITS ${credits.toString().padStart(3, '0')}`;
 }
+updateCredits(1);
+
 
 
 const initNear = async () => {
-  await connectTo();
-  await getAccountState();
-//  addCreditNear();
+  net = getLocalStorage('net', LOCAL);
+  netSelect.value = net;
+  if (net !== LOCAL) await connectTo();
 }
 

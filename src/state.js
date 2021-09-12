@@ -1,36 +1,32 @@
 
-const MAINNET=0;
-const TESTNET=1;
-const LOCALNET=2;
+const MAINNET='MAINNET';
+const TESTNET='TESTNET';
+const LOCAL='LOCAL';
 
 const NETS = {
-  [MAINNET]: 'MAINNET',
-  [TESTNET]: 'TESTNET',
-  [LOCALNET]: 'LOCAL',
+  [MAINNET]: MAINNET,
+  [TESTNET]: TESTNET,
+  [LOCAL]: LOCAL,
 };
 
-const LOBBY = 0;
-const JOINED = 1;
-const HOLD = 2;
-const TURN = 3;
+const BUSY = 0;
+const LOBBY = 1;
+const SETUP = 2;
+const WAIT_PLAYERS = 3;
 const SOLVING_TURN = 4;
-const GAMEWON = 5;
-const GAMELOST = 6;
+const OVER = 5;
+
 
 const GAME_STATE = {
+  [BUSY]: BUSY,
   [LOBBY]: LOBBY,
-  [JOINED]: JOINED,
-  [TURN]: TURN,
-  [HOLD]: HOLD,
+  [SETUP]: SETUP,
+  [WAIT_PLAYERS]: WAIT_PLAYERS,
   [SOLVING_TURN]: SOLVING_TURN,
-  [GAMEWON]: GAMEWON,
-  [GAMELOST]: GAMELOST
+  [OVER]: OVER
 };
 
-let net = NETS[MAINNET];
-// Im in a game?
-let inGame = false;
-
+let net = LOCAL;
 
 let players;
 let player;
@@ -66,25 +62,6 @@ const loadGameScreen = () => {
 };
 
 const setGameState = (state) => {
-  if (game.state === state) return;
-  switch (state) {
-    // game created
-    case LOBBY: break;
-    // local player joined to the game
-    case JOINED:
-      loadGameScreen();
-    break;
-    // game running waiting for player input
-    case TURN:
-    break;
-    // player set hand
-    case HOLD: break;
-    // game is busy displaying turn actions
-    case SOLVING_TURN: break;
-    // game ends
-    case GAMEWON: break;
-    case GAMELOST: break;
-  }
   game.state = state;
 };
 

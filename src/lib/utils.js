@@ -6,7 +6,7 @@ const pseudoRandom = (seed) => {
 };
 const rand = Math.random;
 
-const randomSort = (a, b) => Math.random()>0.5?-1:1;
+const randomSort = (a, b) => rand()>0.5?-1:1;
 
 let timeFactor = 1;
 const delay = (ms) => new Promise((resolve)=>setTimeout(resolve, ~~(ms*timeFactor)));
@@ -23,6 +23,10 @@ const addClass = (element, _class) => element[classListName].add(_class);
 const removeClass = (element, _class) => element[classListName].remove(_class);
 const containsClass = (element, _class) => element[classListName].contains(_class);
 const toggleClass = (element, _class) => element[classListName].toggle(_class);
+
+
+const saveLocalStorage = (key, value) => localStorage.setItem(`13ksp-${key}`, value);
+const getLocalStorage = (key, _default) => localStorage.getItem(`13ksp-${key}`)||_default;
 
 // const addPatternA = (values) => {
 //   return `repeating-radial-gradient(

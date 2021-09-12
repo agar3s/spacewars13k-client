@@ -19,10 +19,6 @@ const assignPlayer = (id, _shipId, _arsenal, _wins) => {
   };
 }
 
-const setPlayer = (_player) => {
-  players.push(_player);
-  player = _player;
-};
 
 
 const startGame = async () => {
@@ -53,19 +49,13 @@ const loadNewRound = () => {
   game.round += 1;
   player.ready = false;
   player.hand = [];
-  setGameState(TURN);
 };
 
-const setHandLocal = async () => {
-  setGameState(HOLD);
-  //await delay(30000);
-  await solveTurnLocal();
-};
 
 const randomHand = (arsenal) => arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);
 
 const solveTurnLocal = async () => {
-  if (game.state !== HOLD) return;
+  //if (game.state !== HOLD) return;
   if (player.hand.length === 0) {
     player.hand = randomHand(player.arsenal);
   }
@@ -131,8 +121,6 @@ const solveBattle = (playerA, playerB) => {
 }
 
 const checkGameState = () => {
-  if (mockRemoteGameState === SOLVING_TURN || mockRemoteGameState === TURN) {
-  }
 }
 
 
@@ -151,7 +139,7 @@ const roundFinish = () => {
 
 // handle events depending on network
 addCredits = () => {
-  if (net!=NETS[LOCALNET]) {
+  if (net!=NETS[LOCAL]) {
     addCreditNear();
   }
 }
@@ -160,9 +148,9 @@ addCredits = () => {
 const joinGame = async () => {
   if (credits==0) return;
   await delay(1500);
-  if (net!=NETS[LOCALNET]) {
+  if (net!=NETS[LOCAL]) {
     const reply = await contract.joinGame();
-
+    if (reply === 3) updateCredits(credits-1);
   }
   // add network
   md(-14);
@@ -170,7 +158,7 @@ const joinGame = async () => {
   md(-14);
   await delay(1000);
   td();
-  if (net==NETS[LOCALNET]) {
+  if (net==NETS[LOCAL]) {
     joinGameLocal();
   }
   toggleJoin();
@@ -184,8 +172,8 @@ setHand = async () => {
     const reply = blMeStates[blIndex];
     await displayCustomDialog(reply);
     byId('blMe').innerHTML=reply;
-    if (net==NETS[LOCALNET]) { 
-      setHandLocal();
+    if (net==NETS[LOCAL]) { 
+      await solveTurnLocal();
     } else {
       await contract.setHand({hand:player.hand});
     }
@@ -197,8 +185,6 @@ setHand = async () => {
 loadLastBattle = async () => {
   displayCustomDialog('BATTLE IS ABOUT TO START!', 0);
   const battleLog = await contract.getLastBattleLog({account_id:contract.account.accountId});
-  battleLog.arsenalA = battleLog.cardsA;
-  battleLog.arsenalB = battleLog.cardsB;
   battleLog.rounds = battleLog.rounds.map(([handA, handB])=> { return {handA, handB};});
   changePage('viewBattle');
   loadBattle(battleLog);

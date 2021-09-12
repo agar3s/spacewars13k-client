@@ -10,19 +10,18 @@ const changePage = (page) => {
 const toggleJoin = () => {
   toggleClass(joinGamebtn, 'hide');
   toggleClass(joinGameLabel, 'hide');
+  toggleClass(bye, 'hide');
   netSelect.disabled = !netSelect.disabled;
 };
 
-
-
-let dialogTop = 0;
-let dialogMax = -105;
+let dialogTopn;
+let dialogMax;
 let dialogCategory = '';
 let dialogOpen = false;
 
 let dialogConfig = {
   rules: {
-    max: -105
+    max: -91
   },
   join: {
     max: -28,
@@ -36,7 +35,7 @@ let dialogConfig = {
       await delay(800);
       md(-14);
       await delay(1200);
-      setGameState(JOINED);
+      loadGameScreen();
       await delay(600);
       td();
     }
@@ -65,7 +64,7 @@ let dialogConfig = {
     top: 60,
     onOpen: async () => {
       const aLink = `<a class='da' href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a>`;
-      if (net == NETS[LOCALNET]) {
+      if (net == NETS[LOCAL]) {
         winnerMessage.innerHTML = `Now you can Join to the<br>Near blockchain to earn<br>spaceships NFTs`;
       } else {
         winnerMessage.innerHTML = `The NFT ${aLink} is beeing<br>assigned to your wallet!`;
@@ -154,7 +153,7 @@ const updatetime = () => {
   }
   const mins = ~~(time / (1000 * 60));
   const secs = (~~((time - mins*60*1000) / 1000)).toString().padStart(2, '0');
-  dgs.innerHTML = `NEXT WAR IN ${mins}:${secs}`;
+  dgs.innerHTML = `GAME WILL START IN ${mins}:${secs}`;
   const timer = byId('timer')
   if (timer) timer.innerHTML = `${mins}:${secs}`;
 }
@@ -288,6 +287,12 @@ const renderGamePage = () => {
   player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
 };
 
+netSelect.onchange = _ => {
+  net = netSelect.value;
+  saveLocalStorage('net', net);
+  if (net==LOCAL) return location.reload();
+  connectTo();
+}
 
 // init code
 const initialization = () => {
@@ -302,9 +307,9 @@ const initialization = () => {
   addClass(card.cardElement, 'cf');
 }
 resetState();
-//initialization();
 initNear();
 if (DEBUG) {
+  initialization();
   timeFactor = 0.5;
   //setGameState(JOINED);
   //changePage('viewBattle');
