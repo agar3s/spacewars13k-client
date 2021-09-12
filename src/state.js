@@ -54,7 +54,7 @@ const resetState = () => {
     round: 0
   };
 };
-resetState();
+
 
 const loadGameScreen = () => {
   changePage('game');

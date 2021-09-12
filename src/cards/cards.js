@@ -19,9 +19,9 @@ const SVG_PAPER = {
 const ROCK_PAPER_SCISSORS = [SVG_ROCK, SVG_PAPER, SVG_SCISSORS];
 
 const cards = [
-  [0,0],
-  [1,1],
-  [2,2],
+  [0, 0],
+  [1, 1],
+  [2, 2],
   [0, 1],
   [0, 2],
   [1, 0],
@@ -84,9 +84,7 @@ const BATTLE_VALUES = {
 
 const solveCards = (idA, idB, second=false) => {
   let valA = cards[idA][second?1:0];
-  if (valA===undefined) valA = cards[idA][0];
   let valB = cards[idB][second?1:0];
-  if (valB===undefined) valB = cards[idB][0];
   if (valA === 0 && valB === 2) return WINNER;
   if (valA === 1 && valB === 0) return WINNER;
   if (valA === 2 && valB === 1) return WINNER;

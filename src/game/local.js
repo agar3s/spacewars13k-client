@@ -3,8 +3,8 @@
 let mockRemoteGameState = LOBBY;
 const LOCAL_PLAYERS = 8;
 
-const assignPlayer = (id) => {
-  const shipId = regularRandomInt(0, TOTAL_NFTS);
+const assignPlayer = (id, _shipId, _arsenal, _wins) => {
+  const shipId = _shipId || regularRandomInt(0, TOTAL_NFTS);
   const shipADN = codesToShip[shipId];
   return {
     id,
@@ -12,12 +12,17 @@ const assignPlayer = (id) => {
     shipADN,
     config: adnToShipConfig(shipADN),
     alive: true,
-    arsenal: [0, 1, 2, regularRandomInt(3, cards.length)],
+    arsenal: _arsenal || [0, 1, 2, regularRandomInt(3, cards.length)],
     hand: [],
     ready: false,
-    victories: 0
+    victories: _wins || 0
   };
 }
+
+const setPlayer = (_player) => {
+  players.push(_player);
+  player = _player;
+};
 
 
 const startGame = async () => {
@@ -96,7 +101,6 @@ const solveBattle = (playerA, playerB) => {
   let handA;
   let handB;
   while (scores[0]<2&&scores[1]<2) {
-    //console.log('a problem?', battleRound);
     if (battleRound>10) break;
     switch (battleRound) {
       case 0:
@@ -106,12 +110,10 @@ const solveBattle = (playerA, playerB) => {
       case 1:
         handA = playerA.hand.sort(randomSort).map(_=>_);
         handB = playerB.hand.sort(randomSort).map(_=>_);
-        //console.log(1, handA, handB);
         break;
         case 2: 
         handA = randomHand(playerA.arsenal);
         handB = randomHand(playerB.arsenal);
-        //console.log(2, handA, handB);
       break;
       default:
         handA = [regularRandomInt(0, playerA.arsenal.length)];
@@ -121,8 +123,6 @@ const solveBattle = (playerA, playerB) => {
     const res = handA.reduce((score, _, index) => score + solveCardAbsolute(playerA.arsenal[handA[index]], playerB.arsenal[handB[index]]), 0);
     if (res>0) scores[0]++;
     if (res<0) scores[1]++;
-    //console.log(battleRound, handA, handB);
-    //console.log(res);
     log.rounds.push({ handA, handB });
     battleRound += 1;
   }
@@ -132,7 +132,6 @@ const solveBattle = (playerA, playerB) => {
 
 const checkGameState = () => {
   if (mockRemoteGameState === SOLVING_TURN || mockRemoteGameState === TURN) {
-    //console.log('do something');
   }
 }
 
@@ -148,3 +147,61 @@ const roundFinish = () => {
   blIndex = 0;
   renderGamePage();
 }
+
+
+// handle events depending on network
+addCredits = () => {
+  if (net!=NETS[LOCALNET]) {
+    addCreditNear();
+  }
+}
+
+
+const joinGame = async () => {
+  if (credits==0) return;
+  await delay(1500);
+  if (net!=NETS[LOCALNET]) {
+    const reply = await contract.joinGame();
+
+  }
+  // add network
+  md(-14);
+  await delay(1300);
+  md(-14);
+  await delay(1000);
+  td();
+  if (net==NETS[LOCALNET]) {
+    joinGameLocal();
+  }
+  toggleJoin();
+};
+
+setHand = async () => {
+  if (player.hand.length < 3) {
+    displayCustomDialog('choose 3 cards from your arsenal');
+  } else {
+    blIndex = 1;
+    const reply = blMeStates[blIndex];
+    await displayCustomDialog(reply);
+    byId('blMe').innerHTML=reply;
+    if (net==NETS[LOCALNET]) { 
+      setHandLocal();
+    } else {
+      await contract.setHand({hand:player.hand});
+    }
+  }
+  //changePage('viewBattle');
+  //loadBattle(battleLog);
+}
+
+loadLastBattle = async () => {
+  displayCustomDialog('BATTLE IS ABOUT TO START!', 0);
+  const battleLog = await contract.getLastBattleLog({account_id:contract.account.accountId});
+  battleLog.arsenalA = battleLog.cardsA;
+  battleLog.arsenalB = battleLog.cardsB;
+  battleLog.rounds = battleLog.rounds.map(([handA, handB])=> { return {handA, handB};});
+  changePage('viewBattle');
+  loadBattle(battleLog);
+  td();
+}
+

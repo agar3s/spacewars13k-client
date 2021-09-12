@@ -13,17 +13,6 @@ const toggleJoin = () => {
   netSelect.disabled = !netSelect.disabled;
 };
 
-const joinGame = async () => {
-  // add network
-  await delay(1500);
-  md(-14);
-  await delay(1300);
-  md(-14);
-  await delay(1000);
-  td();
-  joinGameLocal();
-  toggleJoin();
-};
 
 
 let dialogTop = 0;
@@ -106,6 +95,7 @@ const displayCustomDialog = async (text, timeout=1200) => {
     max: 0,
     disableLinks: true,
     onOpen: async () => {
+      if (timeout==0) return;
       await delay(timeout);
       td();
     },
@@ -298,21 +288,6 @@ const renderGamePage = () => {
   player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
 };
 
-setHand = async () => {
-  //console.log('player.hand', player.hand);
-  if (player.hand.length < 3) {
-    displayCustomDialog('choose 3 cards from your arsenal');
-  } else {
-    blIndex = 1;
-    const reply = blMeStates[blIndex];
-    await displayCustomDialog(reply);
-    byId('blMe').innerHTML=reply;
-    setHandLocal();
-  }
-  //changePage('viewBattle');
-  //loadBattle(battleLog);
-}
-
 
 // init code
 const initialization = () => {
@@ -326,8 +301,9 @@ const initialization = () => {
   viewCard.appendChild(card.cardElement);
   addClass(card.cardElement, 'cf');
 }
-
-initialization();
+resetState();
+//initialization();
+initNear();
 if (DEBUG) {
   timeFactor = 0.5;
   //setGameState(JOINED);
