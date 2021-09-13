@@ -20,7 +20,7 @@ let dialogOpen = false;
 
 let dialogConfig = {
   rules: {
-    max: -77
+    max: -40
   },
   join: {
     max: -14,
@@ -285,7 +285,7 @@ const renderGamePage = () => {
   shipStats.innerHTML = `
 <span class='shipName'>${BASE_NAMES[player.config.shapeId]} ${WINGS_NAMES[player.config.wingsId]}</span>
 <hr>
-<span>spaceship: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
+<span>spaceship: <a href='https://bafybeifh3mmbyccjo64qjr6thhphyspnxirtcv6rxb3bsip5noaicv5v4i.ipfs.dweb.link?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
 <span>galaxy: ${ GALAXY_NAMES[player.config.bgEffect] }</span>
 <span>faction: ${ FACTION_NAMES[player.config.backCover] }</span>
 <span>victories: ${ player.victories }</span>
@@ -299,7 +299,7 @@ netSelect.onchange = _ => {
   net = netSelect.value;
   saveLocalStorage('net', net);
   if (net==LOCAL) return reload();
-  connectTo();
+  connectTo(true);
 }
 
 // init code

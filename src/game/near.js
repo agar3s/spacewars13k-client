@@ -1,22 +1,21 @@
 
-
-const contractName = 'dev-1629007181166-2789359';
+const contractName = 'spacewars.neuromancer';
 
 const getNetworkConfig = (networkId) => {
   return {
     networkId,
     nodeUrl: `https://rpc.${networkId}.near.org`,
     walletUrl: `https://wallet.${networkId}.near.org`,
-    contractName,
+    contractName: `${contractName}.${networkId}`,
     deps: { keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore() }
   };
 }
 
-const connectTo = async () => {
+const connectTo = async (force) => {
   const near = await nearApi.connect(getNetworkConfig(NETS[net]));
-  
+  const con = `${contractName}.${net}`;
   const walletConnection = new nearApi.WalletConnection(near);
-  contract = await new nearApi.Contract(walletConnection.account(), contractName, {
+  contract = await new nearApi.Contract(walletConnection.account(), con, {
     viewMethods: ['getAccount', 'getGame'],
     changeMethods: ['addCredit', 'getLastBattleLog', 'joinGame', 'setHand'],
     sender: walletConnection.account()
@@ -27,9 +26,13 @@ const connectTo = async () => {
     displayCustomDialog(`connected to ${NETS[net]}`, 2400);
     await syncGameState();
     toggleClass(bye, 'hide');
+  } else if (force) {
+    let account = new nearApi.Account(near.connection, con);
+    walletConnection.requestSignIn(con)
   } else {
-    let account = new nearApi.Account(near.connection, contractName);
-    walletConnection.requestSignIn(contractName)
+    netSelect.value = LOCAL;
+    saveLocalStorage('net', LOCAL);
+    reload();
   }
   logout = async () => {
     displayCustomDialog('loading...', 0);
