@@ -24,7 +24,7 @@ const connectTo = async () => {
   if (walletConnection.isSignedIn()) {
     // Logged in account, can write as user signed up through wallet
     //account = walletConnection.account();
-    syncGameState()
+    await syncGameState();
   } else {
     let account = new nearApi.Account(near.connection, contractName);
     walletConnection.requestSignIn(contractName)
@@ -45,22 +45,30 @@ addCreditNear = () => {
 
 const syncGameState = async () => {
   let { ships=[], credits=1, player:_player, inQueue=-1} = (await contract.getAccount({account_id:contract.account.accountId})) || {};
-  game = await contract.getGame();
   updateCredits(credits);
   if (_player) {
-    //player = _player;
-    player = assignPlayer(_player.id, _player.ship, _player.arsenal, _player.wins);
-    //player.shipId = _player.ship;
-    players=[player];
+    if (player.id != _player.id) {
+      //player = _player;
+      player = assignPlayer(_player.id, _player.ship);
+      //player.shipId = _player.ship;
+      console.log(`getLocalStorage('pS')`);
+      console.log(getLocalStorage('pS'));
+      player.alive = getLocalStorage('pS')=='true';
+      players=[player];
+    }
+    player.state = _player.state;
+    player.arsenal = _player.arsenal;
+    player.hand = _player.hand;
+    player.victories = _player.wins;
   }
-  if (_player&&_player.state!=5 && game.state>LOBBY&&game.state<OVER) {
-    await delay(100);
-    loadGameScreen();
-  }
+
+  handleGameUpdate(await contract.getGame());
   if (game.state==LOBBY && inQueue>=0) {
-    toggleJoin();
+    !containsClass(joinGamebtn, 'hide') && toggleJoin();
     joinGameLabel.innerHTML = `${game.waitingPlayers}/8 PLAYERS READY TO PLAY`;
   }
+
+  setTimeout(syncGameState, 10000);
 }
 
 const updateCredits = (_credits) => {

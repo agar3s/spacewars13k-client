@@ -35,7 +35,7 @@ let game;
 const resetState = () => {
   players = [];
   player = {
-    id: 0,
+    id: -1,
     shipId: 0,
     alive: true,
     arsenal: [0, 1, 2, regularRandomInt(0, 9)],

@@ -3,7 +3,7 @@
 let mockRemoteGameState = LOBBY;
 const LOCAL_PLAYERS = 8;
 
-const assignPlayer = (id, _shipId, _arsenal, _wins) => {
+const assignPlayer = (id, _shipId) => {
   const shipId = _shipId || regularRandomInt(0, TOTAL_NFTS);
   const shipADN = codesToShip[shipId];
   return {
@@ -12,10 +12,10 @@ const assignPlayer = (id, _shipId, _arsenal, _wins) => {
     shipADN,
     config: adnToShipConfig(shipADN),
     alive: true,
-    arsenal: _arsenal || [0, 1, 2, regularRandomInt(3, cards.length)],
+    arsenal: [0, 1, 2, regularRandomInt(3, cards.length)],
     hand: [],
     ready: false,
-    victories: _wins || 0
+    victories: 0
   };
 }
 
@@ -27,7 +27,7 @@ const startGame = async () => {
   for (let i=0; i<LOCAL_PLAYERS; i++) {
     players.push(assignPlayer(i));
   }
-  game.totalPlayers = player.length;
+  game.totalPlayers = players.length;
   player = { ...players[0] };
   td('wait');
   loadNewRound();
@@ -133,6 +133,7 @@ const roundFinish = () => {
   player.victories += 1;
   game.round += 1;
   blIndex = 0;
+  game.totalPlayers = players.length;
   renderGamePage();
 }
 
@@ -151,6 +152,7 @@ const joinGame = async () => {
   if (net!=NETS[LOCAL]) {
     const reply = await contract.joinGame();
     if (reply === 3) updateCredits(credits-1);
+    else saveLocalStorage('pS', player.alive);
   }
   // add network
   md(-14);
@@ -170,12 +172,16 @@ setHand = async () => {
   } else {
     blIndex = 1;
     const reply = blMeStates[blIndex];
-    await displayCustomDialog(reply);
     byId('blMe').innerHTML=reply;
     if (net==NETS[LOCAL]) { 
+      await displayCustomDialog(reply);
       await solveTurnLocal();
     } else {
+      displayCustomDialog('loading...', 0);
+      console.log('set hand', {hand:player.hand});
       await contract.setHand({hand:player.hand});
+      //td();
+      await displayCustomDialog(reply, 1500);
     }
   }
   //changePage('viewBattle');
@@ -188,6 +194,37 @@ loadLastBattle = async () => {
   battleLog.rounds = battleLog.rounds.map(([handA, handB])=> { return {handA, handB};});
   changePage('viewBattle');
   loadBattle(battleLog);
+  console.log('player.state != 5');
+  console.log(player.state != 5);
+  saveLocalStorage('pS', player.state != 5);
   td();
 }
 
+const handleGameUpdate = async (_game) => {
+  // if (currentPage=='index') {
+  //   loadGameScreen();
+  // }
+  if (_game.state != game.state) {
+    if (_game.state >= WAIT_PLAYERS) {
+      console.log('sync game');
+      console.log(_game.round, game.round, player);
+      console.log(player.alive,  _game.round > game.round);
+      if (player.alive && (_game.round > game.round || _game.state==5)) {
+        console.log('esto lo estoy haciendo?');
+        await loadLastBattle();
+      } else if (player.state!=5) {
+        if (game.state < WAIT_PLAYERS) {
+          td('wait');
+        } else {
+          changePage('game');
+        }
+      }
+    }
+  }
+  player.alive = player.state != 5;
+  game = _game;
+  console.log(game);
+  if (game.state >= WAIT_PLAYERS && currentPage!='game') {
+    renderGamePage();
+  }
+}

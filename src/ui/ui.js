@@ -21,7 +21,7 @@ let dialogOpen = false;
 
 let dialogConfig = {
   rules: {
-    max: -91
+    max: -77
   },
   join: {
     max: -28,
@@ -145,12 +145,14 @@ const MINS = 3; // setup different times depending on network?
 let targetTime;
 const setTargetTime = delay => targetTime = Date.now() + 1000 * 60 * MINS + delay;
 setTargetTime(0);
+
 const updatetime = () => {
   const time = targetTime - Date.now();
   if (time < 0) {
     // emit timeout!!!
     setTargetTime(time);
   }
+
   const mins = ~~(time / (1000 * 60));
   const secs = (~~((time - mins*60*1000) / 1000)).toString().padStart(2, '0');
   dgs.innerHTML = `GAME WILL START IN ${mins}:${secs}`;
@@ -268,10 +270,11 @@ const loopStars = () => {
 const blMeStates = ['WAITING FOR ORDERS', 'READY FOR BATTLE'];
 let blIndex = 0;
 const renderGamePage = () => {
+  console.log(game);
   gameStats.innerHTML = `
 <tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
 <tr><td>ROUND: #${ game.round }</td><td>NEXT BATTLE: <span id='timer'></td></tr>
-<tr><td>REMAINING SHIPS: ${ players.length }</td></tr>
+<tr><td>REMAINING SHIPS: ${ game.totalPlayers }</td><td>${ game.totalPlayers==2?' - LAST ROUND -':'' }</td></tr>
   `;
 
   shipStats.innerHTML = `
