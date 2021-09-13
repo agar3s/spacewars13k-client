@@ -1,5 +1,5 @@
 <head>
-    <title>Space Wars</title>
+    <title>space wars</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -9,6 +9,7 @@
             background: #111;
             text-shadow: 0.1vh 0 0 #ff21bd85, -0.1vh 0 0 #5cf14e9f;
             font-size: min(3vh, 4.5vw);
+            text-transform: uppercase;
         }
         body {
             overflow: hidden;
@@ -694,7 +695,7 @@
             height: 5vh;
             font-size: 4vh;
             width: 15vh;
-        }*/
+        }
         #viewCard .card {
             position: absolute;
             top: 0;
@@ -705,7 +706,7 @@
             height: 50%;
             float: none;
             margin: auto;
-        }
+        }*/
         .cCon  {
             display: block;
             float: left;
@@ -880,27 +881,27 @@
     <div id='main' >
         <div id='index' class='page'>
             <div id='dc'>
-                <span id='tCredits'>CREDITS 01</span>
-                <a class='right' href='#' onclick='td("rules")'>RULES</a>
+                <span id='tCredits'>credits 01</span>
+                <a class='right' href='#' onclick='td("rules")'>rules</a>
             </div>
-            <h1>SPACESHIP WARS<br>NFT 13K</h1>
+            <h1>spaceship wars<br>nft 13k</h1>
             <div id='dgs' class='center'></div>
             <div class='center space'>
-                <a class='btn' id='joinGamebtn' href='#'>JOIN GAME</a>
-                <span id='joinGameLabel' class='hide'>JOINED</span>
+                <a class='btn' id='joinGamebtn' href='#'>join game</a>
+                <span id='joinGameLabel' class='hide'>joined</span>
                 <br>
-                <a class='btn' href='#' onclick='addCredits()'>ADD CREDITS</a>
+                <a class='btn' href='#' onclick='addCredits()'>add credits</a>
             </div>
             <div class='center'>
                 <select id='netSelect'>
-                    <option>LOCAL</option>
-                    <option>TESTNET</option>
-                    <option>MAINNET</option>
+                    <option>local</option>
+                    <option>testnet</option>
+                    <option>mainnet</option>
                 </select>
                 <br>
-                <a class='hide' href='#' id='bye' onclick='logout()'>LOGOUT</a>
+                <a class='hide' href='#' id='bye' onclick='logout()'>logout</a>
             </div>
-            <footer class='center'>MADE WITH &lt;3 BY <a href='https://twitter.com/agar3s' target="_blank">@AGAR3S</a></footer>
+            <footer class='center'>made with &lt;3 by <a href='https://twitter.com/agar3s' target="_blank">@agar3s</a></footer>
         </div>
 
         <div id='game' class='page hide'>
@@ -909,13 +910,13 @@
             </div>
             <div id='shipStats'></div>
             <div id='hand'>
-                <h3>ARSENAL</h3>
+                <h3>arsenal</h3>
                 <div id='group'></div>
-                <a id='setAction' class='btn' href='#' onclick='setHand()'>SET</a>
+                <a id='setAction' class='btn' href='#' onclick='setHand()'>set</a>
             </div>
         </div>
-        <div id='viewCard' class='page hide'>
-        </div>
+        <!-- <div id='viewCard' class='page hide'>
+        </div> -->
         <div id='viewBattle' class='page hide'>
             <h3 class='hide'>VS</h3>
             <div id='playerA' class='cCon'></div>
@@ -933,39 +934,39 @@
                 </div>
                 <div id='dlt'>
                     <div id='dl-rules' class='hide'>
-                        <p>Welcome to<br>Spaceship Wars 13k!</p>
-                        <p>This is a blockchain turn based battleroyal card game running in Near</p>
-                        <p>You'll command a unique spaceship (NFT) in a space war - tournament</p>
-                        <p>Every turn all spaceships will be confronted in a rock-paper-scissors duel</p>
-                        <p>The winner of the tournament will be rewarded with the ownership of the NFT</p>
-                        <p>Good luck!</p>
+                        <p>welcome to<br>spaceship wars 13k!</p>
+                        <p>this is a blockchain turn based battleroyal card game running in near</p>
+                        <p>you'll command a unique spaceship (nft) in a space war - tournament</p>
+                        <p>every turn all spaceships will be confronted in a rock-paper-scissors duel</p>
+                        <p>the winner of the tournament will be rewarded with the ownership of the nft</p>
+                        <p>good luck!</p>
                     </div>
                     <div id='dl-join' class='hide'>
-                        <p>Joining to the game...</p>
-                        <p>Joined!</p>
+                        <p>joining to the game...</p>
+                        <p>joined!</p>
                     </div>
                     <div id='dl-wait' class='hide'>
-                        <p>The game is about to start!</p>
-                        <p>Assigning commanders to their space ships</p>
+                        <p>the game is about to start!</p>
+                        <p>assigning commanders to their space ships</p>
                     </div>
                     <div id='dl-custom' class='hide'>
                         <p></p>
                     </div>
                     <div id='dl-battle-win' class='hide'>
-                        <p>We have a winner!!</p>
-                        <p>Congratulations!<br>You will pass to the next round!</p>
+                        <p>we have a winner!!</p>
+                        <p>congratulations!<br>you will pass to the next round!</p>
                     </div>
                     <div id='dl-battle-lose' class='hide'>
-                        <p>We have a winner!!</p>
-                        <p>You lose!!</br>Best luck the next time!</p>
+                        <p>we have a winner!!</p>
+                        <p>you lose!!</br>best luck the next time!</p>
                     </div>
                     <div id='dl-chicken-dinner' class='hide'>
-                        <p>Congratulations!!!<br>You won the space war!</p>
+                        <p>congratulations!!!<br>you won the space war!</p>
                         <p id='winnerMessage'></p>
-                        <p>Thanks for playing!<br>MADE WITH &lt;3 BY <a class='da' href='https://twitter.com/agar3s' target="_blank">@AGAR3S</a></p>
+                        <p>thanks for playing!<br>made with &lt;3 by <a class='da' href='https://twitter.com/agar3s' target="_blank">@agar3s</a></p>
                     </div>
                 </div>
-                <a class='close' href='#' onclick='td()'>X</a>
+                <a class='close' href='#' onclick='td()'>x</a>
                 <a class='first' href='#' onclick='md(14)'>↑</a>
                 <a class='' href='#' onclick='md(-14)'>↓</a>
             </div>

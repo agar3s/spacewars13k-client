@@ -53,7 +53,7 @@ const loadNewRound = () => {
 
 
 const randomHand = (arsenal) => arsenal.map((_, index)=>index).sort(randomSort).splice(0, 3);
-
+const battleStartMessage = 'battle is about to start!';
 const solveTurnLocal = async () => {
   //if (game.state !== HOLD) return;
   if (player.hand.length === 0) {
@@ -63,7 +63,7 @@ const solveTurnLocal = async () => {
   players.splice(1, ~~(players.length/2));
   rival.hand = randomHand(rival.arsenal);
   const battleLog = solveBattle(player, rival);
-  await displayCustomDialog('BATTLE IS ABOUT TO START!', 1500);
+  await displayCustomDialog(battleStartMessage, 1500);
   changePage('viewBattle');
   loadBattle(battleLog);
   setGameState(SOLVING_TURN);
@@ -177,50 +177,36 @@ setHand = async () => {
       await solveTurnLocal();
     } else {
       displayCustomDialog('delivering orders...', 0);
-      console.log('set hand', {hand:player.hand});
       await contract.setHand({hand:player.hand});
       td();
       await delay(400)
       await displayCustomDialog(reply, 1200);
     }
   }
-  //changePage('viewBattle');
-  //loadBattle(battleLog);
 }
 
 loadLastBattle = async () => {
-  displayCustomDialog('BATTLE IS ABOUT TO START!', 0);
+  displayCustomDialog(battleStartMessage, 0);
   const battleLog = await contract.getLastBattleLog({account_id:contract.account.accountId});
   battleLog.rounds = battleLog.rounds.map(([handA, handB])=> { return {handA, handB};});
   changePage('viewBattle');
   loadBattle(battleLog);
-  console.log('player.state != 5');
-  console.log(player.state != 5);
   saveLocalStorage('pS', player.state != 5);
   td();
 }
 
 const handleGameUpdate = async (_game) => {
-  // if (currentPage=='index') {
-  //   loadGameScreen();
-  // }
-  if (_game.state != game.state || _game.round > game.round) {
+  const newRound = _game.round > game.round;
+  if (_game.state != game.state || newRound) {
     if (_game.state >= WAIT_PLAYERS) {
-      console.log('sync game');
-      console.log(_game.round, game.round, player);
-      console.log(player.alive,  _game.round > game.round);
-      if (player.alive && (_game.round > game.round || _game.state==5)) {
-        console.log('esto lo estoy haciendo?');
+      if (player.alive && (newRound || _game.state==5)) {
         await loadLastBattle();
       } else if (player.state!=5) {
         if (game.state < WAIT_PLAYERS) {
-          console.log('wait game?');
           await delay(3000);
           td('wait');
-          //await delay(3500);
         } else {
           changePage('game');
-          //loadGameScreen
         }
       }
     }
@@ -228,10 +214,7 @@ const handleGameUpdate = async (_game) => {
   }
   player.alive = player.state != 5;
   game = _game;
-  console.log('game>');
-  console.log(game);
   if (game.state >= WAIT_PLAYERS && currentPage!='game') {
-    console.log('ask to render twice?');
     renderGamePage();
   }
 }

@@ -13,12 +13,12 @@ const getNetworkConfig = (networkId) => {
 }
 
 const connectTo = async () => {
-  const near = await nearApi.connect(getNetworkConfig(NETS[net].toLowerCase()));
+  const near = await nearApi.connect(getNetworkConfig(NETS[net]));
   
   const walletConnection = new nearApi.WalletConnection(near);
   contract = await new nearApi.Contract(walletConnection.account(), contractName, {
-    viewMethods: ['getAccount', 'getGameState', 'getGame'],
-    changeMethods: ['addCredit', 'getLastBattleLog', 'joinGame', 'startGame', 'setHand'],
+    viewMethods: ['getAccount', 'getGame'],
+    changeMethods: ['addCredit', 'getLastBattleLog', 'joinGame', 'setHand'],
     sender: walletConnection.account()
   });
   if (walletConnection.isSignedIn()) {
@@ -50,25 +50,19 @@ const syncGameState = async () => {
   updateCredits(credits);
   if (_player) {
     if (player.id != _player.id || game.state<=SETUP) {
-      //player = _player;
       player = assignPlayer(_player.id, _player.ship);
-      //player.shipId = _player.ship;
-      console.log(`getLocalStorage('pS')`);
-      console.log(getLocalStorage('pS'));
       player.alive = getLocalStorage('pS')=='true';
-      
       players=[player];
     }
     player.state = _player.state;
     player.arsenal = _player.arsenal;
     player.victories = _player.wins;
-    console.log(player);
   }
 
   handleGameUpdate(await contract.getGame());
   if (game.state==LOBBY && inQueue>=0) {
     !containsClass(joinGamebtn, 'hide') && toggleJoin();
-    joinGameLabel.innerHTML = `${game.waitingPlayers}/8 PLAYERS READY TO PLAY`;
+    joinGameLabel.innerHTML = `${game.waitingPlayers}/8 players ready to play`;
   }
 
   setTimeout(syncGameState, 10000);
@@ -76,7 +70,7 @@ const syncGameState = async () => {
 
 const updateCredits = (_credits) => {
   credits = _credits;
-  tCredits.innerHTML = `CREDITS ${credits.toString().padStart(3, '0')}`;
+  tCredits.innerHTML = `credits ${credits.toString().padStart(3, '0')}`;
 }
 updateCredits(1);
 

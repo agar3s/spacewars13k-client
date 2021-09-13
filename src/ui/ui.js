@@ -156,7 +156,7 @@ const updatetime = () => {
 
   const mins = ~~(time / (1000 * 60));
   const secs = (~~((time - mins*60*1000) / 1000)).toString().padStart(2, '0');
-  dgs.innerHTML = `GAME WILL START IN ${mins}:${secs}`;
+  dgs.innerHTML = `game will start in ${mins}:${secs}`;
   const timer = byId('timer')
   if (timer) timer.innerHTML = `${mins}:${secs}`;
 }
@@ -182,7 +182,7 @@ const addExplodingStar = () => {
     r = rand()*Math.PI*2;
     vx=Math.cos(r)*speed; vy=Math.sin(r)*speed;
   };
-  //console.log(vx, vy);
+
   starGroups[1].push({
     move: _=> {
       y += vy; x+= vx;
@@ -268,7 +268,7 @@ const loopStars = () => {
   starGroups.forEach(stars => stars.forEach(star => star.move()));
   contexts.forEach(fn => fn(starGroups));
 };
-const blMeStates = ['WAITING FOR ORDERS', 'READY FOR BATTLE'];
+const blMeStates = ['waiting for orders', 'ready for battle'];
 let blIndex = 0;
 const renderGamePage = () => {
   if (!ship.children.length) {
@@ -276,21 +276,19 @@ const renderGamePage = () => {
     const card = createCard(config);
     ship.appendChild(card.cardElement);
   }
-  console.log(';game;');
-  console.log(game);
   gameStats.innerHTML = `
-<tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
-<tr><td>ROUND: #${ game.round }</td><td>NEXT BATTLE: <span id='timer'></td></tr>
-<tr><td>REMAINING SHIPS: ${ game.totalPlayers }</td><td>${ game.totalPlayers==2?' - LAST ROUND -':'' }</td></tr>
+<tr><td>spacewar: #${ game.id }</td><td>${ net }</td></tr>
+<tr><td>round: #${ game.round }</td><td>next battle: <span id='timer'></td></tr>
+<tr><td>remaining ships: ${ game.totalPlayers }</td><td>${ game.totalPlayers==2?' - last round -':'' }</td></tr>
   `;
 
   shipStats.innerHTML = `
 <span class='shipName'>${BASE_NAMES[player.config.shapeId]} ${WINGS_NAMES[player.config.wingsId]}</span>
 <hr>
-<span>SPACESHIP: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
-<span>GALAXY: ${ GALAXY_NAMES[player.config.bgEffect] }</span>
-<span>FACTION: ${ FACTION_NAMES[player.config.backCover] }</span>
-<span>VICTORIES: ${ player.victories }</span>
+<span>spaceship: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
+<span>galaxy: ${ GALAXY_NAMES[player.config.bgEffect] }</span>
+<span>faction: ${ FACTION_NAMES[player.config.backCover] }</span>
+<span>victories: ${ player.victories }</span>
 <hr>
 <a id='blMe' href='#'>${blMeStates[blIndex]}</a>`;
   group.innerHTML='';

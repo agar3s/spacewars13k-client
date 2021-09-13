@@ -1,7 +1,7 @@
 
-const MAINNET='MAINNET';
-const TESTNET='TESTNET';
-const LOCAL='LOCAL';
+const MAINNET='mainnet';
+const TESTNET='testnet';
+const LOCAL='local';
 
 const NETS = {
   [MAINNET]: MAINNET,
@@ -54,7 +54,6 @@ const resetState = () => {
 
 const loadGameScreen = () => {
   changePage('game');
-  //console.log(player.shipId);
   renderGamePage();
 };
 

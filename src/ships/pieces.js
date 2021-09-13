@@ -302,54 +302,54 @@ const backgroundConfig = [
 
 
 const FACTION_NAMES = [
-  'SHADOW PROCLAMATION',
-  'SKULZ',
-  'BORGZ',
-  'REBELS',
-  'THE EMPIRE',
-  'FEDERATION'
+  'shadow proclamation',
+  'skulz',
+  'borgz',
+  'rebels',
+  'the empire',
+  'federation'
 ];
 const BASE_NAMES = [
-  'ICARUS',
-  'USCSS',
-  'X-78',
-  'NIGHTFLY',
-  'Z-WOLF',
-  'LEGACY',
-  'BEBOP',
-  'YAMATO',
-  'NAUTILUS',
-  'HYPERION'
+  'icarus',
+  'uscss',
+  'x-78',
+  'nightfly',
+  'z-wolf',
+  'legacy',
+  'bebop',
+  'yamato',
+  'nautilus',
+  'hyperion'
 ];
 const WINGS_NAMES = [
-  'HUNTER',
-  'LIBERATOR',
-  'EXPLORER',
-  'SEARCHER',
-  'RIDER',
-  'SEEKER',
-  'SKYWALKER',
-  'DESTROYER',
-  'INTREPID',
-  'EXPLORER',
-  'BRAVE',
-  'FEARLESS',
-  'CONQUEROR',
+  'hunter',
+  'liberator',
+  'explorer',
+  'searcher',
+  'rider',
+  'seeker',
+  'skywalker',
+  'destroyer',
+  'intrepid',
+  'explorer',
+  'brave',
+  'fearless',
+  'conqueror',
   ''
 ];
 const GALAXY_NAMES = [
-  'MILKY WAY',
-  'ANDROMEDA',
-  'HYDRA',
-  'HELIX',
-  'BW TAURI',
-  'RECURSIVE',
-  'VOID',
-  'KRAKEN',
-  'OMEGA',
-  'XIX',
-  'DARK',
-  'ULTIMATE'
+  'milky way',
+  'andromeda',
+  'hydra',
+  'helix',
+  'bw tauri',
+  'recursive',
+  'void',
+  'kraken',
+  'omega',
+  'xix',
+  'dark',
+  'ultimate'
 ];
 
 const backCovers = [

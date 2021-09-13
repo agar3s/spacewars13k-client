@@ -415,7 +415,6 @@ if (DEBUG) {
   const setProbText = ( key, dis, config) => {
     const value = config[key];
     const percentage = ((dis[config[key]]*100)/13312).toFixed(2);
-    //console.log(key, `${key}-id-prob`);
     byId(`${key}-id-prob`).innerHTML = `${ key }: ${ percentage }% ships have this property`;
   }
   window.loadById = () => {
@@ -432,16 +431,6 @@ if (DEBUG) {
     setProbText('backCover', shipBackCoverDistribution, config);
   };
   
-  // let i = 999999;
-  // setInterval(()=> {
-  //   if (++i > 13*1024) i=0;
-  //   shipid.value = i;
-  //   const adn = codesToShip[i];
-  //   const config = adnToShipConfig(adn);
-  //   cards.forEach(card=>card.setShipConfiguration(config));
-  //   byId('adn-debug').innerHTML = adn;
-  // }, 500)
-
   
   let shapeId = ~~(rand()*9);
   let wingsId = ~~(rand()*13);

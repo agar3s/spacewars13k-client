@@ -79,7 +79,6 @@ const dismissCards = async () => {
 }
 
 const loadBattle = async (battleLog) => {
-  console.log(battleLog);
   const configA = getShipById(battleLog.shipA);
   const configB = getShipById(battleLog.shipB);
   const playerContent = "<ul class='victories'><li></li><li></li></ul>";
@@ -102,7 +101,7 @@ const loadBattle = async (battleLog) => {
   let scores = [0, 0];
   let winner = false;
   for (let index = 0; index < battleLog.rounds.length && !winner; index++) {
-    let message = 'POINT!!!';
+    let message = 'point!!!';
     const { handA, handB } = battleLog.rounds[index];
     const roundWinner = await solveBattleScript(configA.backCover, configB.backCover, handA.map(c=>battleLog.arsenalA[c]), handB.map(c=>battleLog.arsenalB[c]));
     if (roundWinner>0) {
@@ -114,7 +113,7 @@ const loadBattle = async (battleLog) => {
       addClass(playerB.querySelector(`li:nth-child(${scores[1]})`), 'score');
     }
     if (roundWinner == 0) {
-      message = 'DRAW!!!'
+      message = 'draw!!!'
     }
     winner = scores[0] >= 2 || scores[1] >= 2;
     await delay(500);
