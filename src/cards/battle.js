@@ -79,6 +79,7 @@ const dismissCards = async () => {
 }
 
 const loadBattle = async (battleLog) => {
+  console.log(battleLog);
   const configA = getShipById(battleLog.shipA);
   const configB = getShipById(battleLog.shipB);
   const playerContent = "<ul class='victories'><li></li><li></li></ul>";
@@ -122,8 +123,8 @@ const loadBattle = async (battleLog) => {
       await dismissCards();
     }
   }
-  if (battleLog.winner === 0) {
-    if (players.length === 1) {
+  if (battleLog.winner === player.id) {
+    if (game.totalPlayers === 1) {
       td('chicken-dinner');
     } else {
       td('battle-win');

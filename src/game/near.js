@@ -24,7 +24,9 @@ const connectTo = async () => {
   if (walletConnection.isSignedIn()) {
     // Logged in account, can write as user signed up through wallet
     //account = walletConnection.account();
+    displayCustomDialog(`connected to ${NETS[net]}`, 2400);
     await syncGameState();
+    toggleClass(bye, 'hide');
   } else {
     let account = new nearApi.Account(near.connection, contractName);
     walletConnection.requestSignIn(contractName)
@@ -33,7 +35,7 @@ const connectTo = async () => {
     displayCustomDialog('loading...', 0);
     await walletConnection.signOut();
     saveLocalStorage('net', LOCAL);
-    location.reload();
+    reload();
   }
 }
 
@@ -47,19 +49,20 @@ const syncGameState = async () => {
   let { ships=[], credits=1, player:_player, inQueue=-1} = (await contract.getAccount({account_id:contract.account.accountId})) || {};
   updateCredits(credits);
   if (_player) {
-    if (player.id != _player.id) {
+    if (player.id != _player.id || game.state<=SETUP) {
       //player = _player;
       player = assignPlayer(_player.id, _player.ship);
       //player.shipId = _player.ship;
       console.log(`getLocalStorage('pS')`);
       console.log(getLocalStorage('pS'));
       player.alive = getLocalStorage('pS')=='true';
+      
       players=[player];
     }
     player.state = _player.state;
     player.arsenal = _player.arsenal;
-    player.hand = _player.hand;
     player.victories = _player.wins;
+    console.log(player);
   }
 
   handleGameUpdate(await contract.getGame());

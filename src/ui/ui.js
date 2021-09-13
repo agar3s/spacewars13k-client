@@ -10,7 +10,6 @@ const changePage = (page) => {
 const toggleJoin = () => {
   toggleClass(joinGamebtn, 'hide');
   toggleClass(joinGameLabel, 'hide');
-  toggleClass(bye, 'hide');
   netSelect.disabled = !netSelect.disabled;
 };
 
@@ -24,7 +23,7 @@ let dialogConfig = {
     max: -77
   },
   join: {
-    max: -28,
+    max: -14,
     disableLinks: true,
     onOpen: joinGame
   },
@@ -46,7 +45,7 @@ let dialogConfig = {
       await delay(1200);
       md(-14);
     },
-    onClose: ()=>location.reload()
+    onClose: reload
   }, 
   'battle-win': {
     max: -14,
@@ -74,7 +73,7 @@ let dialogConfig = {
       md(-14);
       await delay(3000);
     },
-    onClose: ()=>location.reload()
+    onClose: reload
   }
 };
 
@@ -84,6 +83,8 @@ md = (val) => {
   if (dialogTop > 0) dialogTop =  0;
   dlt.style.top = `${dialogTop}vh`;
 };
+
+joinGamebtn.onclick=()=>credits<1?displayCustomDialog('not enough credits'):td("join");
 
 
 const displayCustomDialog = async (text, timeout=1200) => {
@@ -270,6 +271,12 @@ const loopStars = () => {
 const blMeStates = ['WAITING FOR ORDERS', 'READY FOR BATTLE'];
 let blIndex = 0;
 const renderGamePage = () => {
+  if (!ship.children.length) {
+    const config = getShipById(player.shipId);
+    const card = createCard(config);
+    ship.appendChild(card.cardElement);
+  }
+  console.log(';game;');
   console.log(game);
   gameStats.innerHTML = `
 <tr><td>SPACEWAR: #${ game.id }</td><td>${ net }</td></tr>
@@ -293,7 +300,7 @@ const renderGamePage = () => {
 netSelect.onchange = _ => {
   net = netSelect.value;
   saveLocalStorage('net', net);
-  if (net==LOCAL) return location.reload();
+  if (net==LOCAL) return reload();
   connectTo();
 }
 

@@ -27,7 +27,7 @@ const toggleClass = (element, _class) => element[classListName].toggle(_class);
 
 const saveLocalStorage = (key, value) => localStorage.setItem(`13ksp-${key}`, value);
 const getLocalStorage = (key, _default) => localStorage.getItem(`13ksp-${key}`)||_default;
-
+const reload = () => location.reload();
 // const addPatternA = (values) => {
 //   return `repeating-radial-gradient(
 // circle at ${values[0]}vh ${values[1]}vh,

@@ -55,9 +55,6 @@ const resetState = () => {
 const loadGameScreen = () => {
   changePage('game');
   //console.log(player.shipId);
-  const config = getShipById(player.shipId);
-  const card = createCard(config);
-  ship.appendChild(card.cardElement);
   renderGamePage();
 };
 

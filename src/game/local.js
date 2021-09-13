@@ -126,14 +126,15 @@ const checkGameState = () => {
 
 const roundFinish = () => {
   changePage('game');
-  player.arsenal.push(regularRandomInt(0,9));
+  if (net==NETS[LOCAL]) {
+    player.arsenal.push(regularRandomInt(0,9));
+    game.round += 1;
+    game.totalPlayers = players.length;
+    player.victories += 1;
+  }
   player.hand = [];
   handSet = [false, false, false];
-
-  player.victories += 1;
-  game.round += 1;
   blIndex = 0;
-  game.totalPlayers = players.length;
   renderGamePage();
 }
 
@@ -147,7 +148,7 @@ addCredits = () => {
 
 
 const joinGame = async () => {
-  if (credits==0) return;
+  if (credits==0) return td();
   await delay(1500);
   if (net!=NETS[LOCAL]) {
     const reply = await contract.joinGame();
@@ -157,8 +158,6 @@ const joinGame = async () => {
   // add network
   md(-14);
   await delay(1300);
-  md(-14);
-  await delay(1000);
   td();
   if (net==NETS[LOCAL]) {
     joinGameLocal();
@@ -177,11 +176,12 @@ setHand = async () => {
       await displayCustomDialog(reply);
       await solveTurnLocal();
     } else {
-      displayCustomDialog('loading...', 0);
+      displayCustomDialog('delivering orders...', 0);
       console.log('set hand', {hand:player.hand});
       await contract.setHand({hand:player.hand});
-      //td();
-      await displayCustomDialog(reply, 1500);
+      td();
+      await delay(400)
+      await displayCustomDialog(reply, 1200);
     }
   }
   //changePage('viewBattle');
@@ -204,7 +204,7 @@ const handleGameUpdate = async (_game) => {
   // if (currentPage=='index') {
   //   loadGameScreen();
   // }
-  if (_game.state != game.state) {
+  if (_game.state != game.state || _game.round > game.round) {
     if (_game.state >= WAIT_PLAYERS) {
       console.log('sync game');
       console.log(_game.round, game.round, player);
@@ -214,17 +214,24 @@ const handleGameUpdate = async (_game) => {
         await loadLastBattle();
       } else if (player.state!=5) {
         if (game.state < WAIT_PLAYERS) {
+          console.log('wait game?');
+          await delay(3000);
           td('wait');
+          //await delay(3500);
         } else {
           changePage('game');
+          //loadGameScreen
         }
       }
     }
+    if (game.state == OVER) reload();
   }
   player.alive = player.state != 5;
   game = _game;
+  console.log('game>');
   console.log(game);
   if (game.state >= WAIT_PLAYERS && currentPage!='game') {
+    console.log('ask to render twice?');
     renderGamePage();
   }
 }
