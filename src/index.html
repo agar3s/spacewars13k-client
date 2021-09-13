@@ -212,14 +212,23 @@
         #shipStats {
             display: block;
             float: left;
-            width: 60%;
+            width: 100%;
             margin-left: 5%;
         }
         #shipStats span {
             font-size: 2.4vh;
+            width: 50%;
+            display: block;
+            float: left;
         }
         #shipStats .shipName {
-            font-size:4.5vh;
+            font-size: 6vh;
+            display: block;
+            float: none;
+            width: 100%;
+        }
+        #shipStats .details {
+            width: 100%;
         }
         .card {
             
@@ -690,7 +699,7 @@
             right: 0;
             float: left;
             width: 100%;
-        }
+        }*/
         #shipid {
             height: 5vh;
             font-size: 4vh;
@@ -706,7 +715,7 @@
             height: 50%;
             float: none;
             margin: auto;
-        }*/
+        }
         .cCon  {
             display: block;
             float: left;
@@ -830,6 +839,16 @@
             left: 50%;
             position: relative;
         }
+        #navigation {
+            display: block;
+            position: absolute;
+            bottom: 5vh;
+            left: 0;
+            right: 0;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+        }
     </style>
     <script src="https://js13kgames.com/src/near-api-js.js"></script>
 </head>
@@ -879,54 +898,16 @@
         </defs>
       </svg>
     <div id='main' >
-        <div id='index' class='page'>
-            <div id='dc'>
-                <span id='tCredits'>credits 01</span>
-                <a class='right' href='#' onclick='td("rules")'>rules</a>
-            </div>
-            <h1>spaceship wars<br>nft 13k</h1>
-            <div id='dgs' class='center'></div>
-            <div class='center space'>
-                <a class='btn' id='joinGamebtn' href='#'>join game</a>
-                <span id='joinGameLabel' class='hide'>joined</span>
-                <br>
-                <a class='btn' href='#' onclick='addCredits()'>add credits</a>
-            </div>
-            <div class='center'>
-                <select id='netSelect'>
-                    <option>local</option>
-                    <option>testnet</option>
-                    <option>mainnet</option>
-                </select>
-                <br>
-                <a class='hide' href='#' id='bye' onclick='logout()'>logout</a>
-            </div>
-            <footer class='center'>made with &lt;3 by <a href='https://twitter.com/agar3s' target="_blank">@agar3s</a></footer>
-        </div>
 
-        <div id='game' class='page hide'>
-            <table id='gameStats'></table>
-            <div id='ship'>
-            </div>
+        <div id='viewCard' class='page'>
             <div id='shipStats'></div>
-            <div id='hand'>
-                <h3>arsenal</h3>
-                <div id='group'></div>
-                <a id='setAction' class='btn' href='#' onclick='setHand()'>set</a>
+            <div id='navigation'>
+                <a class='btn' href='#' onclick='gotoShip(-1)'>&lt;-</a>
+                <a class='btn' href='#' onclick='gotoShip(0)'>random</a>
+                <a class='btn' href='#' onclick='gotoShip(1)'>-&gt;</a>
             </div>
         </div>
-        <!-- <div id='viewCard' class='page hide'>
-        </div> -->
-        <div id='viewBattle' class='page hide'>
-            <h3 class='hide'>VS</h3>
-            <div id='playerA' class='cCon'></div>
-            <div id='playerB' class='cCon'></div>
-            <div id='battles'>
-                <div id='sideA' class='battle'></div>
-                <div id='sideB' class='battle'></div>
-            </div>
-        </div>
-        <div id='debugView' class='page hide'></div>
+        
         <div id='dl' class='hide'>
             <div id='dlb'>
                 <div class='tco'>

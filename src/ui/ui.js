@@ -1,12 +1,4 @@
 
-let currentPage = 'index';
-
-const changePage = (page) => {
-  addClass(byId(currentPage), 'hide');
-  removeClass(byId(page), 'hide');
-  currentPage = page;
-};
-
 const toggleJoin = () => {
   toggleClass(joinGamebtn, 'hide');
   toggleClass(joinGameLabel, 'hide');
@@ -83,9 +75,6 @@ md = (val) => {
   if (dialogTop > 0) dialogTop =  0;
   dlt.style.top = `${dialogTop}vh`;
 };
-
-joinGamebtn.onclick=()=>credits<1?displayCustomDialog('not enough credits'):td("join");
-
 
 const displayCustomDialog = async (text, timeout=1200) => {
   document.querySelector('#dl-custom p').innerHTML = text;
@@ -270,54 +259,46 @@ const loopStars = () => {
 };
 const blMeStates = ['waiting for orders', 'ready for battle'];
 let blIndex = 0;
-const renderGamePage = () => {
-  if (!ship.children.length) {
-    const config = getShipById(player.shipId);
-    const card = createCard(config);
-    ship.appendChild(card.cardElement);
-  }
-  gameStats.innerHTML = `
-<tr><td>spacewar: #${ game.id }</td><td>${ net }</td></tr>
-<tr><td>round: #${ game.round }</td><td>next battle: <span id='timer'></td></tr>
-<tr><td>remaining ships: ${ game.totalPlayers }</td><td>${ game.totalPlayers==2?' - last round -':'' }</td></tr>
-  `;
-
+const renderGamePage = (id, config) => {
+  console.log(config);
   shipStats.innerHTML = `
-<span class='shipName'>${BASE_NAMES[player.config.shapeId]} ${WINGS_NAMES[player.config.wingsId]}</span>
-<hr>
-<span>spaceship: <a href='?id=${ player.shipId }' target='_blank'>#${ player.shipId }</a></span>
-<span>galaxy: ${ GALAXY_NAMES[player.config.bgEffect] }</span>
-<span>faction: ${ FACTION_NAMES[player.config.backCover] }</span>
-<span>victories: ${ player.victories }</span>
-<hr>
-<a id='blMe' href='#'>${blMeStates[blIndex]}</a>`;
-  group.innerHTML='';
-  player.arsenal.forEach((card, arsenalIndex) => group.appendChild(getHTMLCard(card, arsenalIndex)));
+<span class='shipName'>${BASE_NAMES[config.shapeId]} ${WINGS_NAMES[config.wingsId]}</span>
+<div class='details'>
+<span style='width:100%'>faction: ${ FACTION_NAMES[config.backCover] }</span>
+<span>spaceship:#${ id }</span>
+<span>galaxy: ${ GALAXY_NAMES[config.bgEffect] }</span>
+<span>bg decoration: ${ config.bgColor }</span>
+<span>fg decoration: ${ config.fgColor }</span>
+<span>pallete: ${ config.pallete }</span>
+</div>`;
 };
 
-netSelect.onchange = _ => {
-  net = netSelect.value;
-  saveLocalStorage('net', net);
-  if (net==LOCAL) return reload();
-  connectTo();
-}
 
 // init code
 const initialization = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const id = parseInt(urlParams.get('id'));
-  if (isNaN(id) || id < 0 || id >= TOTAL_NFTS) return;
-  changePage('viewCard');
+  let id = parseInt(urlParams.get('id'));
+  if (isNaN(id) || id < 0 || id >= TOTAL_NFTS) {
+    window.location.search = `id=${regularRandomInt(0,TOTAL_NFTS)}`;
+  };
   const config = getShipById(id);
   const card = createCard(config);
   viewCard.appendChild(card.cardElement);
   addClass(card.cardElement, 'cf');
+  renderGamePage(id, config);
+  window.gotoShip = (index) => {
+    if (index===0) id = regularRandomInt(0,TOTAL_NFTS);
+    id += index;
+    if (id<0) id = TOTAL_NFTS - 1;
+    if (id>=TOTAL_NFTS-1) id = 0;
+    window.location.search = `id=${id}`;
+  }
 }
-resetState();
-initNear();
+//resetState();
+//initNear();
+initialization();
 if (DEBUG) {
-  initialization();
   timeFactor = 0.5;
   //setGameState(JOINED);
   //changePage('viewBattle');
