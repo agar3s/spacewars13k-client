@@ -124,11 +124,13 @@ const loadBattle = async (battleLog) => {
   }
   if (battleLog.winner === player.id) {
     if (game.totalPlayers === 1) {
+      gameOver=true;
       td('chicken-dinner');
     } else {
       td('battle-win');
     }
   } else {
+    gameOver=true;
     td('battle-lose');
   }
   // display winner

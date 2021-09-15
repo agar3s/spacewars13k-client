@@ -49,6 +49,7 @@ addCreditNear = () => {
 }
 
 const syncGameState = async () => {
+  if (gameOver) return;
   let { ships=[], credits=1, player:_player, inQueue=-1} = (await contract.getAccount({account_id:contract.account.accountId})) || {};
   updateCredits(credits);
   if (_player) {

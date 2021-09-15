@@ -22,3 +22,25 @@ github for the contract: https://github.com/agar3s/spacewars13k-server
 
 There is a local (offline) mode where players can familiarize with the mechanic, before joining to the near version.
 CHALLENGES_TAKEN=['NEAR', 'PROTOCOL LABS']
+
+interesting spaceships:
+737
+9310
+4398
+7987
+8898
+8903
+7446
+3203
+3190
+3163
+3046
+5844
+7822
+5805
+1443
+3762
+7339
+8217
+8691
+9185
