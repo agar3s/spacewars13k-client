@@ -1,7 +1,7 @@
 ## installation
 
 `sudo apt-get install advancecomp`
-`npm run install`
+`npm install`
 
 ## live-reload server
 
